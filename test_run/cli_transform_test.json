@@ -1,0 +1,631 @@
+{
+  "schema_version": "1.0.0",
+  "document": {
+    "document_id": "6b7d1017-7c5c-459e-b047-048dabae750f",
+    "created_at": "2025-12-14T01:17:02.847Z",
+    "report_date": "December 13, 2025",
+    "report_year": "2025",
+    "title": "[LLM_PLACEHOLDER: document_title]",
+    "subtitle": "Traffic Light Report",
+    "confidentiality": "confidential",
+    "locale": "en-US",
+    "timezone": "America/Indiana/Indianapolis",
+    "brand": {
+      "brand_name": "Wranngle Systems LLC",
+      "logo_uri": "wranngle-logo.png",
+      "primary_domain": "wranngle.com"
+    }
+  },
+  "prepared_for": {
+    "account_id": "TEST-002",
+    "account_name": "Greenfield Property Management",
+    "industry": "Unknown",
+    "primary_contact": {
+      "name": "Unknown",
+      "title": "Unknown",
+      "email": "unknown@example.com",
+      "role_in_decision": "economic_buyer"
+    }
+  },
+  "prepared_by": {
+    "producer_name": "Cody Arnold",
+    "producer_email": "codyarnold96@live.com",
+    "producer_company": "Wranngle Systems LLC"
+  },
+  "audit": {
+    "audit_id": "audit-2025-d3c6ffb6",
+    "scope": {
+      "scope_statement": "[LLM_PLACEHOLDER: scope_statement]",
+      "in_scope": [
+        "[LLM_PLACEHOLDER: scope_items]"
+      ],
+      "out_of_scope": [
+        "[LLM_PLACEHOLDER: out_of_scope]"
+      ],
+      "systems_involved": [
+        {
+          "system_name": "Tenant portal",
+          "system_type": "portal",
+          "environment": "prod"
+        },
+        {
+          "system_name": "Email inbox",
+          "system_type": "email",
+          "environment": "prod"
+        },
+        {
+          "system_name": "Technician calendar",
+          "system_type": "calendar",
+          "environment": "prod"
+        },
+        {
+          "system_name": "Work order spreadsheet",
+          "system_type": "spreadsheet",
+          "environment": "prod"
+        },
+        {
+          "system_name": "Phone calls to tenants",
+          "system_type": "phone",
+          "environment": "prod"
+        }
+      ],
+      "time_window": {
+        "start": "2025-11-14T01:17:02.869Z",
+        "end": "2025-12-14T01:17:02.847Z",
+        "timezone": "America/Indiana/Indianapolis"
+      }
+    },
+    "methodology": {
+      "methods": [
+        {
+          "method_type": "stakeholder_interview",
+          "details": "30-minute intake call",
+          "sample_size": 1
+        }
+      ],
+      "data_sources": [
+        {
+          "source_id": "src-intake-call",
+          "source_type": "interview",
+          "source_label": "Intake interview (December 13, 2025)"
+        }
+      ],
+      "limitations": [
+        "[LLM_PLACEHOLDER: limitations]"
+      ],
+      "confidence": {
+        "rating": "medium",
+        "rationale": "Client-provided estimates without system log validation"
+      }
+    },
+    "workflows": [
+      {
+        "workflow_id": "wf-b83d495d",
+        "name": "Maintenance Request Scheduling",
+        "trigger": "Tenant submits maintenance request via portal",
+        "objective": "Schedule technician visit within SLA window",
+        "primary_kpi": "Average Scheduling Time target",
+        "steps": [
+          {
+            "step_id": "step-1",
+            "sequence": 1,
+            "name": "Tenant submits maintenance request via portal",
+            "owner_type": "automation"
+          },
+          {
+            "step_id": "step-2",
+            "sequence": 2,
+            "name": "Manual data transfer",
+            "owner_type": "human"
+          },
+          {
+            "step_id": "step-3",
+            "sequence": 3,
+            "name": "Human review/decision",
+            "owner_type": "human"
+          },
+          {
+            "step_id": "step-4",
+            "sequence": 4,
+            "name": "Appointment confirmed with tenant and technician assigned",
+            "owner_type": "human"
+          }
+        ],
+        "measurements": [
+          {
+            "measurement_id": "m_scheduling_time_avg",
+            "name": "Average Scheduling Time",
+            "metric_type": "latency",
+            "value": {
+              "kind": "duration",
+              "duration": {
+                "value": 26,
+                "unit": "h",
+                "display": "26h"
+              }
+            },
+            "value_display": "26h",
+            "target": "24h",
+            "method": "stakeholder_interview",
+            "evidence": [
+              {
+                "evidence_id": "ev-6faadbb5",
+                "source_id": "src-intake-call",
+                "evidence_type": "client_statement",
+                "summary": "Client stated average 26 hours from request to confirmed appointment"
+              }
+            ]
+          },
+          {
+            "measurement_id": "m_sla_miss_rate",
+            "name": "SLA Miss Rate",
+            "metric_type": "error_rate",
+            "value": {
+              "kind": "percentage",
+              "value": 15,
+              "scale": "percent",
+              "display": "15%"
+            },
+            "value_display": "15%",
+            "target": "<5%",
+            "method": "stakeholder_interview",
+            "evidence": [
+              {
+                "evidence_id": "ev-e0a90a2f",
+                "source_id": "src-intake-call",
+                "evidence_type": "client_statement",
+                "summary": "Client estimated 15% of requests miss the 24-hour SLA for routine maintenance"
+              }
+            ]
+          },
+          {
+            "measurement_id": "m_worst_case_delay",
+            "name": "Worst Case Delay",
+            "metric_type": "latency",
+            "value": {
+              "kind": "duration",
+              "duration": {
+                "value": 4,
+                "unit": "d",
+                "display": "4 days"
+              }
+            },
+            "value_display": "4 days",
+            "target": "1 day",
+            "method": "stakeholder_interview",
+            "evidence": [
+              {
+                "evidence_id": "ev-9ec0448b",
+                "source_id": "src-intake-call",
+                "evidence_type": "client_statement",
+                "summary": "Client observed worst case delays of 4 days"
+              }
+            ]
+          },
+          {
+            "measurement_id": "m_manual_handoffs",
+            "name": "Manual Handoff Count",
+            "metric_type": "complexity",
+            "value": {
+              "kind": "count",
+              "value": 5,
+              "display": "5 systems"
+            },
+            "value_display": "5 systems",
+            "target": "2 systems",
+            "method": "stakeholder_interview",
+            "evidence": [
+              {
+                "evidence_id": "ev-41ebd37c",
+                "source_id": "src-intake-call",
+                "evidence_type": "client_statement",
+                "summary": "5 systems involved: AppFolio, Outlook, Google Calendar, Excel, Phone"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "scorecard": {
+    "executive_summary": {
+      "body": "[LLM_PLACEHOLDER: executive_summary]",
+      "generated_by": "pending_llm"
+    },
+    "rows": [
+      {
+        "row_id": "row-m_scheduling_time_avg",
+        "category": "Average Scheduling Time",
+        "status": "warning",
+        "status_is_critical": false,
+        "has_metrics": true,
+        "finding": {
+          "summary": "[LLM_PLACEHOLDER: finding_summary for Average Scheduling Time]",
+          "risk": "[LLM_PLACEHOLDER: finding_risk for Average Scheduling Time]"
+        },
+        "metrics": [
+          {
+            "label": "Your metric",
+            "value_display": "26h",
+            "measurement_id": "m_scheduling_time_avg",
+            "is_benchmark": false
+          },
+          {
+            "label": "Target",
+            "value_display": "24h",
+            "is_benchmark": true
+          }
+        ],
+        "measurement_ids": [
+          "m_scheduling_time_avg"
+        ]
+      },
+      {
+        "row_id": "row-m_sla_miss_rate",
+        "category": "SLA Miss Rate",
+        "status": "critical",
+        "status_is_critical": true,
+        "has_metrics": true,
+        "finding": {
+          "summary": "[LLM_PLACEHOLDER: finding_summary for SLA Miss Rate]",
+          "risk": "[LLM_PLACEHOLDER: finding_risk for SLA Miss Rate]"
+        },
+        "metrics": [
+          {
+            "label": "Your metric",
+            "value_display": "15%",
+            "measurement_id": "m_sla_miss_rate",
+            "is_benchmark": false
+          },
+          {
+            "label": "Target",
+            "value_display": "<5%",
+            "is_benchmark": true
+          }
+        ],
+        "measurement_ids": [
+          "m_sla_miss_rate"
+        ]
+      },
+      {
+        "row_id": "row-m_worst_case_delay",
+        "category": "Worst Case Delay",
+        "status": "critical",
+        "status_is_critical": true,
+        "has_metrics": true,
+        "finding": {
+          "summary": "[LLM_PLACEHOLDER: finding_summary for Worst Case Delay]",
+          "risk": "[LLM_PLACEHOLDER: finding_risk for Worst Case Delay]"
+        },
+        "metrics": [
+          {
+            "label": "Your metric",
+            "value_display": "4 days",
+            "measurement_id": "m_worst_case_delay",
+            "is_benchmark": false
+          },
+          {
+            "label": "Target",
+            "value_display": "1 day",
+            "is_benchmark": true
+          }
+        ],
+        "measurement_ids": [
+          "m_worst_case_delay"
+        ]
+      },
+      {
+        "row_id": "row-m_manual_handoffs",
+        "category": "Manual Handoff Count",
+        "status": "critical",
+        "status_is_critical": true,
+        "has_metrics": true,
+        "finding": {
+          "summary": "[LLM_PLACEHOLDER: finding_summary for Manual Handoff Count]",
+          "risk": "[LLM_PLACEHOLDER: finding_risk for Manual Handoff Count]"
+        },
+        "metrics": [
+          {
+            "label": "Your metric",
+            "value_display": "5 systems",
+            "measurement_id": "m_manual_handoffs",
+            "is_benchmark": false
+          },
+          {
+            "label": "Target",
+            "value_display": "2 systems",
+            "is_benchmark": true
+          }
+        ],
+        "measurement_ids": [
+          "m_manual_handoffs"
+        ]
+      }
+    ],
+    "overall": {
+      "status_distribution": {
+        "critical": 3,
+        "warning": 1,
+        "healthy": 0
+      }
+    }
+  },
+  "bleed": {
+    "currency": "USD",
+    "period": "month",
+    "period_display": "Per Month",
+    "total": {
+      "amount": 4050,
+      "currency": "USD",
+      "display": "$4,050/mo"
+    },
+    "breakdown": [
+      {
+        "item_id": "bleed-primary",
+        "label": "Primary Bleed",
+        "status": "critical",
+        "amount": {
+          "amount": 4050,
+          "currency": "USD",
+          "display": "$4,050/mo"
+        },
+        "driver_measurement_ids": [
+          "m_sla_miss_rate",
+          "m_worst_case_delay",
+          "m_manual_handoffs"
+        ]
+      }
+    ],
+    "assumptions": [
+      {
+        "assumption_id": "a_monthly_volume",
+        "name": "Monthly request volume",
+        "value": 180,
+        "unit": "requests",
+        "source_or_basis": "intake.section_b.q06_runs_per_period",
+        "confidence": "medium"
+      },
+      {
+        "assumption_id": "a_miss_rate",
+        "name": "SLA miss rate",
+        "value": 0.15,
+        "unit": "15%",
+        "source_or_basis": "m_sla_miss_rate",
+        "confidence": "medium"
+      },
+      {
+        "assumption_id": "a_cost_per_miss",
+        "name": "Cost per missed SLA",
+        "value": 150,
+        "unit": "$",
+        "source_or_basis": "intake.section_d.q14_cost_if_slow_or_failed",
+        "confidence": "medium"
+      }
+    ],
+    "calculations": [
+      {
+        "calc_id": "c_missed_slas",
+        "label": "Missed SLAs per month",
+        "formula": "a_monthly_volume × a_miss_rate",
+        "inputs": [
+          "a_monthly_volume",
+          "a_miss_rate"
+        ],
+        "result_amount": {
+          "amount": 27,
+          "currency": "USD"
+        },
+        "attribution_breakdown_item_id": "bleed-primary"
+      },
+      {
+        "calc_id": "c_monthly_bleed",
+        "label": "Monthly revenue bleed",
+        "formula": "c_missed_slas × a_cost_per_miss",
+        "inputs": [
+          "c_missed_slas",
+          "a_cost_per_miss"
+        ],
+        "result_amount": {
+          "amount": 4050,
+          "currency": "USD"
+        },
+        "attribution_breakdown_item_id": "bleed-primary"
+      }
+    ],
+    "math_defender_text": "[LLM_PLACEHOLDER: math_defender_text]"
+  },
+  "fixes": {
+    "quick_win_fix_id": "fix-1",
+    "items": [
+      {
+        "fix_id": "fix-1",
+        "status": "proposed",
+        "severity": "critical",
+        "bleed_period": "month",
+        "problem": "[LLM_PLACEHOLDER: fix_problem for SLA Miss Rate]",
+        "solution": "[LLM_PLACEHOLDER: fix_solution for SLA Miss Rate]",
+        "quick_win": true,
+        "impact": {
+          "estimated_recovery": {
+            "amount": 945,
+            "currency": "USD",
+            "display": "$945"
+          },
+          "basis": "[LLM_PLACEHOLDER: impact_basis]",
+          "maps_to_breakdown_item_ids": [
+            "bleed-primary"
+          ],
+          "tier": "high"
+        },
+        "effort": {
+          "tier": "low",
+          "estimated_hours_range": {
+            "min_hours": 4,
+            "most_likely_hours": 8,
+            "max_hours": 16
+          },
+          "skills_required": [
+            "automation",
+            "API"
+          ]
+        },
+        "turnaround": {
+          "label": "2-3 Days",
+          "business_days_min": 2,
+          "business_days_max": 3
+        },
+        "dependencies": [],
+        "acceptance_criteria": [
+          "[LLM_PLACEHOLDER: acceptance_criteria]"
+        ],
+        "related_measurement_ids": [
+          "m_sla_miss_rate"
+        ]
+      },
+      {
+        "fix_id": "fix-2",
+        "status": "proposed",
+        "severity": "critical",
+        "bleed_period": "month",
+        "problem": "[LLM_PLACEHOLDER: fix_problem for Worst Case Delay]",
+        "solution": "[LLM_PLACEHOLDER: fix_solution for Worst Case Delay]",
+        "quick_win": false,
+        "impact": {
+          "estimated_recovery": {
+            "amount": 945,
+            "currency": "USD",
+            "display": "$945"
+          },
+          "basis": "[LLM_PLACEHOLDER: impact_basis]",
+          "maps_to_breakdown_item_ids": [
+            "bleed-primary"
+          ],
+          "tier": "high"
+        },
+        "effort": {
+          "tier": "medium",
+          "estimated_hours_range": {
+            "min_hours": 8,
+            "most_likely_hours": 16,
+            "max_hours": 24
+          },
+          "skills_required": [
+            "automation",
+            "API"
+          ]
+        },
+        "turnaround": {
+          "label": "3-5 Days",
+          "business_days_min": 3,
+          "business_days_max": 5
+        },
+        "dependencies": [],
+        "acceptance_criteria": [
+          "[LLM_PLACEHOLDER: acceptance_criteria]"
+        ],
+        "related_measurement_ids": [
+          "m_worst_case_delay"
+        ]
+      },
+      {
+        "fix_id": "fix-3",
+        "status": "proposed",
+        "severity": "critical",
+        "bleed_period": "month",
+        "problem": "[LLM_PLACEHOLDER: fix_problem for Manual Handoff Count]",
+        "solution": "[LLM_PLACEHOLDER: fix_solution for Manual Handoff Count]",
+        "quick_win": false,
+        "impact": {
+          "estimated_recovery": {
+            "amount": 945,
+            "currency": "USD",
+            "display": "$945"
+          },
+          "basis": "[LLM_PLACEHOLDER: impact_basis]",
+          "maps_to_breakdown_item_ids": [
+            "bleed-primary"
+          ],
+          "tier": "high"
+        },
+        "effort": {
+          "tier": "medium",
+          "estimated_hours_range": {
+            "min_hours": 8,
+            "most_likely_hours": 16,
+            "max_hours": 24
+          },
+          "skills_required": [
+            "automation",
+            "API"
+          ]
+        },
+        "turnaround": {
+          "label": "3-5 Days",
+          "business_days_min": 3,
+          "business_days_max": 5
+        },
+        "dependencies": [],
+        "acceptance_criteria": [
+          "[LLM_PLACEHOLDER: acceptance_criteria]"
+        ],
+        "related_measurement_ids": [
+          "m_manual_handoffs"
+        ]
+      }
+    ]
+  },
+  "cta": {
+    "phases": [
+      {
+        "phase_id": "phase_1_audit",
+        "label": "Phase 1: Audit",
+        "state": "complete",
+        "is_last": false
+      },
+      {
+        "phase_id": "phase_2_stabilize",
+        "label": "Phase 2: Stabilize",
+        "state": "current",
+        "is_last": false
+      },
+      {
+        "phase_id": "phase_3_scale",
+        "label": "Phase 3: Scale",
+        "state": "upcoming",
+        "is_last": true
+      }
+    ],
+    "current_phase": "phase_2_stabilize",
+    "completed_phase_ids": [
+      "phase_1_audit"
+    ],
+    "headline": "[LLM_PLACEHOLDER: cta_headline]",
+    "subtext": "[LLM_PLACEHOLDER: cta_subtext]",
+    "link": "https://calendly.com/wranngle-systems",
+    "link_display": "calendly.com/wranngle-systems",
+    "call_duration_minutes": 30
+  },
+  "benchmarks": [],
+  "sources": [],
+  "rendering": {
+    "mode": "conversion",
+    "is_conversion_mode": true,
+    "page": {
+      "size": "letter",
+      "margins_in": {
+        "top": 0.35,
+        "right": 0.35,
+        "bottom": 0.45,
+        "left": 0.35
+      }
+    },
+    "layout_guards": {
+      "max_pages": 1
+    }
+  },
+  "offer": {
+    "sku_code": "WR-AI-AUDIT-100",
+    "sku_name": "AI Process Audit (Phase 1)",
+    "display_in_footer": true
+  }
+}

@@ -1,0 +1,45 @@
+<context>
+Html Reference Sample """PASTE HTML REFERENCE SAMPLE HERE"""
+Json Schema """PASTE JSON SCHEMA HERE"""
+</context>
+<examples>
+Example A Input Snippet """<span>Prepared for: Acme Corp | 2025 12 13</span>"""
+Example A Output Snippet """<span>Prepared for: {{prepared_for.account_name}} | {{document.report_date}}</span>"""
+Example B Input Snippet """<p>Executive summary text here.</p>"""
+Example B Output Snippet """<p>{{scorecard.executive_summary.body}}</p>"""
+Example C Input Snippet """<tbody><tr><td>Category</td><td>Status</td><td>Finding</td></tr></tbody>"""
+Example C Output Snippet """<tbody>{{#scorecard.rows}}<tr><td>{{category}}</td><td>{{status}}</td><td>{{finding.summary}}{{#finding.risk}}<div>{{finding.risk}}</div>{{/finding.risk}}</td></tr>{{/scorecard.rows}}</tbody>"""
+Example D Input Snippet """<div>Total bleed: $4200</div>"""
+Example D Output Snippet """<div>Total bleed: {{bleed.total.amount}} {{bleed.total.currency}}</div>"""
+Example E Input Snippet """<div>Fix: Do something</div>"""
+Example E Output Snippet """{{#fixes.items}}<div>{{problem}}</div><div>{{solution}}</div>{{/fixes.items}}"""
+</examples>
+<instructions>
+Role You are a template engineer writing a production grade Html template for a Json driven audit report
+Goal Convert the provided Html reference sample into a templatized version that renders the provided report Json that conforms to the schema
+Scope Keep visual layout CSS and element structure consistent with the reference sample so screenshots match apart from content
+Industry Agnostic Move all business specific prose metrics and numbers into data fields and render them from Json rather than hardcoding any domain language
+Template Syntax Use Mustache compatible tags with dot paths that match schema fields Use sections for arrays and optional blocks Html escaping must be on by default Only use unescaped output when the field is explicitly trusted
+Data Truth Use only fields that exist in the provided schema If you need a field that does not exist say I dont know and place a short note inside an Html comment at the top titled Schema Change Needed Never invent new fields
+Output Contract Output only one complete Html file Do not output explanations Do not output a second file Do not output markdown Start the response with <!DOCTYPE html>
+Header Bindings Use document.title document.subtitle prepared_for.account_name document.report_date and document.brand.logo_uri
+Footer Bindings Use prepared_by.producer_name prepared_by.producer_email document.brand.primary_domain and if present offer.sku_code
+Theme Switch If rendering.mode equals conversion apply the existing conversion theme class on body else omit it
+Executive Summary Bind scorecard.executive_summary.body
+Scorecard Bind scorecard.rows Each row renders category status finding.summary metrics chips and optional finding.risk
+Bleed Bind bleed.total bleed.period bleed.breakdown and bleed.math_defender_text if present
+Fixes Bind fixes.items Show problem solution impact.estimated_recovery and pills using effort.tier impact.tier turnaround.label
+CTA Bind cta.phases cta.current_phase cta.headline cta.subtext cta.link and optional cta.link_display
+Mapping Standard Replace every sample literal that is client specific process specific numeric or time bound with a schema field Keep purely structural headings only if they are not provided by schema
+Arrays Convert repeated blocks into loops using these schema arrays scorecard.rows bleed.breakdown fixes.items cta.phases audit.workflows audit.workflows.steps audit.workflows.measurements
+Optionals Hide optional elements when data is absent Use conditional sections to omit empty containers Keep the layout stable when optional sections are missing
+Status Styling Preserve existing status based styling by parameterizing status into existing class patterns Use only the status strings critical warning healthy Do not rename any class Do not rename any CSS custom property
+Benchmarks And Sources Render benchmark references only if rows or measurements reference them Do not fabricate citations or urls
+Print And Pdf Keep print sizing rules intact Do not add scripts Do not add new external assets Keep output deterministic for headless rendering
+Research If tools allow consult at least eight distinct source types to verify best practices for Html templating print CSS and Json driven document rendering If tools do not allow web access place an Html comment at the top titled No Web Access
+Quality Checks Ensure all tags are balanced Ensure loops are closed Ensure template renders with empty arrays Ensure no hardcoded client names Ensure no hardcoded money values Ensure no hardcoded dates
+</instructions>
+<query>
+Task Convert the Html reference sample into a templatized Html file that renders the report Json using the schema Replace literals with schema fields Add loops for arrays Add conditional rendering for optional fields Preserve the reference structure and styling Output only the final Html template
+</query>
+::contentReference[oaicite:0]{index=0}

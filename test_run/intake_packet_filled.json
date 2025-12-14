@@ -1,0 +1,55 @@
+{
+  "$schema": "../intake_packet_schema.json",
+  "intake_version": "1.0.0",
+  "captured_at": "2025-12-13T14:30:00Z",
+  "captured_by": "cody",
+
+  "prepared_for": {
+    "account_id": "TEST-002",
+    "account_name": "Greenfield Property Management"
+  },
+
+  "section_a_workflow_definition": {
+    "q01_workflow_name": "Maintenance Request Scheduling",
+    "q02_trigger_event": "Tenant submits maintenance request via portal",
+    "q03_business_objective": "Schedule technician visit within SLA window",
+    "q04_end_condition": "Appointment confirmed with tenant and technician assigned",
+    "q05_outcome_owner": "Operations coordinator"
+  },
+
+  "section_b_volume_timing": {
+    "q06_runs_per_period": "180",
+    "q06_period_unit": "month",
+    "q07_avg_trigger_to_end": "26",
+    "q07_time_unit": "hours",
+    "q08_worst_case_delay": "4",
+    "q08_delay_unit": "days",
+    "q09_business_hours_expected": "Yes, 8am to 6pm weekdays"
+  },
+
+  "section_c_systems_handoffs": {
+    "q10_systems_involved": [
+      "Tenant portal (AppFolio)",
+      "Email inbox (Outlook)",
+      "Technician calendar (Google Calendar)",
+      "Work order spreadsheet (Excel)",
+      "Phone calls to tenants"
+    ],
+    "q11_manual_data_transfers": "Coordinator copies request details from portal email notification into Excel spreadsheet, then manually checks technician availability in Google Calendar, then calls tenant to confirm time slot",
+    "q12_human_decision_gates": "Coordinator must determine urgency level (emergency vs routine) and match to available technician skill set before scheduling"
+  },
+
+  "section_d_failure_cost": {
+    "q13_common_failures": "Double bookings when calendar not refreshed, missed requests buried in email inbox, tenant no-shows because confirmation call was delayed, emergency requests treated as routine due to misread priority",
+    "q14_cost_if_slow_or_failed": "Tenant complaints, negative reviews, lease non-renewals. Emergency delays can cause property damage (burst pipe sitting 2 days). Each missed SLA costs approximately $150 in tenant credits plus staff time for escalation handling."
+  },
+
+  "section_e_priority": {
+    "q15_one_thing_to_fix": "Eliminate the manual copy-paste from portal to spreadsheet and auto-check technician availability"
+  },
+
+  "attachments": {
+    "evidence_uris": [],
+    "notes": "Client stated they have 3 coordinators handling requests. Peak volume is Monday mornings. They estimate 15% of requests miss the 24-hour SLA for routine maintenance."
+  }
+}

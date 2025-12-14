@@ -1,0 +1,947 @@
+{
+  "schema_version": "1.0.0",
+  "document": {
+    "document_id": "9f7ab759-7135-419e-a1d5-ef2d421cfec2",
+    "created_at": "2025-12-14T06:54:17.742Z",
+    "report_date": "December 14, 2025",
+    "report_year": "2025",
+    "title": "[LLM_PLACEHOLDER: document_title]",
+    "subtitle": "Traffic Light Report",
+    "confidentiality": "confidential",
+    "locale": "en-US",
+    "timezone": "America/Indiana/Indianapolis",
+    "brand": {
+      "brand_name": "Wranngle Systems LLC",
+      "logo_uri": "wranngle-logo.png",
+      "primary_domain": "wranngle.com"
+    }
+  },
+  "prepared_for": {
+    "account_id": "CLIENT-001",
+    "account_name": "Apex Digital Marketing Agency",
+    "industry": "Unknown",
+    "primary_contact": {
+      "name": "Unknown",
+      "title": "Unknown",
+      "email": "unknown@example.com",
+      "role_in_decision": "economic_buyer"
+    }
+  },
+  "prepared_by": {
+    "producer_name": "Cody Arnold",
+    "producer_email": "codyarnold96@live.com",
+    "producer_company": "Wranngle Systems LLC"
+  },
+  "audit": {
+    "audit_id": "audit-2025-3b03f925",
+    "scope": {
+      "scope_statement": "[LLM_PLACEHOLDER: scope_statement]",
+      "in_scope": [
+        "[LLM_PLACEHOLDER: scope_items]"
+      ],
+      "out_of_scope": [
+        "[LLM_PLACEHOLDER: out_of_scope]"
+      ],
+      "systems_involved": [
+        {
+          "system_name": "CRM",
+          "system_type": "crm",
+          "environment": "prod"
+        },
+        {
+          "system_name": "Project management",
+          "system_type": "other",
+          "environment": "prod"
+        },
+        {
+          "system_name": "Email",
+          "system_type": "email",
+          "environment": "prod"
+        },
+        {
+          "system_name": "Scheduling",
+          "system_type": "other",
+          "environment": "prod"
+        },
+        {
+          "system_name": "Docs",
+          "system_type": "other",
+          "environment": "prod"
+        },
+        {
+          "system_name": "Various ad platforms",
+          "system_type": "forms",
+          "environment": "prod"
+        }
+      ],
+      "time_window": {
+        "start": "2025-11-14T06:54:17.760Z",
+        "end": "2025-12-14T06:54:17.742Z",
+        "timezone": "America/Indiana/Indianapolis"
+      }
+    },
+    "methodology": {
+      "methods": [
+        {
+          "method_type": "stakeholder_interview",
+          "details": "30-minute intake call",
+          "sample_size": 1
+        }
+      ],
+      "data_sources": [
+        {
+          "source_id": "src-intake-call",
+          "source_type": "interview",
+          "source_label": "Intake interview (December 14, 2025)"
+        }
+      ],
+      "limitations": [
+        "[LLM_PLACEHOLDER: limitations]"
+      ],
+      "confidence": {
+        "rating": "medium",
+        "rationale": "Client-provided estimates without system log validation"
+      }
+    },
+    "workflows": [
+      {
+        "workflow_id": "wf-f0f81363",
+        "name": "client onboarding",
+        "trigger": "a signed contract hits their CRM (HubSpot)",
+        "objective": "launch their first campaign within 14 business days of contract signing",
+        "primary_kpi": "Client Onboarding Volume target",
+        "steps": [
+          {
+            "step_id": "step-1",
+            "sequence": 1,
+            "name": "a signed contract hits their CRM (HubSpot)",
+            "owner_type": "automation"
+          },
+          {
+            "step_id": "step-2",
+            "sequence": 2,
+            "name": "Manual data transfer",
+            "owner_type": "human"
+          },
+          {
+            "step_id": "step-3",
+            "sequence": 3,
+            "name": "Human review/decision",
+            "owner_type": "human"
+          },
+          {
+            "step_id": "step-4",
+            "sequence": 4,
+            "name": "Campaign goes live, CSM marks as \"Launched\" in HubSpot",
+            "owner_type": "human"
+          }
+        ],
+        "measurements": [
+          {
+            "measurement_id": "m_client_onboarding_volume",
+            "name": "Client Onboarding Volume",
+            "metric_type": "volume",
+            "value": {
+              "kind": "count",
+              "value": 25,
+              "display": "25"
+            },
+            "value_display": "25",
+            "method": "system_analysis",
+            "evidence": [
+              {
+                "evidence_id": "ev-37e550e0",
+                "source_id": "src-intake-call",
+                "evidence_type": "client_statement",
+                "summary": "About 25 new clients per month."
+              }
+            ]
+          },
+          {
+            "measurement_id": "m_target_time_to_first_campaign_launch",
+            "name": "Target Time to First Campaign Launch",
+            "metric_type": "latency",
+            "value": {
+              "kind": "duration",
+              "duration": {
+                "value": 14,
+                "unit": "d",
+                "display": "14 business days"
+              }
+            },
+            "value_display": "14 business days",
+            "method": "system_analysis",
+            "evidence": [
+              {
+                "evidence_id": "ev-13f31f1e",
+                "source_id": "src-intake-call",
+                "evidence_type": "client_statement",
+                "summary": "Goal is to launch their first campaign within 14 business days of contract signing."
+              }
+            ]
+          },
+          {
+            "measurement_id": "m_avg_time_contract_to_launch",
+            "name": "Average Time from Contract to Launch",
+            "metric_type": "latency",
+            "value": {
+              "kind": "duration",
+              "duration": {
+                "value": 18,
+                "unit": "d",
+                "display": "18 business days"
+              }
+            },
+            "value_display": "18 business days",
+            "target": "14 business days",
+            "method": "system_analysis",
+            "evidence": [
+              {
+                "evidence_id": "ev-cf48c709",
+                "source_id": "src-intake-call",
+                "evidence_type": "client_statement",
+                "summary": "Average time from contract to launch: 18 business days."
+              }
+            ]
+          },
+          {
+            "measurement_id": "m_worst_case_time_contract_to_launch",
+            "name": "Worst Case Time from Contract to Launch",
+            "metric_type": "latency",
+            "value": {
+              "kind": "duration",
+              "duration": {
+                "value": 32,
+                "unit": "d",
+                "display": "32 business days"
+              }
+            },
+            "value_display": "32 business days",
+            "target": "14 business days",
+            "method": "system_analysis",
+            "evidence": [
+              {
+                "evidence_id": "ev-272e3b68",
+                "source_id": "src-intake-call",
+                "evidence_type": "client_statement",
+                "summary": "Worst case: 32 business days (lost a major client due to this)"
+              }
+            ]
+          },
+          {
+            "measurement_id": "m_csm_email_notification_delay",
+            "name": "CSM Email Notification Delay",
+            "metric_type": "latency",
+            "value": {
+              "kind": "duration",
+              "duration": {
+                "value": 2,
+                "unit": "h",
+                "display": "2-4 hours"
+              }
+            },
+            "value_display": "2-4 hours",
+            "method": "system_analysis",
+            "evidence": [
+              {
+                "evidence_id": "ev-9913409d",
+                "source_id": "src-intake-call",
+                "evidence_type": "client_statement",
+                "summary": "CSM gets email notification (often delayed 2-4 hours)"
+              }
+            ]
+          },
+          {
+            "measurement_id": "m_kickoff_call_scheduling_delay",
+            "name": "Kickoff Call Scheduling Delay",
+            "metric_type": "latency",
+            "value": {
+              "kind": "duration",
+              "duration": {
+                "value": 5,
+                "unit": "d",
+                "display": "5-7 days"
+              }
+            },
+            "value_display": "5-7 days",
+            "method": "system_analysis",
+            "evidence": [
+              {
+                "evidence_id": "ev-22eb6169",
+                "source_id": "src-intake-call",
+                "evidence_type": "client_statement",
+                "summary": "Kickoff calls get scheduled 5-7 days out due to calendar conflicts."
+              }
+            ]
+          },
+          {
+            "measurement_id": "m_campaign_brief_client_feedback_delay",
+            "name": "Campaign Brief Client Feedback Delay",
+            "metric_type": "latency",
+            "value": {
+              "kind": "duration",
+              "duration": {
+                "value": 3,
+                "unit": "d",
+                "display": "3-5 days average"
+              }
+            },
+            "value_display": "3-5 days average",
+            "method": "system_analysis",
+            "evidence": [
+              {
+                "evidence_id": "ev-f78a5936",
+                "source_id": "src-intake-call",
+                "evidence_type": "client_statement",
+                "summary": "Campaign briefs sit waiting for client feedback for 3-5 days average."
+              }
+            ]
+          },
+          {
+            "measurement_id": "m_sla_miss_rate",
+            "name": "SLA Miss Rate (14-day)",
+            "metric_type": "error_rate",
+            "value": {
+              "kind": "percentage",
+              "value": 68,
+              "scale": "percent",
+              "display": "68%"
+            },
+            "value_display": "68%",
+            "method": "system_analysis",
+            "evidence": [
+              {
+                "evidence_id": "ev-1a2fa13c",
+                "source_id": "src-intake-call",
+                "evidence_type": "client_statement",
+                "summary": "Miss rate for 14-day SLA: 68%"
+              }
+            ]
+          },
+          {
+            "measurement_id": "m_average_delay_past_sla",
+            "name": "Average Delay Past SLA",
+            "metric_type": "latency",
+            "value": {
+              "kind": "duration",
+              "duration": {
+                "value": 4,
+                "unit": "d",
+                "display": "4 days"
+              }
+            },
+            "value_display": "4 days",
+            "target": "0 days",
+            "method": "system_analysis",
+            "evidence": [
+              {
+                "evidence_id": "ev-a84f337f",
+                "source_id": "src-intake-call",
+                "evidence_type": "client_statement",
+                "summary": "Average delay past SLA: 4 days"
+              }
+            ]
+          },
+          {
+            "measurement_id": "m_estimated_client_churn_rate_for_delayed_clients",
+            "name": "Estimated Client Churn Rate for Delayed Clients",
+            "metric_type": "error_rate",
+            "value": {
+              "kind": "percentage",
+              "value": 8,
+              "scale": "percent",
+              "display": "8%"
+            },
+            "value_display": "8%",
+            "method": "system_analysis",
+            "evidence": [
+              {
+                "evidence_id": "ev-cde329ba",
+                "source_id": "src-intake-call",
+                "evidence_type": "client_statement",
+                "summary": "estimated 8% churn rate for delayed clients"
+              }
+            ]
+          },
+          {
+            "measurement_id": "m_average_client_lifetime_value",
+            "name": "Average Client Lifetime Value",
+            "metric_type": "cost",
+            "value": {
+              "kind": "count",
+              "value": 36000,
+              "display": "$36,000"
+            },
+            "value_display": "$36,000",
+            "method": "system_analysis",
+            "evidence": [
+              {
+                "evidence_id": "ev-dc74f187",
+                "source_id": "src-intake-call",
+                "evidence_type": "client_statement",
+                "summary": "Average client lifetime value: $36,000"
+              }
+            ]
+          },
+          {
+            "measurement_id": "m_staff_time_wasted_manual_syncing_per_onboarding",
+            "name": "Staff Time Wasted on Manual Syncing per Onboarding",
+            "metric_type": "complexity",
+            "value": {
+              "kind": "count",
+              "value": 3,
+              "display": "~3 hours"
+            },
+            "value_display": "~3 hours",
+            "method": "system_analysis",
+            "evidence": [
+              {
+                "evidence_id": "ev-780acb05",
+                "source_id": "src-intake-call",
+                "evidence_type": "client_statement",
+                "summary": "Staff time wasted on manual syncing: ~3 hours per onboarding"
+              }
+            ]
+          },
+          {
+            "measurement_id": "m_csm_hourly_cost",
+            "name": "CSM Hourly Cost",
+            "metric_type": "cost",
+            "value": {
+              "kind": "count",
+              "value": 45,
+              "display": "$45"
+            },
+            "value_display": "$45",
+            "method": "system_analysis",
+            "evidence": [
+              {
+                "evidence_id": "ev-d4985862",
+                "source_id": "src-intake-call",
+                "evidence_type": "client_statement",
+                "summary": "CSM hourly cost: $45"
+              }
+            ]
+          },
+          {
+            "measurement_id": "m_systems_used_count",
+            "name": "Systems Used Count",
+            "metric_type": "complexity",
+            "value": {
+              "kind": "count",
+              "value": 6,
+              "display": "6"
+            },
+            "value_display": "6",
+            "method": "system_analysis",
+            "evidence": [
+              {
+                "evidence_id": "ev-0aedf05f",
+                "source_id": "src-intake-call",
+                "evidence_type": "client_statement",
+                "summary": "CRM (HubSpot), Project management (Monday.com), Email (Gmail), Scheduling (Calendly), Docs (Google Docs), Various ad platforms - Meta, Google Ads, LinkedIn"
+              }
+            ]
+          },
+          {
+            "measurement_id": "m_lost_major_account_value_historical",
+            "name": "Lost Major Account Value (Historical)",
+            "metric_type": "cost",
+            "value": {
+              "kind": "count",
+              "value": 120000,
+              "display": "$120k/year"
+            },
+            "value_display": "$120k/year",
+            "method": "system_analysis",
+            "evidence": [
+              {
+                "evidence_id": "ev-83384143",
+                "source_id": "src-intake-call",
+                "evidence_type": "client_statement",
+                "summary": "Client just lost their biggest account ($120k/year) due to 32-day onboarding delay."
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "scorecard": {
+    "executive_summary": {
+      "body": "[LLM_PLACEHOLDER: executive_summary]",
+      "generated_by": "pending_llm"
+    },
+    "rows": [
+      {
+        "row_id": "row-m_avg_time_contract_to_launch",
+        "category": "Average Time from Contract to Launch",
+        "status": "critical",
+        "status_is_critical": true,
+        "has_metrics": true,
+        "finding": {
+          "summary": "[LLM_PLACEHOLDER: finding_summary for Average Time from Contract to Launch]",
+          "risk": "[LLM_PLACEHOLDER: finding_risk for Average Time from Contract to Launch]"
+        },
+        "metrics": [
+          {
+            "label": "Your metric",
+            "value_display": "18 business days",
+            "measurement_id": "m_avg_time_contract_to_launch",
+            "is_benchmark": false
+          },
+          {
+            "label": "Target",
+            "value_display": "14 business days",
+            "is_benchmark": true
+          }
+        ],
+        "measurement_ids": [
+          "m_avg_time_contract_to_launch"
+        ]
+      },
+      {
+        "row_id": "row-m_worst_case_time_contract_to_launch",
+        "category": "Worst Case Time from Contract to Launch",
+        "status": "critical",
+        "status_is_critical": true,
+        "has_metrics": true,
+        "finding": {
+          "summary": "[LLM_PLACEHOLDER: finding_summary for Worst Case Time from Contract to Launch]",
+          "risk": "[LLM_PLACEHOLDER: finding_risk for Worst Case Time from Contract to Launch]"
+        },
+        "metrics": [
+          {
+            "label": "Your metric",
+            "value_display": "32 business days",
+            "measurement_id": "m_worst_case_time_contract_to_launch",
+            "is_benchmark": false
+          },
+          {
+            "label": "Target",
+            "value_display": "14 business days",
+            "is_benchmark": true
+          }
+        ],
+        "measurement_ids": [
+          "m_worst_case_time_contract_to_launch"
+        ]
+      },
+      {
+        "row_id": "row-m_kickoff_call_scheduling_delay",
+        "category": "Kickoff Call Scheduling Delay",
+        "status": "critical",
+        "status_is_critical": true,
+        "has_metrics": true,
+        "finding": {
+          "summary": "[LLM_PLACEHOLDER: finding_summary for Kickoff Call Scheduling Delay]",
+          "risk": "[LLM_PLACEHOLDER: finding_risk for Kickoff Call Scheduling Delay]"
+        },
+        "metrics": [
+          {
+            "label": "Your metric",
+            "value_display": "5-7 days",
+            "measurement_id": "m_kickoff_call_scheduling_delay",
+            "is_benchmark": false
+          }
+        ],
+        "measurement_ids": [
+          "m_kickoff_call_scheduling_delay"
+        ]
+      },
+      {
+        "row_id": "row-m_sla_miss_rate",
+        "category": "SLA Miss Rate (14-day)",
+        "status": "critical",
+        "status_is_critical": true,
+        "has_metrics": true,
+        "finding": {
+          "summary": "[LLM_PLACEHOLDER: finding_summary for SLA Miss Rate (14-day)]",
+          "risk": "[LLM_PLACEHOLDER: finding_risk for SLA Miss Rate (14-day)]"
+        },
+        "metrics": [
+          {
+            "label": "Your metric",
+            "value_display": "68%",
+            "measurement_id": "m_sla_miss_rate",
+            "is_benchmark": false
+          }
+        ],
+        "measurement_ids": [
+          "m_sla_miss_rate"
+        ]
+      },
+      {
+        "row_id": "row-m_average_delay_past_sla",
+        "category": "Average Delay Past SLA",
+        "status": "critical",
+        "status_is_critical": true,
+        "has_metrics": true,
+        "finding": {
+          "summary": "[LLM_PLACEHOLDER: finding_summary for Average Delay Past SLA]",
+          "risk": "[LLM_PLACEHOLDER: finding_risk for Average Delay Past SLA]"
+        },
+        "metrics": [
+          {
+            "label": "Your metric",
+            "value_display": "4 days",
+            "measurement_id": "m_average_delay_past_sla",
+            "is_benchmark": false
+          },
+          {
+            "label": "Target",
+            "value_display": "0 days",
+            "is_benchmark": true
+          }
+        ],
+        "measurement_ids": [
+          "m_average_delay_past_sla"
+        ]
+      },
+      {
+        "row_id": "row-m_staff_time_wasted_manual_syncing_per_onboarding",
+        "category": "Staff Time Wasted on Manual Syncing per Onboarding",
+        "status": "critical",
+        "status_is_critical": true,
+        "has_metrics": true,
+        "finding": {
+          "summary": "[LLM_PLACEHOLDER: finding_summary for Staff Time Wasted on Manual Syncing per Onboarding]",
+          "risk": "[LLM_PLACEHOLDER: finding_risk for Staff Time Wasted on Manual Syncing per Onboarding]"
+        },
+        "metrics": [
+          {
+            "label": "Your metric",
+            "value_display": "~3 hours",
+            "measurement_id": "m_staff_time_wasted_manual_syncing_per_onboarding",
+            "is_benchmark": false
+          }
+        ],
+        "measurement_ids": [
+          "m_staff_time_wasted_manual_syncing_per_onboarding"
+        ]
+      }
+    ],
+    "overall": {
+      "status_distribution": {
+        "critical": 6,
+        "warning": 0,
+        "healthy": 0
+      }
+    }
+  },
+  "bleed": {
+    "currency": "USD",
+    "period": "month",
+    "period_display": "Per Month",
+    "total": {
+      "amount": 52335,
+      "currency": "USD",
+      "display": "$52,335/mo"
+    },
+    "breakdown": [
+      {
+        "item_id": "bleed-primary",
+        "label": "Primary Bleed",
+        "status": "critical",
+        "amount": {
+          "amount": 52335,
+          "currency": "USD",
+          "display": "$52,335/mo"
+        },
+        "driver_measurement_ids": [
+          "m_avg_time_contract_to_launch",
+          "m_worst_case_time_contract_to_launch",
+          "m_kickoff_call_scheduling_delay",
+          "m_sla_miss_rate",
+          "m_average_delay_past_sla",
+          "m_staff_time_wasted_manual_syncing_per_onboarding",
+          "m_systems_used_count",
+          "m_lost_major_account_value_historical"
+        ]
+      }
+    ],
+    "assumptions": [
+      {
+        "assumption_id": "a_client_onboarding_volume",
+        "name": "Monthly Client Onboarding Volume",
+        "value": 25,
+        "unit": "",
+        "source_or_basis": "About 25 new clients per month.",
+        "confidence": "medium"
+      },
+      {
+        "assumption_id": "a_sla_miss_rate",
+        "name": "Miss Rate for 14-day SLA",
+        "value": 0.68,
+        "unit": "68%",
+        "source_or_basis": "Miss rate for 14-day SLA: 68%",
+        "confidence": "medium"
+      },
+      {
+        "assumption_id": "a_churn_rate_for_delayed",
+        "name": "Estimated Client Churn Rate for Delayed Clients",
+        "value": 0.08,
+        "unit": "8%",
+        "source_or_basis": "estimated 8% churn rate for delayed clients",
+        "confidence": "medium"
+      },
+      {
+        "assumption_id": "a_avg_client_ltv",
+        "name": "Average Client Lifetime Value",
+        "value": 36000,
+        "unit": "$36,000",
+        "source_or_basis": "Average client lifetime value: $36,000",
+        "confidence": "medium"
+      },
+      {
+        "assumption_id": "a_staff_time_wasted_manual_sync",
+        "name": "Staff Time Wasted on Manual Syncing per Onboarding",
+        "value": 3,
+        "unit": "hours",
+        "source_or_basis": "Staff time wasted on manual syncing: ~3 hours per onboarding",
+        "confidence": "medium"
+      },
+      {
+        "assumption_id": "a_csm_hourly_cost",
+        "name": "CSM Hourly Cost",
+        "value": 45,
+        "unit": "$",
+        "source_or_basis": "CSM hourly cost: $45",
+        "confidence": "medium"
+      }
+    ],
+    "calculations": [
+      {
+        "calc_id": "c_monthly_churn_cost_from_delays",
+        "label": "Monthly Bleed from Client Churn due to Delays",
+        "formula": "Client Onboarding Volume × Miss Rate for 14-day SLA × Churn Rate for Delayed Clients × Average Client Lifetime Value",
+        "inputs": [
+          "a_client_onboarding_volume",
+          "a_sla_miss_rate",
+          "a_churn_rate_for_delayed",
+          "a_avg_client_ltv"
+        ],
+        "result_amount": {
+          "amount": 48960,
+          "currency": "USD"
+        },
+        "attribution_breakdown_item_id": "bleed-primary"
+      },
+      {
+        "calc_id": "c_monthly_manual_sync_cost",
+        "label": "Monthly Bleed from Manual Syncing Effort",
+        "formula": "Client Onboarding Volume × Staff Time Wasted per Onboarding × CSM Hourly Cost",
+        "inputs": [
+          "a_client_onboarding_volume",
+          "a_staff_time_wasted_manual_sync",
+          "a_csm_hourly_cost"
+        ],
+        "result_amount": {
+          "amount": 3375,
+          "currency": "USD"
+        },
+        "attribution_breakdown_item_id": "bleed-primary"
+      }
+    ],
+    "math_defender_text": "[LLM_PLACEHOLDER: math_defender_text]"
+  },
+  "fixes": {
+    "quick_win_fix_id": "fix-1",
+    "items": [
+      {
+        "fix_id": "fix-1",
+        "status": "proposed",
+        "severity": "critical",
+        "bleed_period": "month",
+        "problem": "[LLM_PLACEHOLDER: fix_problem for SLA/Latency Issues]",
+        "solution": "[LLM_PLACEHOLDER: fix_solution for SLA/Latency Issues]",
+        "quick_win": true,
+        "impact": {
+          "estimated_recovery": {
+            "amount": 27476,
+            "currency": "USD",
+            "display": "$27,476"
+          },
+          "basis": "[LLM_PLACEHOLDER: impact_basis]",
+          "maps_to_breakdown_item_ids": [
+            "bleed-primary"
+          ],
+          "tier": "high"
+        },
+        "effort": {
+          "tier": "low",
+          "estimated_hours_range": {
+            "min_hours": 4,
+            "most_likely_hours": 8,
+            "max_hours": 16
+          },
+          "skills_required": [
+            "automation",
+            "API"
+          ]
+        },
+        "turnaround": {
+          "label": "2-3 Days",
+          "business_days_min": 2,
+          "business_days_max": 3
+        },
+        "dependencies": [],
+        "acceptance_criteria": [
+          "[LLM_PLACEHOLDER: acceptance_criteria]"
+        ],
+        "related_measurement_ids": [
+          "m_avg_time_contract_to_launch",
+          "m_worst_case_time_contract_to_launch",
+          "m_kickoff_call_scheduling_delay",
+          "m_sla_miss_rate",
+          "m_average_delay_past_sla",
+          "m_staff_time_wasted_manual_syncing_per_onboarding"
+        ]
+      },
+      {
+        "fix_id": "fix-2",
+        "status": "proposed",
+        "severity": "critical",
+        "bleed_period": "month",
+        "problem": "[LLM_PLACEHOLDER: fix_problem for Manual Process Automation]",
+        "solution": "[LLM_PLACEHOLDER: fix_solution for Manual Process Automation]",
+        "quick_win": false,
+        "impact": {
+          "estimated_recovery": {
+            "amount": 4579,
+            "currency": "USD",
+            "display": "$4,579"
+          },
+          "basis": "[LLM_PLACEHOLDER: impact_basis]",
+          "maps_to_breakdown_item_ids": [
+            "bleed-primary"
+          ],
+          "tier": "medium"
+        },
+        "effort": {
+          "tier": "medium",
+          "estimated_hours_range": {
+            "min_hours": 8,
+            "most_likely_hours": 16,
+            "max_hours": 24
+          },
+          "skills_required": [
+            "automation",
+            "API"
+          ]
+        },
+        "turnaround": {
+          "label": "3-5 Days",
+          "business_days_min": 3,
+          "business_days_max": 5
+        },
+        "dependencies": [],
+        "acceptance_criteria": [
+          "[LLM_PLACEHOLDER: acceptance_criteria]"
+        ],
+        "related_measurement_ids": [
+          "m_systems_used_count"
+        ]
+      },
+      {
+        "fix_id": "fix-3",
+        "status": "proposed",
+        "severity": "critical",
+        "bleed_period": "month",
+        "problem": "[LLM_PLACEHOLDER: fix_problem for Quality Issues]",
+        "solution": "[LLM_PLACEHOLDER: fix_solution for Quality Issues]",
+        "quick_win": false,
+        "impact": {
+          "estimated_recovery": {
+            "amount": 4579,
+            "currency": "USD",
+            "display": "$4,579"
+          },
+          "basis": "[LLM_PLACEHOLDER: impact_basis]",
+          "maps_to_breakdown_item_ids": [
+            "bleed-primary"
+          ],
+          "tier": "medium"
+        },
+        "effort": {
+          "tier": "medium",
+          "estimated_hours_range": {
+            "min_hours": 8,
+            "most_likely_hours": 16,
+            "max_hours": 24
+          },
+          "skills_required": [
+            "automation",
+            "API"
+          ]
+        },
+        "turnaround": {
+          "label": "3-5 Days",
+          "business_days_min": 3,
+          "business_days_max": 5
+        },
+        "dependencies": [],
+        "acceptance_criteria": [
+          "[LLM_PLACEHOLDER: acceptance_criteria]"
+        ],
+        "related_measurement_ids": [
+          "m_lost_major_account_value_historical"
+        ]
+      }
+    ]
+  },
+  "cta": {
+    "phases": [
+      {
+        "phase_id": "phase_1_audit",
+        "label": "Phase 1: Audit",
+        "state": "complete",
+        "is_last": false
+      },
+      {
+        "phase_id": "phase_2_stabilize",
+        "label": "Phase 2: Stabilize",
+        "state": "current",
+        "is_last": false
+      },
+      {
+        "phase_id": "phase_3_scale",
+        "label": "Phase 3: Scale",
+        "state": "upcoming",
+        "is_last": true
+      }
+    ],
+    "current_phase": "phase_2_stabilize",
+    "completed_phase_ids": [
+      "phase_1_audit"
+    ],
+    "headline": "[LLM_PLACEHOLDER: cta_headline]",
+    "subtext": "[LLM_PLACEHOLDER: cta_subtext]",
+    "link": "https://calendly.com/wranngle-systems",
+    "link_display": "calendly.com/wranngle-systems",
+    "call_duration_minutes": 30
+  },
+  "benchmarks": [],
+  "sources": [],
+  "rendering": {
+    "mode": "conversion",
+    "is_conversion_mode": true,
+    "page": {
+      "size": "letter",
+      "margins_in": {
+        "top": 0.35,
+        "right": 0.35,
+        "bottom": 0.45,
+        "left": 0.35
+      }
+    },
+    "layout_guards": {
+      "max_pages": 1
+    }
+  },
+  "offer": {
+    "sku_code": "WR-AI-AUDIT-100",
+    "sku_name": "AI Process Audit (Phase 1)",
+    "display_in_footer": true
+  }
+}

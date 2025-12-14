@@ -1,0 +1,130 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "AI Audit Traffic Light Report",
+  "description": "Data model for Wranngle AI Process Audit (SKU: WR-AI-AUDIT-100)",
+  "type": "object",
+  "required": ["client", "executiveSummary", "scorecard", "bleed", "fixes", "cta", "footer"],
+  "properties": {
+    "client": {
+      "type": "object",
+      "required": ["name", "reportDate"],
+      "properties": {
+        "name": { "type": "string", "description": "Client company name" },
+        "reportDate": { "type": "string", "format": "date", "description": "Report generation date (YYYY-MM-DD)" }
+      }
+    },
+    "executiveSummary": {
+      "type": "object",
+      "required": ["bodyText", "bleedAmount"],
+      "properties": {
+        "bodyText": { "type": "string", "description": "Summary paragraph (supports {{bleedAmount}} placeholder)" },
+        "bleedAmount": { "type": "string", "description": "Formatted currency string e.g. '$4,200/month'" }
+      }
+    },
+    "scorecard": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["category", "status", "finding"],
+        "properties": {
+          "category": { "type": "string", "description": "Process category name" },
+          "status": { "type": "string", "enum": ["critical", "warning", "healthy"] },
+          "finding": {
+            "type": "object",
+            "required": ["text"],
+            "properties": {
+              "metrics": {
+                "type": "object",
+                "properties": {
+                  "yours": { "type": "object", "properties": { "label": { "type": "string" }, "value": { "type": "string" } } },
+                  "benchmark": { "type": "object", "properties": { "label": { "type": "string" }, "value": { "type": "string" } } }
+                }
+              },
+              "text": { "type": "string", "description": "Main finding description" },
+              "risk": { "type": "string", "description": "Optional risk/threshold note" },
+              "meta": { "type": "string", "description": "Optional source/benchmark reference" }
+            }
+          }
+        }
+      }
+    },
+    "bleed": {
+      "type": "object",
+      "required": ["totalAmount", "period", "breakdown"],
+      "properties": {
+        "totalAmount": { "type": "string", "description": "Formatted total e.g. '$4,200'" },
+        "period": { "type": "string", "default": "Per Month" },
+        "breakdown": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["status", "label", "amount"],
+            "properties": {
+              "status": { "type": "string", "enum": ["critical", "warning"] },
+              "label": { "type": "string" },
+              "amount": { "type": "string" }
+            }
+          }
+        },
+        "assumptions": { "type": "string", "description": "Math explanation with code blocks for formulas" }
+      }
+    },
+    "fixes": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["status", "problem", "fix", "impact"],
+        "properties": {
+          "status": { "type": "string", "enum": ["critical", "warning", "healthy"] },
+          "problem": { "type": "string" },
+          "fix": { "type": "string" },
+          "impact": { "type": "string" },
+          "pills": {
+            "type": "array",
+            "items": { "type": "string" },
+            "description": "Effort/impact/turnaround tags e.g. ['Low Effort', 'High Impact', '1-Day']"
+          }
+        }
+      }
+    },
+    "cta": {
+      "type": "object",
+      "required": ["steps", "headline", "subtext", "link"],
+      "properties": {
+        "steps": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["label", "state"],
+            "properties": {
+              "label": { "type": "string" },
+              "state": { "type": "string", "enum": ["complete", "current", "upcoming"] }
+            }
+          }
+        },
+        "headline": { "type": "string" },
+        "subtext": { "type": "string" },
+        "link": {
+          "type": "object",
+          "required": ["url", "display"],
+          "properties": {
+            "url": { "type": "string", "format": "uri" },
+            "display": { "type": "string" }
+          }
+        }
+      }
+    },
+    "footer": {
+      "type": "object",
+      "required": ["contactName", "contactEmail", "website", "sku"],
+      "properties": {
+        "contactName": { "type": "string" },
+        "contactEmail": { "type": "string", "format": "email" },
+        "website": { "type": "string" },
+        "sku": { "type": "string" },
+        "copyrightYear": { "type": "integer", "default": 2025 }
+      }
+    }
+  }
+}

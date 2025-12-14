@@ -1,0 +1,883 @@
+Data Intake Procedure
+=====================
+Version: 1.0.0
+Last Updated: 2025-12-13
+Status: Production Ready
+
+================================================================================
+1. PURPOSE AND SCOPE
+================================================================================
+
+This procedure defines how raw evidence from multiple modalities is collected,
+normalized, validated, and transformed into a Canonical Report JSON that drives
+the AI Audit template renderer.
+
+The pipeline is modality-agnostic. Whether intake comes from forms, transcripts,
+screenshots, CSVs, or AI-assisted extraction, the output is always a validated
+JSON object conforming to the report schema.
+
+Guiding Principles:
+- Measurements are facts. Findings are opinions. Fixes are promises.
+- LLMs never invent measurements. They only generate narrative.
+- Every claim must trace to evidence. No orphaned assertions.
+- Partial data renders partial reports. Unknown is valid. Fabrication is not.
+
+References:
+- NIST SP 800-86: Guide to Integrating Forensic Techniques
+  https://nvlpubs.nist.gov/nistpubs/Legacy/SP/nistspecialpublication800-86.pdf
+- ISO 27001:2022 Annex A 5.28: Collection of Evidence
+  https://www.isms.online/iso-27001/annex-a/
+
+================================================================================
+2. CANONICAL ARTIFACTS
+================================================================================
+
+The pipeline produces these artifacts in sequence:
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│ ARTIFACT             │ FORMAT   │ OWNER        │ RETENTION                  │
+├─────────────────────────────────────────────────────────────────────────────┤
+│ 1. Evidence Bundle   │ ZIP/dir  │ Intake       │ 7 years (audit trail)      │
+│ 2. Evidence Records  │ JSON[]   │ Normalizer   │ Lifetime of audit          │
+│ 3. Intake Packet     │ JSON     │ Extractor    │ Lifetime of audit          │
+│ 4. Draft Report JSON │ JSON     │ Transformer  │ Until validation passes    │
+│ 5. Validated JSON    │ JSON     │ Validator    │ Permanent (deliverable)    │
+│ 6. Rendered HTML     │ HTML     │ Renderer     │ Permanent (deliverable)    │
+│ 7. Rendered PDF      │ PDF      │ Exporter     │ Permanent (deliverable)    │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+2.1 Evidence Bundle
+-------------------
+Raw artifacts exactly as received. No transformation.
+
+Contents:
+- Files (PDFs, CSVs, screenshots, audio, video)
+- Transcripts (call recordings, chat logs)
+- Form submissions (JSON exports)
+- Email threads (EML or plain text)
+
+Metadata captured at intake:
+- received_at: ISO 8601 timestamp
+- received_by: operator ID
+- source_type: form | file | transcript | screenshot | email | api
+- original_filename: preserved exactly
+- sha256_hash: computed on receipt for integrity verification
+- redaction_status: none | pending | complete
+
+Reference: Chain of custody requires documenting "the ownership, viewing,
+analysis, and transformations of a data record."
+https://forhumanity.center/bok/chain-of-custody/
+
+2.2 Evidence Records
+--------------------
+Normalized representation of each evidence item.
+
+Schema (proposed, additive):
+{
+  "evidence_id": "ev-{uuid}",
+  "bundle_ref": "bundle-{audit_id}",
+  "source_type": "form | file | transcript | screenshot | email | api",
+  "original_ref": "path/to/original/file",
+  "sha256_hash": "abc123...",
+  "captured_at": "2025-12-13T10:00:00Z",
+  "captured_by": "operator-001",
+  "content_type": "text/plain | application/pdf | image/png | ...",
+  "extracted_text": "...",
+  "extraction_method": "manual | ocr | whisper | llm",
+  "extraction_confidence": 0.95,
+  "redaction_applied": true,
+  "redaction_log": ["ssn at line 42", "email at line 87"],
+  "tags": ["measurements", "systems", "failures"]
+}
+
+2.3 Intake Packet
+-----------------
+Structured capture of audit inputs. NOT the report schema.
+This is the scratchpad that feeds transformation.
+
+Schema:
+{
+  "intake_version": "1.0.0",
+  "intake_id": "intake-{uuid}",
+  "captured_at": "2025-12-13T10:30:00Z",
+  "captured_by": "operator-001",
+  "audit_id": "audit-2025-12-001",
+
+  "client": {
+    "account_id": "acme-001",
+    "account_name": "Acme Corp",
+    "industry": "Manufacturing",
+    "contact_name": "Jane Smith",
+    "contact_email": "jane@acme.com",
+    "contact_title": "VP Operations"
+  },
+
+  "workflow": {
+    "name": "Inbound Lead Response",
+    "trigger": "Web form submission",
+    "objective": "Convert lead to opportunity",
+    "end_condition": "First human contact",
+    "owner": "Sales team"
+  },
+
+  "volume": {
+    "runs_per_period": "~350/month",
+    "period": "month",
+    "evidence_ids": ["ev-001"]
+  },
+
+  "timing": {
+    "avg_trigger_to_end": "4.2 hours",
+    "worst_case_delay": "24+ hours",
+    "evidence_ids": ["ev-002", "ev-003"]
+  },
+
+  "hours": {
+    "business_hours_expected": true,
+    "timezone": "America/Indiana/Indianapolis"
+  },
+
+  "systems": {
+    "list": ["HubSpot", "Mailchimp", "Slack"],
+    "evidence_ids": ["ev-004"]
+  },
+
+  "handoffs": {
+    "manual_transfers": ["CRM to email list", "Email to rep assignment"],
+    "human_gates": ["Rep reviews lead before contact"],
+    "evidence_ids": ["ev-005"]
+  },
+
+  "failures": {
+    "common_failures": ["Leads sit in queue", "Duplicate records"],
+    "evidence_ids": ["ev-006"]
+  },
+
+  "cost_signals": {
+    "cost_if_slow_or_failed": "Lost deals, ~$50/lead",
+    "evidence_ids": ["ev-007"]
+  },
+
+  "priority": {
+    "one_thing_to_fix": "Speed to first response",
+    "evidence_ids": ["ev-008"]
+  },
+
+  "attachments": {
+    "evidence_ids": ["ev-001", "ev-002", "ev-003", "ev-004", "ev-005", "ev-006", "ev-007", "ev-008"]
+  }
+}
+
+2.4 Draft Report JSON
+---------------------
+First transformation output. May have gaps, unvalidated values, or LLM drafts
+pending review. Conforms to report schema structure but may fail validation.
+
+2.5 Validated Report JSON
+-------------------------
+Passes JSON Schema validation. All required fields present.
+All measurements have evidence links. All LLM outputs reviewed.
+Ready for rendering.
+
+2.6-2.7 Rendered Outputs
+------------------------
+HTML and PDF generated by Mustache renderer.
+Template is frozen. No logic in template.
+
+================================================================================
+3. SUPPORTED INTAKE MODALITIES
+================================================================================
+
+Each modality has a defined extraction path to Evidence Records.
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│ MODALITY         │ EXTRACTION METHOD        │ CONFIDENCE │ REVIEW REQUIRED │
+├─────────────────────────────────────────────────────────────────────────────┤
+│ Structured Form  │ Direct JSON mapping      │ High       │ Spot check      │
+│ CSV/Excel        │ Column mapping + parse   │ High       │ Schema match    │
+│ Call Transcript  │ LLM extraction           │ Medium     │ Yes, all claims │
+│ Chat Log         │ LLM extraction           │ Medium     │ Yes, all claims │
+│ Screenshot       │ OCR + LLM interpretation │ Low-Medium │ Yes, all values │
+│ Email Thread     │ LLM extraction           │ Medium     │ Yes, all claims │
+│ PDF Document     │ Text extraction + LLM    │ Medium     │ Yes, all claims │
+│ API Response     │ Direct JSON mapping      │ High       │ Schema match    │
+│ Manual Notes     │ Human transcription      │ High       │ Author review   │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+Confidence ratings inform validation strictness:
+- High: Automated validation sufficient
+- Medium: Human review of extracted values required
+- Low: Human must verify against original source
+
+Reference: Multimodal pipelines require unified data models where diverse
+data types can be represented in compatible formats.
+https://zilliz.com/blog/multimodal-pipelines-for-ai-applications
+
+================================================================================
+4. FIELD POPULATION STRATEGY
+================================================================================
+
+This section defines how each report schema section is populated.
+
+Legend:
+- [DIRECT]   = Copied from intake or config, no transformation
+- [DERIVED]  = Computed from other fields
+- [LLM]      = Generated by LLM with prompt from registry
+- [MANUAL]   = Requires human authoring
+- [EVIDENCE] = Must link to evidence record(s)
+
+4.1 document.*
+--------------
+document.document_id         [DERIVED]  UUID generated at report creation
+document.created_at          [DERIVED]  ISO timestamp at creation
+document.report_date         [DERIVED]  Formatted from created_at
+document.report_year         [DERIVED]  Extracted from created_at
+document.title               [LLM]      Prompt: document_title_v1
+document.subtitle            [DIRECT]   Config default: "Traffic Light Report"
+document.confidentiality     [DIRECT]   Config default: "confidential"
+document.locale              [DIRECT]   Config default: "en-US"
+document.timezone            [DIRECT]   From intake.hours.timezone
+document.brand.*             [DIRECT]   From producer config
+
+4.2 prepared_for.*
+------------------
+prepared_for.account_id      [DIRECT]   From intake.client.account_id
+prepared_for.account_name    [DIRECT]   From intake.client.account_name
+prepared_for.industry        [DIRECT]   From intake.client.industry
+prepared_for.primary_contact [DIRECT]   From intake.client.*
+
+4.3 prepared_by.*
+-----------------
+prepared_by.producer_name    [DIRECT]   From producer config
+prepared_by.producer_email   [DIRECT]   From producer config
+prepared_by.producer_company [DIRECT]   From producer config
+
+4.4 audit.scope.*
+-----------------
+scope.scope_statement        [LLM]      Prompt: scope_statement_v1
+scope.in_scope               [LLM]      Prompt: scope_items_v1
+scope.out_of_scope           [LLM]      Prompt: out_of_scope_v1
+scope.systems_involved       [DERIVED]  From intake.systems.list + type mapping
+scope.time_window            [DIRECT]   From intake or measurement window config
+scope.business_hours_*       [DIRECT]   From intake.hours
+
+4.5 audit.methodology.*
+-----------------------
+methodology.methods          [DERIVED]  From evidence record extraction methods
+methodology.data_sources     [DERIVED]  From evidence records
+methodology.limitations      [LLM]      Prompt: limitations_v1
+methodology.confidence       [DERIVED]  Aggregated from evidence confidence
+
+4.6 audit.workflows[]
+---------------------
+workflows[].workflow_id      [DERIVED]  Generated: "wf-{slug}"
+workflows[].name             [DIRECT]   From intake.workflow.name
+workflows[].trigger          [DIRECT]   From intake.workflow.trigger
+workflows[].objective        [DIRECT]   From intake.workflow.objective
+workflows[].primary_kpi      [DERIVED]  From measurements + thresholds
+workflows[].steps            [DERIVED]  From intake.handoffs + systems
+workflows[].measurements     [EVIDENCE] Extracted from timing/volume evidence
+
+Measurement extraction rules:
+- measurement_id: "m-{metric-slug}"
+- value: Must be numeric or structured range
+- value_display: Pre-formatted string
+- evidence[]: Must reference evidence_id(s)
+- method: From evidence extraction_method
+- sample_size: From evidence or intake
+
+4.7 scorecard.*
+---------------
+scorecard.executive_summary.body   [LLM]      Prompt: executive_summary_v1
+                                              Input: measurements, bleed total
+                                              MUST quote exact values
+                                              APPROVAL GATE: Human review
+
+scorecard.rows[]                   [DERIVED]  One row per measurement category
+  .row_id                          [DERIVED]  "row-{category-slug}"
+  .category                        [DERIVED]  From measurement grouping
+  .status                          [DERIVED]  From threshold comparison
+  .status_is_critical              [DERIVED]  status === "critical"
+  .has_metrics                     [DERIVED]  metrics.length > 0
+  .finding.summary                 [LLM]      Prompt: finding_summary_v1
+  .finding.risk                    [LLM]      Prompt: finding_risk_v1 (optional)
+  .finding.meta                    [DIRECT]   Benchmark citation if applicable
+  .metrics[]                       [DERIVED]  From measurements + benchmarks
+
+Status derivation rules:
+- Compare measurement value against threshold
+- Thresholds defined per metric_type in threshold config
+- Example: latency > 60min = critical, > 5min = warning, else healthy
+
+4.8 bleed.*
+-----------
+bleed.currency               [DIRECT]   Config default: "USD"
+bleed.period                 [DIRECT]   From intake.volume.period
+bleed.period_display         [DERIVED]  "Per Month" from period enum
+bleed.total                  [DERIVED]  Sum of breakdown amounts
+bleed.breakdown              [DERIVED]  One item per critical/warning finding
+  .amount                    [EVIDENCE] From cost_signals + calculations
+                             APPROVAL GATE: Human review of math
+
+bleed.assumptions            [EVIDENCE] From intake.cost_signals + evidence
+                             APPROVAL GATE: Human must validate assumptions
+
+bleed.calculations           [DERIVED]  Formula + inputs + result
+                             APPROVAL GATE: Human review of math
+
+bleed.math_defender_text     [LLM]      Prompt: math_defender_v1
+                             Input: assumptions, calculations
+                             MUST quote exact formulas
+
+4.9 fixes.*
+-----------
+fixes.quick_win_fix_id       [DERIVED]  ID of highest impact/lowest effort fix
+fixes.items[]                [DERIVED]  One per bleed breakdown item
+
+  .fix_id                    [DERIVED]  "fix-{slug}"
+  .severity                  [DERIVED]  From linked scorecard row status
+  .bleed_period              [DERIVED]  Copy of bleed.period for template access
+  .problem                   [LLM]      Prompt: fix_problem_v1
+  .solution                  [LLM]      Prompt: fix_solution_v1
+  .quick_win                 [DERIVED]  effort.tier === "low" && impact.tier === "high"
+  .impact                    [DERIVED]  From bleed attribution
+  .effort                    [MANUAL]   Producer estimates hours/skills
+  .turnaround                [MANUAL]   Producer estimates business days
+  .dependencies              [MANUAL]   Producer identifies blockers
+  .acceptance_criteria       [LLM]      Prompt: acceptance_criteria_v1
+
+4.10 cta.*
+----------
+cta.phases                   [DIRECT]   From packaging config
+  .state                     [DERIVED]  Computed from current_phase
+  .is_last                   [DERIVED]  Index === phases.length - 1
+cta.current_phase            [DIRECT]   From packaging config
+cta.completed_phase_ids      [DERIVED]  Phases before current
+cta.headline                 [LLM]      Prompt: cta_headline_v1
+cta.subtext                  [LLM]      Prompt: cta_subtext_v1
+cta.link                     [DIRECT]   From producer config
+cta.link_display             [DIRECT]   From producer config
+
+4.11 benchmarks[]
+-----------------
+benchmarks                   [DIRECT]   From benchmark library
+                             Only include if referenced by measurements
+                             Do not fabricate citations
+
+4.12 sources[]
+--------------
+sources                      [DIRECT]   From benchmark library
+                             Only include if referenced by benchmarks
+
+4.13 rendering.*
+----------------
+rendering.mode               [DIRECT]   Config: "conversion" | "brand"
+rendering.is_conversion_mode [DERIVED]  mode === "conversion"
+rendering.page               [DIRECT]   Config defaults
+rendering.layout_guards      [DIRECT]   Config defaults
+
+4.14 offer.*
+------------
+offer.sku_code               [DIRECT]   From packaging config
+offer.sku_name               [DIRECT]   From packaging config
+offer.display_in_footer      [DIRECT]   Config default: true
+
+================================================================================
+5. PROMPT MANAGEMENT
+================================================================================
+
+LLM prompts are managed in a separate registry file for versioning,
+auditability, and non-developer editing.
+
+Reference: "Prompts need to be treated with the same care normally applied
+to application code... version control, testing, and proper deployment processes."
+https://launchdarkly.com/blog/prompt-versioning-and-management/
+
+5.1 Prompt Registry File
+------------------------
+Location: prompts/prompt_registry.json
+
+Schema:
+{
+  "registry_version": "1.0.0",
+  "prompts": [
+    {
+      "prompt_id": "executive_summary_v1",
+      "version": 1,
+      "created_at": "2025-12-13",
+      "created_by": "cody",
+      "status": "active",
+
+      "schema_path": "scorecard.executive_summary.body",
+      "output_type": "html_fragment",
+      "max_tokens": 150,
+
+      "allowed_input_types": ["measurements", "bleed_total", "workflow_name"],
+      "required_inputs": ["measurements", "bleed_total"],
+
+      "system_prompt": "You are a business process auditor writing a 2-sentence executive summary for a one-page audit report. Be direct, specific, and actionable. Use <strong> tags for emphasis on key numbers.",
+
+      "user_prompt_template": "Write an executive summary for this audit:\n\nWorkflow: {{workflow_name}}\n\nKey measurements:\n{{#measurements}}\n- {{name}}: {{value_display}} (target: {{target}})\n{{/measurements}}\n\nTotal monthly bleed: {{bleed_total_display}}\n\nRequirements:\n- Exactly 2 sentences\n- First sentence: State the critical bottleneck with the exact measured value\n- Second sentence: State the bleed amount and the fix urgency\n- Use <strong> tags around money values\n- Do not invent numbers not provided above",
+
+      "output_constraints": {
+        "must_contain": ["{{bleed_total_display}}"],
+        "must_not_contain": ["I think", "might be", "could be", "approximately"],
+        "max_length_chars": 500
+      },
+
+      "validation_rules": [
+        {
+          "rule": "contains_exact_value",
+          "params": {"field": "bleed_total_display"}
+        },
+        {
+          "rule": "no_fabricated_numbers",
+          "params": {"allowed_numbers": "{{measurements.*.value}}"}
+        }
+      ],
+
+      "approval_required": true,
+      "approval_gate": "human_review"
+    }
+  ]
+}
+
+5.2 Prompt Registry Index
+-------------------------
+Quick reference for all prompts in the registry:
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│ PROMPT_ID                │ SCHEMA_PATH                      │ APPROVAL     │
+├─────────────────────────────────────────────────────────────────────────────┤
+│ document_title_v1        │ document.title                   │ No           │
+│ scope_statement_v1       │ audit.scope.scope_statement      │ No           │
+│ scope_items_v1           │ audit.scope.in_scope             │ No           │
+│ out_of_scope_v1          │ audit.scope.out_of_scope         │ No           │
+│ limitations_v1           │ audit.methodology.limitations    │ No           │
+│ executive_summary_v1     │ scorecard.executive_summary.body │ YES          │
+│ finding_summary_v1       │ scorecard.rows[].finding.summary │ Spot check   │
+│ finding_risk_v1          │ scorecard.rows[].finding.risk    │ Spot check   │
+│ math_defender_v1         │ bleed.math_defender_text         │ YES          │
+│ fix_problem_v1           │ fixes.items[].problem            │ Spot check   │
+│ fix_solution_v1          │ fixes.items[].solution           │ Spot check   │
+│ acceptance_criteria_v1   │ fixes.items[].acceptance_criteria│ No           │
+│ cta_headline_v1          │ cta.headline                     │ No           │
+│ cta_subtext_v1           │ cta.subtext                      │ No           │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+5.3 LLM Guardrails
+------------------
+Reference: "Retrieval-Augmented Generation (RAG) incorporates an information
+retrieval step into the text generation process... The LLM's answer is then
+'grounded' in that external data."
+https://www.getzep.com/ai-agents/reducing-llm-hallucinations/
+
+Rules enforced by the LLM executor:
+
+1. Evidence Anchoring
+   - LLM receives only extracted facts from evidence records
+   - LLM cannot query external sources
+   - LLM cannot access raw files directly
+
+2. Value Quoting
+   - Prompts require exact quoting of provided values
+   - Post-generation validation checks for exact matches
+   - Fabricated numbers trigger rejection
+
+3. Output Validation
+   - Schema validation of structured outputs
+   - Constraint checking (max length, required phrases)
+   - Human review queue for flagged outputs
+
+4. Refusal Training
+   - If evidence is insufficient, LLM must output: "[INSUFFICIENT_EVIDENCE]"
+   - This triggers human intervention, not fabrication
+
+5.4 Prompt Versioning Rules
+---------------------------
+- Prompts are immutable once deployed
+- New versions get new prompt_id suffix (v1, v2, v3)
+- Old versions retained for audit trail
+- Rollback = activate previous version
+
+Reference: "Prompt versions in MLflow are immutable, providing strong
+guarantees for reproducibility."
+https://mlflow.org/docs/latest/genai/prompt-registry/
+
+================================================================================
+6. VALIDATION AND REVIEW GATES
+================================================================================
+
+6.1 Automated Validation
+------------------------
+JSON Schema validation using AJV or equivalent.
+
+Configuration:
+- allErrors: true (collect all errors, not just first)
+- removeAdditional: false (preserve unknown fields for debugging)
+- useDefaults: true (apply schema defaults for optional fields)
+
+Reference: https://json-schema.org/draft/2020-12/json-schema-validation
+
+Validation checkpoints:
+1. Intake Packet → Intake schema
+2. Draft Report JSON → Report schema (lenient mode)
+3. Validated Report JSON → Report schema (strict mode)
+
+6.2 Human Approval Gates
+------------------------
+These fields require explicit human approval before report finalization:
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│ GATE                     │ FIELDS                           │ REVIEWER     │
+├─────────────────────────────────────────────────────────────────────────────┤
+│ Money Math               │ bleed.assumptions                │ Producer     │
+│                          │ bleed.calculations               │              │
+│                          │ bleed.total                      │              │
+│                          │ fixes.items[].impact             │              │
+├─────────────────────────────────────────────────────────────────────────────┤
+│ Claims & Benchmarks      │ scorecard.executive_summary.body │ Producer     │
+│                          │ benchmarks[]                     │              │
+│                          │ sources[]                        │              │
+├─────────────────────────────────────────────────────────────────────────────┤
+│ CTA & Pricing            │ cta.headline                     │ Producer     │
+│                          │ cta.subtext                      │              │
+│                          │ offer.*                          │              │
+├─────────────────────────────────────────────────────────────────────────────┤
+│ Client Accuracy          │ prepared_for.*                   │ Client (opt) │
+│                          │ audit.scope.scope_statement      │              │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+6.3 Review Workflow States
+--------------------------
+1. DRAFT        - Initial generation, not validated
+2. PENDING      - Validated, awaiting human review
+3. APPROVED     - All gates passed, ready to render
+4. DELIVERED    - Rendered and sent to client
+5. ARCHIVED     - Retained for audit trail
+
+================================================================================
+7. SECURITY CONTROLS
+================================================================================
+
+7.1 PII Handling
+----------------
+Reference: "Organizations must actively minimize the risk of exposure by
+transforming data in such a way that individuals cannot be identified."
+https://accutivesecurity.com/how-to-implement-gdpr-data-masking-without-sacrificing-usability/
+
+PII categories and handling:
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│ PII TYPE          │ HANDLING                        │ RETENTION             │
+├─────────────────────────────────────────────────────────────────────────────┤
+│ Client contact    │ Stored encrypted, displayed     │ Lifetime of account   │
+│ email             │ in report as-is (client consent)│                       │
+├─────────────────────────────────────────────────────────────────────────────┤
+│ SSN, Tax ID       │ NEVER collected                 │ N/A                   │
+├─────────────────────────────────────────────────────────────────────────────┤
+│ Employee names    │ Redact from evidence unless     │ Redacted in evidence  │
+│ in evidence       │ explicitly relevant             │                       │
+├─────────────────────────────────────────────────────────────────────────────┤
+│ Credentials,      │ NEVER stored, immediately       │ N/A                   │
+│ API keys          │ flagged and rejected            │                       │
+├─────────────────────────────────────────────────────────────────────────────┤
+│ IP addresses      │ Redact unless network audit     │ Redacted in evidence  │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+7.2 Redaction Process
+---------------------
+1. Automated PII detection on evidence intake
+2. Flag suspected PII with location (file, line, character range)
+3. Human reviewer approves redaction or marks as permitted
+4. Redaction applied before evidence stored
+5. Redaction log preserved for audit trail
+
+Redaction techniques:
+- Replacement: [REDACTED-EMAIL], [REDACTED-NAME]
+- Masking: jane.s***@***.com
+- Removal: Field omitted entirely
+
+Reference: "All masking jobs should be self-documenting, producing scripts
+and XML audit logs that show what protections were applied."
+https://www.iri.com/solutions/data-masking/gdpr
+
+7.3 Access Controls
+-------------------
+Role-based access:
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│ ROLE              │ PERMISSIONS                                             │
+├─────────────────────────────────────────────────────────────────────────────┤
+│ Intake Operator   │ Upload evidence, create intake packet                   │
+│ Producer          │ All intake + transform + review + render                │
+│ Reviewer          │ View drafts, approve gates, cannot modify               │
+│ Client            │ View final report only                                  │
+│ System            │ Automated transforms, no manual access                  │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+7.4 Audit Trail Requirements
+----------------------------
+Reference: ISO 27001 Annex A 5.28 requires maintaining proof of control
+effectiveness through documented procedures and audit trails.
+https://www.konfirmity.com/blog/iso-27001-evidence-requirements
+
+Logged events:
+- Evidence upload (who, when, what, hash)
+- Evidence access (who, when, which record)
+- Transformation execution (input hash, output hash, timestamp)
+- LLM invocation (prompt_id, input hash, output hash, timestamp)
+- Human approval (who, what gate, decision, timestamp)
+- Report render (input hash, output hash, timestamp)
+- Report delivery (recipient, method, timestamp)
+
+Log retention: Minimum 7 years for financial audit defensibility.
+
+================================================================================
+8. HANDLING UNKNOWNS AND PARTIAL DATA
+================================================================================
+
+8.1 Missing Required Fields
+---------------------------
+If a required field cannot be populated:
+
+1. Attempt extraction from all available evidence
+2. If still missing, mark with sentinel value:
+   - Strings: "[UNKNOWN]"
+   - Numbers: null (if schema allows)
+   - Arrays: empty array []
+
+3. Add entry to gaps[] array (proposed schema addition):
+   {
+     "field_path": "audit.scope.time_window.start",
+     "reason": "Client did not provide measurement window dates",
+     "impact": "Report cannot show specific analysis period",
+     "resolution": "Request date range from client"
+   }
+
+4. Report renders with visible "[UNKNOWN]" markers
+5. Report flagged as INCOMPLETE, cannot be delivered
+
+8.2 Conflicting Evidence
+------------------------
+When multiple evidence sources contradict:
+
+1. Log conflict in evidence_conflicts[] (proposed):
+   {
+     "field_path": "timing.avg_trigger_to_end",
+     "values": [
+       {"source": "ev-001", "value": "4.2h"},
+       {"source": "ev-002", "value": "2.1h"}
+     ],
+     "resolution": null
+   }
+
+2. Do not auto-resolve. Flag for human decision.
+3. Human selects authoritative value and documents reasoning.
+4. Non-selected values retained in evidence for audit trail.
+
+8.3 Low Confidence Extraction
+-----------------------------
+When extraction confidence < 0.7:
+
+1. Mark field with confidence flag
+2. Include in review queue
+3. Human verifies against original evidence
+4. If unable to verify, treat as missing
+
+8.4 Graceful Degradation
+------------------------
+The template handles missing optional fields via Mustache conditionals.
+
+These fields degrade gracefully:
+- finding.risk → Row renders without risk callout
+- finding.meta → Row renders without benchmark citation
+- bleed.math_defender_text → Bleed section renders without formula
+- offer.sku_code → Footer renders without SKU
+
+These fields MUST be present or report fails:
+- document.title
+- prepared_for.account_name
+- scorecard.rows (at least one)
+- bleed.total
+- fixes.items (at least one)
+- cta.headline
+- cta.link
+
+================================================================================
+9. PIPELINE EXECUTION SEQUENCE
+================================================================================
+
+9.1 Minimal Viable Intake
+-------------------------
+For a single-workflow audit, minimum required:
+
+1. Client name and contact
+2. Workflow name, trigger, objective
+3. At least one timing measurement with evidence
+4. At least one cost signal
+5. Producer config (brand, contact, packaging)
+
+9.2 Execution Steps
+-------------------
+┌─────────────────────────────────────────────────────────────────────────────┐
+│ STEP │ ACTION                              │ INPUT           │ OUTPUT       │
+├─────────────────────────────────────────────────────────────────────────────┤
+│ 1    │ Receive raw evidence                │ Files/forms     │ Evidence     │
+│      │                                     │                 │ Bundle       │
+├─────────────────────────────────────────────────────────────────────────────┤
+│ 2    │ Normalize to evidence records       │ Evidence Bundle │ Evidence     │
+│      │ - Extract text                      │                 │ Records[]    │
+│      │ - Compute hashes                    │                 │              │
+│      │ - Apply redaction                   │                 │              │
+├─────────────────────────────────────────────────────────────────────────────┤
+│ 3    │ Extract intake packet               │ Evidence        │ Intake       │
+│      │ - Map to intake schema              │ Records[]       │ Packet       │
+│      │ - Link evidence IDs                 │                 │              │
+├─────────────────────────────────────────────────────────────────────────────┤
+│ 4    │ Derive measurements                 │ Intake Packet   │ Measurements │
+│      │ - Parse values                      │                 │ []           │
+│      │ - Apply thresholds                  │                 │              │
+│      │ - Compute statuses                  │                 │              │
+├─────────────────────────────────────────────────────────────────────────────┤
+│ 5    │ Generate LLM fields                 │ Measurements    │ LLM Outputs  │
+│      │ - Load prompts from registry        │ + Intake        │ []           │
+│      │ - Execute with evidence context     │                 │              │
+│      │ - Validate outputs                  │                 │              │
+├─────────────────────────────────────────────────────────────────────────────┤
+│ 6    │ Assemble draft JSON                 │ All above       │ Draft Report │
+│      │ - Merge all field sources           │                 │ JSON         │
+│      │ - Add computed fields               │                 │              │
+├─────────────────────────────────────────────────────────────────────────────┤
+│ 7    │ Validate draft                      │ Draft JSON      │ Validation   │
+│      │ - JSON Schema validation            │                 │ Report       │
+│      │ - Constraint checking               │                 │              │
+├─────────────────────────────────────────────────────────────────────────────┤
+│ 8    │ Human review gates                  │ Draft JSON +    │ Approved     │
+│      │ - Money math                        │ Validation      │ JSON         │
+│      │ - Claims                            │                 │              │
+│      │ - CTA                               │                 │              │
+├─────────────────────────────────────────────────────────────────────────────┤
+│ 9    │ Render HTML                         │ Approved JSON   │ HTML File    │
+│      │ - Mustache.render()                 │ + Template      │              │
+├─────────────────────────────────────────────────────────────────────────────┤
+│ 10   │ Render PDF                          │ HTML File       │ PDF File     │
+│      │ - Headless Chrome                   │                 │              │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+================================================================================
+10. PROPOSED SCHEMA ADDITIONS
+================================================================================
+
+These optional properties support the intake procedure without breaking
+existing report rendering.
+
+10.1 Evidence Tracking (additive)
+---------------------------------
+Add to root:
+{
+  "evidence_bundle": {
+    "bundle_id": "bundle-{audit_id}",
+    "created_at": "ISO timestamp",
+    "evidence_records": [
+      { "evidence_id": "...", "sha256_hash": "...", ... }
+    ]
+  }
+}
+
+10.2 Intake Provenance (additive)
+---------------------------------
+Add to root:
+{
+  "intake": {
+    "intake_id": "intake-{uuid}",
+    "captured_at": "ISO timestamp",
+    "captured_by": "operator ID",
+    "modalities_used": ["form", "transcript", "csv"]
+  }
+}
+
+10.3 Gaps and Conflicts (additive)
+----------------------------------
+Add to root:
+{
+  "data_quality": {
+    "gaps": [
+      {
+        "field_path": "...",
+        "reason": "...",
+        "impact": "...",
+        "resolution": "..."
+      }
+    ],
+    "conflicts": [
+      {
+        "field_path": "...",
+        "values": [{ "source": "...", "value": "..." }],
+        "resolution": "...",
+        "resolved_by": "..."
+      }
+    ],
+    "low_confidence_fields": ["scorecard.rows[0].finding.summary"]
+  }
+}
+
+10.4 LLM Generation Metadata (additive)
+---------------------------------------
+Add to any LLM-generated field's parent object:
+{
+  "_llm_meta": {
+    "prompt_id": "executive_summary_v1",
+    "generated_at": "ISO timestamp",
+    "model": "claude-3-sonnet",
+    "reviewed_by": "operator ID",
+    "reviewed_at": "ISO timestamp"
+  }
+}
+
+These additions are optional. The template does not read them.
+They exist for audit trail and debugging.
+
+================================================================================
+11. IMPLEMENTATION CHECKLIST
+================================================================================
+
+Phase 1: Manual Pipeline (Current)
+----------------------------------
+[ ] Create evidence bundle directory structure
+[ ] Create intake packet JSON manually
+[ ] Create report JSON manually
+[ ] Run render.js
+[ ] Deliver PDF
+
+Phase 2: Structured Intake (Proposed)
+-------------------------------------
+[ ] Create intake form (web or document)
+[ ] Map form fields to intake packet schema
+[ ] Validate intake packet on submission
+[ ] Store evidence bundle with hashes
+
+Phase 3: Measurement Extraction (Proposed)
+------------------------------------------
+[ ] Define threshold config for each metric type
+[ ] Implement status derivation logic
+[ ] Implement bleed calculation formulas
+[ ] Validate measurement values against evidence
+
+Phase 4: LLM Integration (Proposed)
+-----------------------------------
+[ ] Create prompt registry file
+[ ] Implement prompt executor with validation
+[ ] Implement review queue for LLM outputs
+[ ] Add approval workflow
+
+Phase 5: Full Automation (Future)
+---------------------------------
+[ ] API for evidence upload
+[ ] Automated extraction pipeline
+[ ] Dashboard for review and approval
+[ ] Scheduled delivery
+
+================================================================================
+END OF PROCEDURE
+================================================================================

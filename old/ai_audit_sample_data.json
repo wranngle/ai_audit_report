@@ -1,0 +1,2563 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://wranngle.com/schemas/ai-process-audit-report.schema.json",
+  "title": "Wranngle AI Process Audit Report Document",
+  "description": "Canonical, field-generous contract between audit capture tooling and report rendering (HTML/PDF). Designed for single-workflow audits by default while allowing multi-workflow expansion. Supports deterministic computation as well as optional LLM-generated narrative fields.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "document",
+    "prepared_for",
+    "prepared_by",
+    "audit",
+    "scorecard",
+    "bleed",
+    "fixes",
+    "cta",
+    "benchmarks",
+    "sources",
+    "rendering"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "description": "Schema version for backward-compatible evolution (semver).",
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+(?:-[0-9A-Za-z.-]+)?$",
+      "examples": [
+        "1.0.0"
+      ],
+      "default": "1.0.0"
+    },
+    "document": {
+      "type": "object",
+      "description": "Document identity and lifecycle metadata.",
+      "additionalProperties": false,
+      "required": [
+        "document_id",
+        "created_at",
+        "report_date",
+        "title",
+        "subtitle",
+        "locale",
+        "timezone"
+      ],
+      "properties": {
+        "document_id": {
+          "type": "string",
+          "description": "Stable unique identifier for this report document (UUID recommended).",
+          "examples": [
+            "3b2f2d4a-3c2a-4d9f-a0da-0d4d1b08f2f7"
+          ]
+        },
+        "created_at": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Timestamp when this report object was created."
+        },
+        "updated_at": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Timestamp when this report object was last updated."
+        },
+        "report_date": {
+          "type": "string",
+          "format": "date",
+          "description": "Date displayed on the report (not necessarily equal to created_at).",
+          "examples": [
+            "2025-12-13"
+          ]
+        },
+        "title": {
+          "type": "string",
+          "description": "Primary report title shown in header.",
+          "examples": [
+            "AI Process Audit"
+          ],
+          "default": "AI Process Audit"
+        },
+        "subtitle": {
+          "type": "string",
+          "description": "Secondary label shown in header.",
+          "examples": [
+            "Traffic Light Report"
+          ],
+          "default": "Traffic Light Report"
+        },
+        "confidentiality": {
+          "type": "string",
+          "description": "Confidentiality label for distribution controls.",
+          "enum": [
+            "public",
+            "internal",
+            "confidential",
+            "restricted"
+          ],
+          "default": "confidential"
+        },
+        "locale": {
+          "type": "string",
+          "description": "BCP-47 locale for formatting dates/numbers (e.g., en-US).",
+          "examples": [
+            "en-US"
+          ],
+          "default": "en-US"
+        },
+        "timezone": {
+          "type": "string",
+          "description": "IANA timezone for formatting timestamps (e.g., America/Indiana/Indianapolis).",
+          "examples": [
+            "America/Indiana/Indianapolis"
+          ]
+        },
+        "version_label": {
+          "type": "string",
+          "description": "Optional human label for the document revision (e.g., v1, v1.1, Draft).",
+          "default": "v1"
+        },
+        "brand": {
+          "type": "object",
+          "description": "Brand assets and identifiers used by renderer.",
+          "additionalProperties": false,
+          "properties": {
+            "brand_name": {
+              "type": "string",
+              "description": "Brand name used in footer/header.",
+              "examples": [
+                "Wranngle Systems LLC"
+              ],
+              "default": "Wranngle Systems LLC"
+            },
+            "logo_uri": {
+              "type": "string",
+              "description": "Logo asset path/URI used by renderer (file path, CDN URL, or data URI).",
+              "examples": [
+                "wranngle-logo.png"
+              ],
+              "default": "wranngle-logo.png"
+            },
+            "primary_domain": {
+              "type": "string",
+              "description": "Primary website domain displayed in footer.",
+              "examples": [
+                "wranngle.com"
+              ],
+              "default": "wranngle.com"
+            }
+          }
+        },
+        "document_tags": {
+          "type": "array",
+          "description": "Optional tags to support search and grouping (internal).",
+          "items": {
+            "type": "string"
+          },
+          "default": []
+        }
+      }
+    },
+    "prepared_for": {
+      "type": "object",
+      "description": "Client/account the report is prepared for.",
+      "additionalProperties": false,
+      "required": [
+        "account_id",
+        "account_name"
+      ],
+      "properties": {
+        "account_id": {
+          "type": "string",
+          "description": "Internal ID for the client/account in your CRM or billing system."
+        },
+        "account_name": {
+          "type": "string",
+          "description": "Client/account legal or common name displayed on report.",
+          "examples": [
+            "Acme Corp"
+          ]
+        },
+        "industry": {
+          "type": "string",
+          "description": "Industry classification (optional) used for benchmark selection and language tuning."
+        },
+        "primary_contact": {
+          "type": "object",
+          "description": "Primary recipient contact metadata.",
+          "additionalProperties": false,
+          "properties": {
+            "name": {
+              "type": "string",
+              "description": "Recipient full name."
+            },
+            "title": {
+              "type": "string",
+              "description": "Recipient job title."
+            },
+            "email": {
+              "type": "string",
+              "format": "email",
+              "description": "Recipient email address."
+            },
+            "phone": {
+              "type": "string",
+              "description": "Recipient phone number (E.164 recommended)."
+            },
+            "role_in_decision": {
+              "type": "string",
+              "description": "Buying role to inform CTA language.",
+              "enum": [
+                "economic_buyer",
+                "technical_buyer",
+                "champion",
+                "influencer",
+                "unknown"
+              ],
+              "default": "unknown"
+            }
+          }
+        },
+        "locations": {
+          "type": "array",
+          "description": "Relevant business locations (optional), useful when workflows differ by region/site.",
+          "default": [],
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "label": {
+                "type": "string",
+                "description": "Human label for the location."
+              },
+              "timezone": {
+                "type": "string",
+                "description": "IANA timezone if different from document timezone."
+              }
+            }
+          }
+        }
+      }
+    },
+    "prepared_by": {
+      "type": "object",
+      "description": "Producer metadata for the report.",
+      "additionalProperties": false,
+      "required": [
+        "producer_name",
+        "producer_email"
+      ],
+      "properties": {
+        "producer_name": {
+          "type": "string",
+          "description": "Name displayed in footer/contact line.",
+          "examples": [
+            "Cody Arnold"
+          ]
+        },
+        "producer_email": {
+          "type": "string",
+          "format": "email",
+          "description": "Contact email displayed in footer.",
+          "examples": [
+            "codyarnold96@live.com"
+          ]
+        },
+        "producer_company": {
+          "type": "string",
+          "description": "Company name producing the report.",
+          "examples": [
+            "Wranngle Systems LLC"
+          ],
+          "default": "Wranngle Systems LLC"
+        },
+        "producer_phone": {
+          "type": "string",
+          "description": "Optional phone number displayed in footer."
+        },
+        "signature_block": {
+          "type": "string",
+          "description": "Optional signature line for proposals or statements of work."
+        }
+      }
+    },
+    "audit": {
+      "type": "object",
+      "description": "Audit scope, methodology, and raw measurements (the canonical truth for the report).",
+      "additionalProperties": false,
+      "required": [
+        "audit_id",
+        "scope",
+        "methodology",
+        "workflows"
+      ],
+      "properties": {
+        "audit_id": {
+          "type": "string",
+          "description": "Stable unique identifier for the audit engagement (distinct from document_id)."
+        },
+        "scope": {
+          "type": "object",
+          "description": "What was audited, what was explicitly excluded, and boundaries/constraints.",
+          "additionalProperties": false,
+          "required": [
+            "scope_statement",
+            "in_scope",
+            "out_of_scope",
+            "systems_involved",
+            "time_window"
+          ],
+          "properties": {
+            "scope_statement": {
+              "type": "string",
+              "description": "One-paragraph, buyer-friendly scope definition (single-workflow by default)."
+            },
+            "in_scope": {
+              "type": "array",
+              "description": "Bullet list of included elements (steps, channels, teams).",
+              "items": {
+                "type": "string"
+              },
+              "default": []
+            },
+            "out_of_scope": {
+              "type": "array",
+              "description": "Bullet list of explicitly excluded elements to prevent scope creep.",
+              "items": {
+                "type": "string"
+              },
+              "default": []
+            },
+            "systems_involved": {
+              "type": "array",
+              "description": "Systems/tools touched by the audited workflow (CRM, email, SMS, forms, etc.).",
+              "default": [],
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "system_name",
+                  "system_type"
+                ],
+                "properties": {
+                  "system_name": {
+                    "type": "string",
+                    "description": "Product/system name.",
+                    "examples": [
+                      "HubSpot"
+                    ]
+                  },
+                  "system_type": {
+                    "type": "string",
+                    "description": "System category used for integration patterns.",
+                    "enum": [
+                      "crm",
+                      "marketing_automation",
+                      "email",
+                      "sms",
+                      "forms",
+                      "call_tracking",
+                      "ticketing",
+                      "spreadsheet",
+                      "database",
+                      "payment",
+                      "calendar",
+                      "custom_app",
+                      "other"
+                    ]
+                  },
+                  "environment": {
+                    "type": "string",
+                    "description": "Environment label (prod/sandbox/dev).",
+                    "enum": [
+                      "prod",
+                      "sandbox",
+                      "dev",
+                      "unknown"
+                    ],
+                    "default": "unknown"
+                  },
+                  "integration_capabilities": {
+                    "type": "array",
+                    "description": "Known integration mechanisms (webhooks, API, exports).",
+                    "items": {
+                      "type": "string"
+                    },
+                    "default": []
+                  },
+                  "auth_constraints": {
+                    "type": "array",
+                    "description": "Known auth constraints (SSO-only, IP allowlist, VPN-required).",
+                    "items": {
+                      "type": "string"
+                    },
+                    "default": []
+                  }
+                }
+              }
+            },
+            "time_window": {
+              "type": "object",
+              "description": "Measurement window that produced the audit metrics.",
+              "additionalProperties": false,
+              "required": [
+                "start",
+                "end",
+                "timezone"
+              ],
+              "properties": {
+                "start": {
+                  "type": "string",
+                  "format": "date-time",
+                  "description": "Measurement window start timestamp."
+                },
+                "end": {
+                  "type": "string",
+                  "format": "date-time",
+                  "description": "Measurement window end timestamp."
+                },
+                "timezone": {
+                  "type": "string",
+                  "description": "IANA timezone used for interpreting timestamps."
+                },
+                "business_hours_definition": {
+                  "type": "object",
+                  "description": "Business-hours rules applied to SLAs and response metrics.",
+                  "additionalProperties": false,
+                  "properties": {
+                    "days_of_week": {
+                      "type": "array",
+                      "description": "Days considered business days.",
+                      "items": {
+                        "type": "string",
+                        "enum": [
+                          "mon",
+                          "tue",
+                          "wed",
+                          "thu",
+                          "fri",
+                          "sat",
+                          "sun"
+                        ]
+                      },
+                      "default": [
+                        "mon",
+                        "tue",
+                        "wed",
+                        "thu",
+                        "fri"
+                      ]
+                    },
+                    "start_local_time": {
+                      "type": "string",
+                      "description": "Business day start time in HH:MM (24h).",
+                      "examples": [
+                        "09:00"
+                      ],
+                      "default": "09:00"
+                    },
+                    "end_local_time": {
+                      "type": "string",
+                      "description": "Business day end time in HH:MM (24h).",
+                      "examples": [
+                        "17:00"
+                      ],
+                      "default": "17:00"
+                    },
+                    "holidays_included": {
+                      "type": "boolean",
+                      "description": "Whether holidays were treated as business days.",
+                      "default": false
+                    }
+                  }
+                }
+              }
+            },
+            "constraints": {
+              "type": "array",
+              "description": "Hard constraints discovered during audit (no webhooks, hourly batch only, etc.).",
+              "items": {
+                "type": "string"
+              },
+              "default": []
+            }
+          }
+        },
+        "methodology": {
+          "type": "object",
+          "description": "How measurements were obtained; supports reproducibility and defensibility.",
+          "additionalProperties": false,
+          "required": [
+            "methods",
+            "data_sources",
+            "limitations"
+          ],
+          "properties": {
+            "methods": {
+              "type": "array",
+              "description": "Measurement methods used (log analysis, sample timing, exports, interviews).",
+              "minItems": 1,
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "method_type"
+                ],
+                "properties": {
+                  "method_type": {
+                    "type": "string",
+                    "description": "Method category.",
+                    "enum": [
+                      "event_log_analysis",
+                      "api_export",
+                      "manual_sampling",
+                      "stakeholder_interview",
+                      "screen_recording",
+                      "email_header_analysis",
+                      "telephony_logs",
+                      "crm_history",
+                      "synthetic_test",
+                      "other"
+                    ]
+                  },
+                  "details": {
+                    "type": "string",
+                    "description": "Short explanation of how the method was applied."
+                  },
+                  "sample_size": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "description": "Count of items measured with this method (if applicable)."
+                  },
+                  "sampling_bias_risk": {
+                    "type": "string",
+                    "description": "Known or suspected sampling bias risks."
+                  }
+                }
+              }
+            },
+            "data_sources": {
+              "type": "array",
+              "description": "Where the raw data came from (systems, exports, logs).",
+              "minItems": 1,
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "source_id",
+                  "source_type",
+                  "source_label"
+                ],
+                "properties": {
+                  "source_id": {
+                    "type": "string",
+                    "description": "Unique identifier for this source (used for evidence references)."
+                  },
+                  "source_type": {
+                    "type": "string",
+                    "description": "Source category.",
+                    "enum": [
+                      "crm",
+                      "email_platform",
+                      "sms_platform",
+                      "web_form",
+                      "call_tracking",
+                      "ticketing",
+                      "database",
+                      "spreadsheet",
+                      "file_export",
+                      "manual_notes",
+                      "other"
+                    ]
+                  },
+                  "source_label": {
+                    "type": "string",
+                    "description": "Human-readable label of the source."
+                  },
+                  "uri": {
+                    "type": "string",
+                    "description": "Optional URI/path to the source artifact (redacted or internal)."
+                  },
+                  "access_level": {
+                    "type": "string",
+                    "description": "Whether raw access can be shared with client.",
+                    "enum": [
+                      "shareable",
+                      "restricted",
+                      "internal_only"
+                    ],
+                    "default": "restricted"
+                  }
+                }
+              }
+            },
+            "limitations": {
+              "type": "array",
+              "description": "Audit limitations that affect confidence (missing logs, partial exports, etc.).",
+              "items": {
+                "type": "string"
+              },
+              "default": []
+            },
+            "confidence": {
+              "type": "object",
+              "description": "Overall confidence rating and rationale.",
+              "additionalProperties": false,
+              "properties": {
+                "rating": {
+                  "type": "string",
+                  "enum": [
+                    "low",
+                    "medium",
+                    "high"
+                  ],
+                  "description": "Overall confidence in measured values and conclusions.",
+                  "default": "medium"
+                },
+                "rationale": {
+                  "type": "string",
+                  "description": "Why the confidence rating was assigned."
+                }
+              }
+            }
+          }
+        },
+        "workflows": {
+          "type": "array",
+          "description": "One or more workflow audits. Use a single element for default packaging.",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "workflow_id",
+              "name",
+              "trigger",
+              "objective",
+              "steps",
+              "measurements"
+            ],
+            "properties": {
+              "workflow_id": {
+                "type": "string",
+                "description": "Unique identifier for the workflow within this audit."
+              },
+              "name": {
+                "type": "string",
+                "description": "Workflow name displayed in report sections.",
+                "examples": [
+                  "Inbound Lead Response"
+                ]
+              },
+              "description": {
+                "type": "string",
+                "description": "Optional longer description of the workflow context."
+              },
+              "trigger": {
+                "type": "string",
+                "description": "What event starts the workflow (form submit, call, referral, etc.)."
+              },
+              "objective": {
+                "type": "string",
+                "description": "Business objective of the workflow (convert lead, schedule appointment, etc.)."
+              },
+              "primary_kpi": {
+                "type": "string",
+                "description": "Single KPI framed as the workflow’s success definition.",
+                "examples": [
+                  "First-response time <= 5 minutes"
+                ]
+              },
+              "steps": {
+                "type": "array",
+                "description": "Step-by-step breakdown used to map automation opportunities.",
+                "minItems": 1,
+                "items": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "step_id",
+                    "sequence",
+                    "name",
+                    "owner_type"
+                  ],
+                  "properties": {
+                    "step_id": {
+                      "type": "string",
+                      "description": "Stable step identifier used for evidence linking and future diffs."
+                    },
+                    "sequence": {
+                      "type": "integer",
+                      "minimum": 1,
+                      "description": "Order of execution for the step."
+                    },
+                    "name": {
+                      "type": "string",
+                      "description": "Short step name.",
+                      "examples": [
+                        "Create lead in CRM"
+                      ]
+                    },
+                    "description": {
+                      "type": "string",
+                      "description": "Operational description of what happens in this step."
+                    },
+                    "owner_type": {
+                      "type": "string",
+                      "description": "Who/what performs the step.",
+                      "enum": [
+                        "human",
+                        "automation",
+                        "hybrid",
+                        "unknown"
+                      ],
+                      "default": "unknown"
+                    },
+                    "system_refs": {
+                      "type": "array",
+                      "description": "Systems touched in this step by system_name or source_id.",
+                      "items": {
+                        "type": "string"
+                      },
+                      "default": []
+                    },
+                    "inputs": {
+                      "type": "array",
+                      "description": "Data inputs consumed by the step.",
+                      "items": {
+                        "type": "string"
+                      },
+                      "default": []
+                    },
+                    "outputs": {
+                      "type": "array",
+                      "description": "Data outputs produced by the step.",
+                      "items": {
+                        "type": "string"
+                      },
+                      "default": []
+                    },
+                    "failure_modes": {
+                      "type": "array",
+                      "description": "Known failure modes (duplicates, missed notifications, delays).",
+                      "items": {
+                        "type": "string"
+                      },
+                      "default": []
+                    }
+                  }
+                }
+              },
+              "measurements": {
+                "type": "array",
+                "description": "Raw measured metrics for this workflow. Each measurement is reusable for scorecard, bleed, and fixes.",
+                "minItems": 1,
+                "items": {
+                  "$ref": "#/$defs/measurement"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "scorecard": {
+      "type": "object",
+      "description": "Report-friendly health summary derived from audit.measurements and findings.",
+      "additionalProperties": false,
+      "required": [
+        "executive_summary",
+        "rows"
+      ],
+      "properties": {
+        "executive_summary": {
+          "type": "object",
+          "description": "Top-of-report narrative summary. Can be human-authored or LLM-generated from audit/audit-derived fields.",
+          "additionalProperties": false,
+          "required": [
+            "body"
+          ],
+          "properties": {
+            "body": {
+              "type": "string",
+              "description": "Buyer-friendly executive summary paragraph (plain text)."
+            },
+            "highlights": {
+              "type": "array",
+              "description": "Optional bullet highlights (1–5).",
+              "items": {
+                "type": "string"
+              },
+              "default": []
+            },
+            "generated_by": {
+              "type": "string",
+              "description": "Optional generator label (e.g., 'human', 'llm', 'hybrid').",
+              "enum": [
+                "human",
+                "llm",
+                "hybrid",
+                "unknown"
+              ],
+              "default": "unknown"
+            }
+          }
+        },
+        "rows": {
+          "type": "array",
+          "description": "Traffic-light rows shown in the scorecard table.",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "row_id",
+              "category",
+              "status",
+              "finding",
+              "metrics"
+            ],
+            "properties": {
+              "row_id": {
+                "type": "string",
+                "description": "Stable row identifier for renderer and diffing."
+              },
+              "workflow_id": {
+                "type": "string",
+                "description": "Optional reference to audit.workflows[].workflow_id this row belongs to."
+              },
+              "category": {
+                "type": "string",
+                "description": "Scorecard category label (e.g., Speed-to-Lead)."
+              },
+              "status": {
+                "type": "string",
+                "description": "Traffic-light status derived from thresholds.",
+                "enum": [
+                  "critical",
+                  "warning",
+                  "healthy"
+                ]
+              },
+              "finding": {
+                "type": "object",
+                "description": "Primary row finding text and support metadata.",
+                "additionalProperties": false,
+                "required": [
+                  "summary"
+                ],
+                "properties": {
+                  "summary": {
+                    "type": "string",
+                    "description": "One-sentence finding summary used in the table."
+                  },
+                  "detail": {
+                    "type": "string",
+                    "description": "Optional longer narrative used in expanded views."
+                  },
+                  "risk": {
+                    "type": "string",
+                    "description": "Optional explicit risk statement (capacity, compliance, churn)."
+                  },
+                  "benchmark_reference_id": {
+                    "type": "string",
+                    "description": "Reference to benchmarks[] entry supporting target/benchmark shown."
+                  }
+                }
+              },
+              "metrics": {
+                "type": "array",
+                "description": "Key metrics shown as chips or inline values in the scorecard row.",
+                "items": {
+                  "$ref": "#/$defs/metric_chip"
+                },
+                "default": []
+              },
+              "measurement_ids": {
+                "type": "array",
+                "description": "Optional measurement IDs that support this row (canonical truth lives in audit.workflows[].measurements).",
+                "items": {
+                  "type": "string"
+                },
+                "default": []
+              },
+              "evidence_refs": {
+                "type": "array",
+                "description": "Evidence IDs supporting this row (links to measurement evidence objects).",
+                "items": {
+                  "type": "string"
+                },
+                "default": []
+              },
+              "sort_order": {
+                "type": "integer",
+                "minimum": 0,
+                "description": "Optional explicit order override for rendering."
+              }
+            }
+          }
+        },
+        "overall": {
+          "type": "object",
+          "description": "Optional roll-up scoring across categories.",
+          "additionalProperties": false,
+          "properties": {
+            "health_score": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 100,
+              "description": "Optional numeric health score (0-100) if you choose to compute one."
+            },
+            "scoring_method": {
+              "type": "string",
+              "description": "How health_score was computed (weights, thresholds)."
+            },
+            "status_distribution": {
+              "type": "object",
+              "description": "Counts by status for quick summary.",
+              "additionalProperties": false,
+              "properties": {
+                "critical": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "default": 0
+                },
+                "warning": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "default": 0
+                },
+                "healthy": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "default": 0
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "bleed": {
+      "type": "object",
+      "description": "Revenue/time bleed calculations with explicit assumptions and formulas (audit-defensible).",
+      "additionalProperties": false,
+      "required": [
+        "currency",
+        "period",
+        "total",
+        "breakdown",
+        "assumptions",
+        "calculations"
+      ],
+      "properties": {
+        "currency": {
+          "type": "string",
+          "description": "ISO 4217 currency code for monetary fields.",
+          "examples": [
+            "USD"
+          ],
+          "default": "USD"
+        },
+        "period": {
+          "type": "string",
+          "description": "Reporting period for bleed totals.",
+          "enum": [
+            "week",
+            "month",
+            "quarter",
+            "year"
+          ],
+          "default": "month"
+        },
+        "total": {
+          "$ref": "#/$defs/money",
+          "description": "Total estimated revenue bleed for the period."
+        },
+        "breakdown": {
+          "type": "array",
+          "description": "Itemized bleed components tied to specific findings/rows.",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "item_id",
+              "label",
+              "status",
+              "amount",
+              "driver_measurement_ids"
+            ],
+            "properties": {
+              "item_id": {
+                "type": "string",
+                "description": "Stable breakdown identifier."
+              },
+              "label": {
+                "type": "string",
+                "description": "Human label shown in bleed breakdown (e.g., Speed-to-Lead)."
+              },
+              "status": {
+                "type": "string",
+                "description": "Traffic-light status for this bleed component.",
+                "enum": [
+                  "critical",
+                  "warning",
+                  "healthy"
+                ]
+              },
+              "amount": {
+                "$ref": "#/$defs/money",
+                "description": "Estimated monetary impact for this component."
+              },
+              "driver_measurement_ids": {
+                "type": "array",
+                "description": "Measurement IDs that drive this bleed estimate.",
+                "items": {
+                  "type": "string"
+                },
+                "minItems": 1
+              },
+              "calc_ids": {
+                "type": "array",
+                "description": "Optional calculation IDs that produced this item (for traceability).",
+                "items": {
+                  "type": "string"
+                },
+                "default": []
+              },
+              "notes": {
+                "type": "string",
+                "description": "Optional short note about calculation approach."
+              }
+            }
+          }
+        },
+        "assumptions": {
+          "type": "array",
+          "description": "Explicit assumptions used in calculations; must be editable and visible.",
+          "default": [],
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "assumption_id",
+              "name",
+              "value",
+              "unit"
+            ],
+            "properties": {
+              "assumption_id": {
+                "type": "string",
+                "description": "Stable assumption identifier."
+              },
+              "name": {
+                "type": "string",
+                "description": "Human-readable assumption name (e.g., Missed leads per month)."
+              },
+              "value": {
+                "type": [
+                  "number",
+                  "string",
+                  "boolean"
+                ],
+                "description": "Assumption value (number preferred; string allowed for ranges)."
+              },
+              "unit": {
+                "type": "string",
+                "description": "Unit for the assumption (leads/mo, %, USD/lead, minutes, etc.)."
+              },
+              "editable": {
+                "type": "boolean",
+                "description": "If true, assumption is intended to be client-adjustable without changing measured facts.",
+                "default": true
+              },
+              "source_or_basis": {
+                "type": "string",
+                "description": "Basis for the assumption (measured, client-provided, industry benchmark)."
+              },
+              "confidence": {
+                "type": "string",
+                "description": "Confidence in this assumption value.",
+                "enum": [
+                  "low",
+                  "medium",
+                  "high"
+                ],
+                "default": "medium"
+              },
+              "sensitivity": {
+                "type": "string",
+                "description": "Sensitivity of outputs to this assumption.",
+                "enum": [
+                  "low",
+                  "medium",
+                  "high"
+                ],
+                "default": "medium"
+              }
+            }
+          }
+        },
+        "calculations": {
+          "type": "array",
+          "description": "Machine-readable calculation steps used to produce total and breakdown; enables auditability and recompute.",
+          "default": [],
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "calc_id",
+              "label",
+              "formula",
+              "result_amount"
+            ],
+            "properties": {
+              "calc_id": {
+                "type": "string",
+                "description": "Stable calculation identifier."
+              },
+              "label": {
+                "type": "string",
+                "description": "Human label for the calculation."
+              },
+              "formula": {
+                "type": "string",
+                "description": "Human-readable formula string for display (e.g., 70 leads/mo * 50 USD/lead)."
+              },
+              "inputs": {
+                "type": "array",
+                "description": "Input references used by the formula (assumption_ids and measurement_ids).",
+                "items": {
+                  "type": "string"
+                },
+                "default": []
+              },
+              "result_amount": {
+                "$ref": "#/$defs/money",
+                "description": "Result of the calculation in money terms."
+              },
+              "attribution_breakdown_item_id": {
+                "type": "string",
+                "description": "If this calc maps to a breakdown item, reference it here."
+              }
+            }
+          }
+        },
+        "math_defender_text": {
+          "type": "string",
+          "description": "Optional pre-rendered explanation line for report display (renderer may generate if absent)."
+        },
+        "sensitivity_ranges": {
+          "type": "array",
+          "description": "Optional ranges for total bleed if assumptions vary (min/most-likely/max).",
+          "default": [],
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "label",
+              "min",
+              "most_likely",
+              "max"
+            ],
+            "properties": {
+              "label": {
+                "type": "string",
+                "description": "Range label (e.g., Conservative/Base/Aggressive)."
+              },
+              "min": {
+                "$ref": "#/$defs/money"
+              },
+              "most_likely": {
+                "$ref": "#/$defs/money"
+              },
+              "max": {
+                "$ref": "#/$defs/money"
+              },
+              "drivers": {
+                "type": "array",
+                "description": "Assumption IDs that drive this range.",
+                "items": {
+                  "type": "string"
+                },
+                "default": []
+              }
+            }
+          }
+        }
+      }
+    },
+    "fixes": {
+      "type": "object",
+      "description": "Recommended changes (Phase 2 deliverables) with effort/impact/turnaround, dependencies, and acceptance criteria.",
+      "additionalProperties": false,
+      "required": [
+        "items"
+      ],
+      "properties": {
+        "quick_win_fix_id": {
+          "type": "string",
+          "description": "Optional pointer to the single fix designated as the explicit 'Quick Win'. If present, it should match exactly one fixes.items[].fix_id."
+        },
+        "items": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "fix_id",
+              "status",
+              "severity",
+              "problem",
+              "solution",
+              "impact",
+              "effort",
+              "turnaround",
+              "dependencies",
+              "acceptance_criteria"
+            ],
+            "properties": {
+              "fix_id": {
+                "type": "string",
+                "description": "Stable fix identifier used for tracking, proposal scope, and ticket mapping."
+              },
+              "status": {
+                "type": "string",
+                "description": "Lifecycle status for the fix item.",
+                "enum": [
+                  "proposed",
+                  "approved",
+                  "in_progress",
+                  "delivered",
+                  "deferred",
+                  "rejected"
+                ],
+                "default": "proposed"
+              },
+              "severity": {
+                "type": "string",
+                "description": "Severity aligned to scorecard statuses.",
+                "enum": [
+                  "critical",
+                  "warning",
+                  "healthy"
+                ]
+              },
+              "problem": {
+                "type": "string",
+                "description": "Problem statement (observable and measurable)."
+              },
+              "solution": {
+                "type": "string",
+                "description": "Proposed solution statement (actionable and implementation-oriented)."
+              },
+              "quick_win": {
+                "type": "boolean",
+                "description": "Whether this fix is designated as the single explicit 'Quick Win'.",
+                "default": false
+              },
+              "impact": {
+                "type": "object",
+                "description": "Impact quantification and mapping to bleed.",
+                "additionalProperties": false,
+                "required": [
+                  "estimated_recovery",
+                  "basis"
+                ],
+                "properties": {
+                  "estimated_recovery": {
+                    "$ref": "#/$defs/money",
+                    "description": "Estimated recovered value per bleed.period if fix is delivered."
+                  },
+                  "basis": {
+                    "type": "string",
+                    "description": "Why this impact estimate is credible (ties to bleed.calculations and measurements)."
+                  },
+                  "maps_to_breakdown_item_ids": {
+                    "type": "array",
+                    "description": "Bleed breakdown items this fix addresses.",
+                    "items": {
+                      "type": "string"
+                    },
+                    "default": []
+                  },
+                  "tier": {
+                    "type": "string",
+                    "description": "Impact tier for UI pills (independent of effort tier).",
+                    "enum": [
+                      "low",
+                      "medium",
+                      "high"
+                    ]
+                  }
+                }
+              },
+              "effort": {
+                "type": "object",
+                "description": "Effort metadata for planning and scoping.",
+                "additionalProperties": false,
+                "required": [
+                  "tier"
+                ],
+                "properties": {
+                  "tier": {
+                    "type": "string",
+                    "description": "Effort tier for UI pills.",
+                    "enum": [
+                      "low",
+                      "medium",
+                      "high"
+                    ]
+                  },
+                  "estimated_hours_range": {
+                    "type": "object",
+                    "description": "Optional labor estimate range; used for proposals and internal planning.",
+                    "additionalProperties": false,
+                    "properties": {
+                      "min_hours": {
+                        "type": "number",
+                        "minimum": 0
+                      },
+                      "most_likely_hours": {
+                        "type": "number",
+                        "minimum": 0
+                      },
+                      "max_hours": {
+                        "type": "number",
+                        "minimum": 0
+                      }
+                    }
+                  },
+                  "skills_required": {
+                    "type": "array",
+                    "description": "Skill tags required (automation, API, data, security).",
+                    "items": {
+                      "type": "string"
+                    },
+                    "default": []
+                  }
+                }
+              },
+              "turnaround": {
+                "type": "object",
+                "description": "Turnaround estimate for delivery time, separate from effort hours.",
+                "additionalProperties": false,
+                "required": [
+                  "label"
+                ],
+                "properties": {
+                  "label": {
+                    "type": "string",
+                    "description": "Human label used in UI pill (e.g., 1-Day, 2–3 Days, 3 Weeks)."
+                  },
+                  "business_days_min": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "description": "Minimum business days estimate."
+                  },
+                  "business_days_max": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "description": "Maximum business days estimate."
+                  },
+                  "notes": {
+                    "type": "string",
+                    "description": "Constraints affecting turnaround (approvals, vendor limits, access)."
+                  }
+                }
+              },
+              "dependencies": {
+                "type": "array",
+                "description": "Hard prerequisites for delivery (API keys, admin roles, domains, phone numbers).",
+                "default": [],
+                "items": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "dependency_type",
+                    "description"
+                  ],
+                  "properties": {
+                    "dependency_type": {
+                      "type": "string",
+                      "enum": [
+                        "access",
+                        "data",
+                        "policy",
+                        "vendor",
+                        "infrastructure",
+                        "decision",
+                        "legal",
+                        "other"
+                      ],
+                      "description": "Dependency category."
+                    },
+                    "description": {
+                      "type": "string",
+                      "description": "Exact dependency detail (what is needed, from whom)."
+                    },
+                    "owner": {
+                      "type": "string",
+                      "description": "Owner responsible for satisfying the dependency (client/team/vendor)."
+                    },
+                    "blocking": {
+                      "type": "boolean",
+                      "description": "Whether this dependency blocks start or completion.",
+                      "default": true
+                    }
+                  }
+                }
+              },
+              "acceptance_criteria": {
+                "type": "array",
+                "description": "Definition of done; must be testable.",
+                "minItems": 1,
+                "items": {
+                  "type": "string"
+                }
+              },
+              "test_plan": {
+                "type": "array",
+                "description": "Optional concrete tests used to validate the fix.",
+                "default": [],
+                "items": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "test_id",
+                    "description"
+                  ],
+                  "properties": {
+                    "test_id": {
+                      "type": "string"
+                    },
+                    "description": {
+                      "type": "string"
+                    },
+                    "expected_result": {
+                      "type": "string"
+                    },
+                    "evidence_required": {
+                      "type": "boolean",
+                      "default": true
+                    }
+                  }
+                }
+              },
+              "rollback_plan": {
+                "type": "string",
+                "description": "Optional rollback strategy if fix causes issues."
+              },
+              "security_considerations": {
+                "type": "array",
+                "description": "Optional security/compliance notes (PII handling, consent, logging).",
+                "items": {
+                  "type": "string"
+                },
+                "default": []
+              },
+              "related_measurement_ids": {
+                "type": "array",
+                "description": "Measurement IDs this fix improves; used for before/after reporting.",
+                "items": {
+                  "type": "string"
+                },
+                "default": []
+              }
+            }
+          }
+        }
+      }
+    },
+    "cta": {
+      "type": "object",
+      "description": "Call-to-action content and phase framing used in the report footer section.",
+      "additionalProperties": false,
+      "required": [
+        "phases",
+        "current_phase",
+        "headline",
+        "subtext",
+        "link"
+      ],
+      "properties": {
+        "phases": {
+          "type": "array",
+          "description": "Ordered phases shown in the stepper/breadcrumb.",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "phase_id",
+              "label"
+            ],
+            "properties": {
+              "phase_id": {
+                "type": "string",
+                "description": "Stable phase identifier.",
+                "examples": [
+                  "phase_1_audit"
+                ]
+              },
+              "label": {
+                "type": "string",
+                "description": "Phase label shown to client.",
+                "examples": [
+                  "Phase 1: Audit"
+                ]
+              }
+            }
+          }
+        },
+        "current_phase": {
+          "type": "string",
+          "description": "Phase currently being proposed/approved.",
+          "examples": [
+            "phase_2_stabilization"
+          ]
+        },
+        "completed_phase_ids": {
+          "type": "array",
+          "description": "Optional explicit list of completed phases. If omitted, renderer may assume phases listed before current_phase are complete.",
+          "items": {
+            "type": "string"
+          },
+          "default": []
+        },
+        "headline": {
+          "type": "string",
+          "description": "CTA headline text (e.g., Approve Phase 2: Stabilize)."
+        },
+        "subtext": {
+          "type": "string",
+          "description": "CTA supporting line (e.g., 30 minutes to scope quick wins + delivery plan)."
+        },
+        "link": {
+          "type": "string",
+          "format": "uri",
+          "description": "Primary CTA URL (Calendly, booking page, proposal link)."
+        },
+        "link_display": {
+          "type": "string",
+          "description": "Optional display string for the link (e.g., calendly.com/...)."
+        },
+        "call_duration_minutes": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "If CTA is a call, the advertised duration in minutes.",
+          "default": 30
+        },
+        "promise_window_business_hours": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Stated delivery SLA for Phase 1 outputs, in business hours.",
+          "default": 72
+        }
+      }
+    },
+    "benchmarks": {
+      "type": "array",
+      "description": "Benchmark references used to compare metrics; scorecard rows and measurements can reference a benchmark_id.",
+      "default": [],
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "benchmark_id",
+          "name",
+          "metric_name",
+          "target_value",
+          "unit",
+          "citation"
+        ],
+        "properties": {
+          "benchmark_id": {
+            "type": "string",
+            "description": "Stable benchmark identifier."
+          },
+          "name": {
+            "type": "string",
+            "description": "Benchmark name (study/report/source)."
+          },
+          "metric_name": {
+            "type": "string",
+            "description": "Metric being benchmarked (e.g., first response time)."
+          },
+          "target_value": {
+            "type": [
+              "number",
+              "string"
+            ],
+            "description": "Target/benchmark value; string allowed for inequalities/ranges.",
+            "examples": [
+              "<5m"
+            ]
+          },
+          "unit": {
+            "type": "string",
+            "description": "Unit of the benchmark value (seconds, minutes, hours, %, etc.)."
+          },
+          "methodology_note": {
+            "type": "string",
+            "description": "Short description of benchmark methodology if known."
+          },
+          "citation": {
+            "type": "string",
+            "description": "Citation key mapping to sources[].source_id for rendering bibliographic references."
+          },
+          "year": {
+            "type": "integer",
+            "minimum": 1900,
+            "maximum": 2100,
+            "description": "Publication year if known."
+          }
+        }
+      }
+    },
+    "sources": {
+      "type": "array",
+      "description": "All citations and source references used by benchmarks, metrics, and claims.",
+      "default": [],
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "source_id",
+          "type",
+          "title"
+        ],
+        "properties": {
+          "source_id": {
+            "type": "string",
+            "description": "Stable source identifier referenced elsewhere."
+          },
+          "type": {
+            "type": "string",
+            "description": "Source type classification.",
+            "enum": [
+              "study",
+              "blog",
+              "vendor_doc",
+              "internal_log",
+              "client_data",
+              "interview",
+              "other"
+            ]
+          },
+          "title": {
+            "type": "string",
+            "description": "Source title for bibliography."
+          },
+          "authors": {
+            "type": "array",
+            "description": "Optional list of authors.",
+            "items": {
+              "type": "string"
+            },
+            "default": []
+          },
+          "publisher": {
+            "type": "string",
+            "description": "Publisher or organization name."
+          },
+          "published_date": {
+            "type": "string",
+            "format": "date",
+            "description": "Publication date if applicable."
+          },
+          "url": {
+            "type": "string",
+            "format": "uri",
+            "description": "Public URL if applicable (omit for internal-only)."
+          },
+          "accessed_date": {
+            "type": "string",
+            "format": "date",
+            "description": "Date the source was accessed for this report."
+          },
+          "notes": {
+            "type": "string",
+            "description": "Optional notes about relevance or limitations."
+          }
+        }
+      }
+    },
+    "rendering": {
+      "type": "object",
+      "description": "Renderer configuration for HTML/PDF output; does not affect audit truth, only presentation.",
+      "additionalProperties": false,
+      "required": [
+        "mode",
+        "page"
+      ],
+      "properties": {
+        "mode": {
+          "type": "string",
+          "description": "Rendering mode selection (e.g., conversion mode vs brand mode).",
+          "enum": [
+            "brand",
+            "conversion"
+          ],
+          "default": "conversion"
+        },
+        "page": {
+          "type": "object",
+          "description": "Page sizing and margin intent for PDF renderers/headless browsers.",
+          "additionalProperties": false,
+          "required": [
+            "size",
+            "margins_in"
+          ],
+          "properties": {
+            "size": {
+              "type": "string",
+              "description": "Page size preset.",
+              "enum": [
+                "letter",
+                "a4"
+              ],
+              "default": "letter"
+            },
+            "margins_in": {
+              "type": "object",
+              "description": "Intended page margins in inches (renderer should enforce).",
+              "additionalProperties": false,
+              "required": [
+                "top",
+                "right",
+                "bottom",
+                "left"
+              ],
+              "properties": {
+                "top": {
+                  "type": "number",
+                  "minimum": 0,
+                  "description": "Top margin in inches.",
+                  "default": 0.35
+                },
+                "right": {
+                  "type": "number",
+                  "minimum": 0,
+                  "description": "Right margin in inches.",
+                  "default": 0.35
+                },
+                "bottom": {
+                  "type": "number",
+                  "minimum": 0,
+                  "description": "Bottom margin in inches.",
+                  "default": 0.45
+                },
+                "left": {
+                  "type": "number",
+                  "minimum": 0,
+                  "description": "Left margin in inches.",
+                  "default": 0.35
+                }
+              }
+            },
+            "disable_browser_headers_footers": {
+              "type": "boolean",
+              "description": "If true, the PDF renderer should disable browser print headers/footers (where supported).",
+              "default": true
+            },
+            "scale": {
+              "type": "number",
+              "minimum": 0.1,
+              "maximum": 2,
+              "description": "Renderer scale factor (headless print/PDF) if needed to avoid overflow.",
+              "default": 1
+            }
+          }
+        },
+        "theme_overrides": {
+          "type": "object",
+          "description": "Optional token overrides for colors/typography to support variants without changing templates.",
+          "additionalProperties": true,
+          "default": {}
+        },
+        "layout_guards": {
+          "type": "object",
+          "description": "Optional layout constraints for overflow control.",
+          "additionalProperties": false,
+          "properties": {
+            "max_pages": {
+              "type": "integer",
+              "minimum": 1,
+              "description": "Maximum allowed pages for a single-workflow report (typically 1).",
+              "default": 1
+            },
+            "allow_section_collapse": {
+              "type": "boolean",
+              "description": "If true, renderer may collapse optional sections to maintain max_pages.",
+              "default": true
+            },
+            "min_footer_clearance_in": {
+              "type": "number",
+              "minimum": 0,
+              "description": "Extra reserved space at bottom of page to avoid footer clipping.",
+              "default": 0.15
+            }
+          }
+        }
+      }
+    },
+    "offer": {
+      "type": "object",
+      "description": "Optional packaging/pricing metadata for the audit product/SKU (used in footer, invoicing, or proposals).",
+      "additionalProperties": false,
+      "properties": {
+        "sku_code": {
+          "type": "string",
+          "description": "SKU/code identifier (can be shown in footer).",
+          "examples": [
+            "WR-AI-AUDIT-100"
+          ],
+          "default": "WR-AI-AUDIT-100"
+        },
+        "sku_name": {
+          "type": "string",
+          "description": "Human name for the SKU.",
+          "examples": [
+            "AI Process Audit (Phase 1)"
+          ],
+          "default": "AI Process Audit (Phase 1)"
+        },
+        "price": {
+          "$ref": "#/$defs/money",
+          "description": "Displayed price for the SKU (if applicable)."
+        },
+        "billing_model": {
+          "type": "string",
+          "description": "How the SKU is billed.",
+          "enum": [
+            "one_time",
+            "subscription",
+            "usage_based",
+            "custom"
+          ],
+          "default": "one_time"
+        },
+        "billing_period": {
+          "type": "string",
+          "description": "If billing_model is subscription, this is the billing period.",
+          "enum": [
+            "week",
+            "month",
+            "quarter",
+            "year"
+          ]
+        },
+        "display_in_footer": {
+          "type": "boolean",
+          "description": "If true, renderer may include sku_code/sku_name in footer.",
+          "default": true
+        },
+        "notes": {
+          "type": "string",
+          "description": "Optional internal notes about the offer/pricing."
+        }
+      }
+    },
+    "narrative": {
+      "type": "object",
+      "description": "Optional narrative blocks for additional sections, disclaimers, or extended explanations (often LLM-generated).",
+      "additionalProperties": false,
+      "properties": {
+        "blocks": {
+          "type": "array",
+          "description": "Ordered narrative blocks. Renderers may choose to ignore blocks they don't recognize.",
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/narrative_block"
+          }
+        }
+      }
+    },
+    "provenance": {
+      "type": "object",
+      "description": "Optional generation/audit trail metadata (useful when LLMs produce parts of the document).",
+      "additionalProperties": false,
+      "properties": {
+        "generated_by": {
+          "type": "string",
+          "description": "Name of the generating system (app/service)."
+        },
+        "generated_at": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Timestamp when the document was generated."
+        },
+        "app_version": {
+          "type": "string",
+          "description": "Version of the generating app/service."
+        },
+        "llm_generations": {
+          "type": "array",
+          "description": "Optional per-field LLM generation records for traceability.",
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/llm_generation_record"
+          }
+        }
+      }
+    },
+    "extensions": {
+      "type": "object",
+      "description": "Free-form extension point for custom, non-canonical fields. Renderers should ignore unknown content unless explicitly supported.",
+      "additionalProperties": true,
+      "default": {}
+    }
+  },
+  "$defs": {
+    "money": {
+      "type": "object",
+      "description": "Currency-aware money value. Use integers for cents if you want strict accounting; decimals allowed for estimates.",
+      "additionalProperties": false,
+      "required": [
+        "amount",
+        "currency"
+      ],
+      "properties": {
+        "amount": {
+          "type": "number",
+          "description": "Monetary amount in currency units (e.g., 4200.00)."
+        },
+        "currency": {
+          "type": "string",
+          "description": "ISO 4217 currency code.",
+          "examples": [
+            "USD"
+          ],
+          "default": "USD"
+        },
+        "precision_note": {
+          "type": "string",
+          "description": "Optional note on precision (estimate vs actual)."
+        }
+      }
+    },
+    "duration": {
+      "type": "object",
+      "description": "Duration value with explicit unit and optional display string.",
+      "additionalProperties": false,
+      "required": [
+        "value",
+        "unit"
+      ],
+      "properties": {
+        "value": {
+          "type": "number",
+          "minimum": 0,
+          "description": "Numeric duration value."
+        },
+        "unit": {
+          "type": "string",
+          "description": "Duration unit.",
+          "enum": [
+            "ms",
+            "s",
+            "min",
+            "h",
+            "d"
+          ]
+        },
+        "display": {
+          "type": "string",
+          "description": "Optional preformatted duration string for UI (e.g., 4.2h, <5m)."
+        }
+      }
+    },
+    "metric_value_number": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "kind",
+        "value"
+      ],
+      "properties": {
+        "kind": {
+          "const": "number"
+        },
+        "value": {
+          "type": "number"
+        },
+        "display": {
+          "type": "string",
+          "description": "Optional human display string for UI."
+        }
+      }
+    },
+    "metric_value_integer": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "kind",
+        "value"
+      ],
+      "properties": {
+        "kind": {
+          "const": "integer"
+        },
+        "value": {
+          "type": "integer"
+        },
+        "display": {
+          "type": "string"
+        }
+      }
+    },
+    "metric_value_range": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "kind",
+        "min",
+        "max"
+      ],
+      "properties": {
+        "kind": {
+          "const": "range"
+        },
+        "min": {
+          "type": "number"
+        },
+        "max": {
+          "type": "number"
+        },
+        "display": {
+          "type": "string",
+          "description": "Optional human display string (e.g., 0–59m)."
+        }
+      }
+    },
+    "metric_value_percentage": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "kind",
+        "value"
+      ],
+      "properties": {
+        "kind": {
+          "const": "percentage"
+        },
+        "value": {
+          "type": "number"
+        },
+        "scale": {
+          "type": "string",
+          "description": "Whether 'value' is expressed as 0–100 (percent) or 0–1 (ratio).",
+          "enum": [
+            "percent",
+            "ratio"
+          ],
+          "default": "percent"
+        },
+        "display": {
+          "type": "string"
+        }
+      }
+    },
+    "metric_value_duration": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "kind",
+        "duration"
+      ],
+      "properties": {
+        "kind": {
+          "const": "duration"
+        },
+        "duration": {
+          "$ref": "#/$defs/duration"
+        },
+        "display": {
+          "type": "string",
+          "description": "Optional override display string."
+        }
+      }
+    },
+    "metric_value_money": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "kind",
+        "money"
+      ],
+      "properties": {
+        "kind": {
+          "const": "money"
+        },
+        "money": {
+          "$ref": "#/$defs/money"
+        },
+        "display": {
+          "type": "string"
+        }
+      }
+    },
+    "metric_value_text": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "kind",
+        "text"
+      ],
+      "properties": {
+        "kind": {
+          "const": "text"
+        },
+        "text": {
+          "type": "string"
+        },
+        "display": {
+          "type": "string"
+        }
+      }
+    },
+    "metric_value_boolean": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "kind",
+        "value"
+      ],
+      "properties": {
+        "kind": {
+          "const": "boolean"
+        },
+        "value": {
+          "type": "boolean"
+        },
+        "display": {
+          "type": "string"
+        }
+      }
+    },
+    "metric_value": {
+      "description": "Typed metric value container for deterministic processing. Prefer this over free-form strings.",
+      "oneOf": [
+        {
+          "$ref": "#/$defs/metric_value_number"
+        },
+        {
+          "$ref": "#/$defs/metric_value_integer"
+        },
+        {
+          "$ref": "#/$defs/metric_value_range"
+        },
+        {
+          "$ref": "#/$defs/metric_value_percentage"
+        },
+        {
+          "$ref": "#/$defs/metric_value_duration"
+        },
+        {
+          "$ref": "#/$defs/metric_value_money"
+        },
+        {
+          "$ref": "#/$defs/metric_value_text"
+        },
+        {
+          "$ref": "#/$defs/metric_value_boolean"
+        }
+      ]
+    },
+    "evidence": {
+      "type": "object",
+      "description": "Evidence supporting a measurement. Keep summaries redacted and non-sensitive.",
+      "additionalProperties": false,
+      "required": [
+        "evidence_id",
+        "source_id",
+        "evidence_type",
+        "summary"
+      ],
+      "properties": {
+        "evidence_id": {
+          "type": "string",
+          "description": "Stable evidence identifier referenced elsewhere."
+        },
+        "source_id": {
+          "type": "string",
+          "description": "Reference to sources[].source_id or audit.methodology.data_sources[].source_id."
+        },
+        "evidence_type": {
+          "type": "string",
+          "description": "Evidence category.",
+          "enum": [
+            "log_excerpt",
+            "export_row_sample",
+            "screenshot",
+            "api_response_sample",
+            "manual_timing_notes",
+            "email_header_sample",
+            "interview_note",
+            "other"
+          ]
+        },
+        "summary": {
+          "type": "string",
+          "description": "Short evidence summary; avoid secrets/PII."
+        },
+        "artifact_uri": {
+          "type": "string",
+          "description": "Optional URI/path to evidence artifact (internal or redacted)."
+        },
+        "redaction_note": {
+          "type": "string",
+          "description": "Optional note describing redactions applied."
+        }
+      }
+    },
+    "measurement": {
+      "type": "object",
+      "description": "Canonical measured data point, tied to a workflow and supported by evidence references.",
+      "additionalProperties": false,
+      "required": [
+        "measurement_id",
+        "name",
+        "metric_type",
+        "value",
+        "method",
+        "evidence"
+      ],
+      "properties": {
+        "measurement_id": {
+          "type": "string",
+          "description": "Stable measurement identifier; referenced by scorecard, bleed, and fixes."
+        },
+        "workflow_id": {
+          "type": "string",
+          "description": "Optional redundant reference to workflow_id (useful if measurements are later de-normalized)."
+        },
+        "name": {
+          "type": "string",
+          "description": "Human-readable metric name.",
+          "examples": [
+            "Average first response time"
+          ]
+        },
+        "metric_key": {
+          "type": "string",
+          "description": "Optional stable machine key for this metric across audits (e.g., 'first_response_time_avg')."
+        },
+        "metric_type": {
+          "type": "string",
+          "description": "Metric category for thresholding and grouping.",
+          "enum": [
+            "latency",
+            "throughput",
+            "quality",
+            "error_rate",
+            "conversion",
+            "cost",
+            "compliance",
+            "availability",
+            "other"
+          ]
+        },
+        "value": {
+          "$ref": "#/$defs/metric_value",
+          "description": "Measured value (typed)."
+        },
+        "unit": {
+          "type": "string",
+          "description": "Optional unit label for searching/aggregation (e.g., min, h, %, leads/day). Prefer putting canonical units in value.kind-specific structures when possible."
+        },
+        "value_display": {
+          "type": "string",
+          "description": "Optional legacy preformatted display value used in chips (prefer value.display)."
+        },
+        "target": {
+          "description": "Optional target value (typed).",
+          "anyOf": [
+            {
+              "$ref": "#/$defs/metric_value"
+            },
+            {
+              "type": "number"
+            },
+            {
+              "type": "string"
+            }
+          ]
+        },
+        "benchmark_id": {
+          "type": "string",
+          "description": "Optional reference to benchmarks[].benchmark_id."
+        },
+        "time_window": {
+          "type": "object",
+          "description": "Window specific to this measurement (inherits from audit.scope.time_window if omitted).",
+          "additionalProperties": false,
+          "properties": {
+            "start": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "end": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "timezone": {
+              "type": "string"
+            }
+          }
+        },
+        "method": {
+          "type": "string",
+          "description": "Method used for this specific measurement (should align with audit.methodology.methods)."
+        },
+        "sample_size": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Sample size for this measurement if applicable."
+        },
+        "distribution": {
+          "type": "object",
+          "description": "Optional distribution statistics for deeper analysis.",
+          "additionalProperties": false,
+          "properties": {
+            "p50": {
+              "type": "number"
+            },
+            "p75": {
+              "type": "number"
+            },
+            "p90": {
+              "type": "number"
+            },
+            "p95": {
+              "type": "number"
+            },
+            "p99": {
+              "type": "number"
+            },
+            "min": {
+              "type": "number"
+            },
+            "max": {
+              "type": "number"
+            },
+            "stddev": {
+              "type": "number"
+            }
+          }
+        },
+        "thresholds": {
+          "type": "object",
+          "description": "Optional thresholds for mapping value to status; enables deterministic scoring.",
+          "additionalProperties": false,
+          "properties": {
+            "healthy_max": {
+              "type": "number",
+              "description": "Max value still considered healthy (for latency/error-type metrics)."
+            },
+            "warning_max": {
+              "type": "number",
+              "description": "Max value still considered warning before critical."
+            },
+            "direction": {
+              "type": "string",
+              "description": "Whether higher or lower is better.",
+              "enum": [
+                "lower_is_better",
+                "higher_is_better"
+              ],
+              "default": "lower_is_better"
+            }
+          }
+        },
+        "evidence": {
+          "type": "array",
+          "description": "Evidence objects supporting this measurement; may reference sources and include redacted artifacts.",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/evidence"
+          }
+        },
+        "tags": {
+          "type": "array",
+          "description": "Optional tags for grouping/filters (internal).",
+          "items": {
+            "type": "string"
+          },
+          "default": []
+        }
+      }
+    },
+    "metric_chip": {
+      "type": "object",
+      "description": "UI-oriented metric for scorecard chips (your metric vs benchmark/target).",
+      "additionalProperties": false,
+      "required": [
+        "label"
+      ],
+      "properties": {
+        "label": {
+          "type": "string",
+          "description": "Chip label (e.g., Your metric, Benchmark, Target)."
+        },
+        "value_display": {
+          "type": "string",
+          "description": "Formatted value string shown in the chip (optional if measurement_id provided)."
+        },
+        "measurement_id": {
+          "type": "string",
+          "description": "Optional reference to the canonical measurement that produced this chip."
+        },
+        "benchmark_id": {
+          "type": "string",
+          "description": "Optional reference to benchmarks[].benchmark_id for this chip."
+        }
+      },
+      "allOf": [
+        {
+          "anyOf": [
+            {
+              "required": [
+                "measurement_id"
+              ]
+            },
+            {
+              "required": [
+                "value_display"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "narrative_block": {
+      "type": "object",
+      "description": "Reusable narrative block for extended explanations, disclaimers, or addenda.",
+      "additionalProperties": false,
+      "required": [
+        "block_id",
+        "block_type",
+        "body"
+      ],
+      "properties": {
+        "block_id": {
+          "type": "string",
+          "description": "Stable identifier for this block."
+        },
+        "block_type": {
+          "type": "string",
+          "description": "Block category.",
+          "enum": [
+            "paragraph",
+            "bullets",
+            "callout",
+            "disclaimer",
+            "appendix",
+            "custom"
+          ]
+        },
+        "title": {
+          "type": "string",
+          "description": "Optional title/header for the block."
+        },
+        "body": {
+          "type": "string",
+          "description": "Block content."
+        },
+        "body_format": {
+          "type": "string",
+          "description": "Content format for body.",
+          "enum": [
+            "text",
+            "markdown",
+            "html"
+          ],
+          "default": "text"
+        },
+        "related_ids": {
+          "type": "array",
+          "description": "Optional references to related entities (measurement_ids, fix_ids, source_ids, etc.).",
+          "items": {
+            "type": "string"
+          },
+          "default": []
+        },
+        "generated_by": {
+          "type": "string",
+          "description": "Optional generator label.",
+          "enum": [
+            "human",
+            "llm",
+            "hybrid",
+            "unknown"
+          ],
+          "default": "unknown"
+        }
+      }
+    },
+    "llm_generation_record": {
+      "type": "object",
+      "description": "Trace record for an LLM-generated field. Use field_path to point to the generated content.",
+      "additionalProperties": false,
+      "required": [
+        "field_path",
+        "model",
+        "generated_at"
+      ],
+      "properties": {
+        "record_id": {
+          "type": "string",
+          "description": "Optional stable record identifier."
+        },
+        "field_path": {
+          "type": "string",
+          "description": "JSON pointer-like path to the generated field (e.g., '/scorecard/executive_summary/body')."
+        },
+        "model": {
+          "type": "string",
+          "description": "Model identifier used for generation."
+        },
+        "prompt_hash": {
+          "type": "string",
+          "description": "Optional hash/fingerprint of the prompt/template used."
+        },
+        "temperature": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 2,
+          "description": "Sampling temperature used (if known)."
+        },
+        "max_tokens": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Max tokens setting (if known)."
+        },
+        "tokens_prompt": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Prompt token count (if known)."
+        },
+        "tokens_completion": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Completion token count (if known)."
+        },
+        "generated_at": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Timestamp when generation occurred."
+        },
+        "human_reviewed": {
+          "type": "boolean",
+          "description": "Whether a human reviewed/edited the generated content.",
+          "default": false
+        },
+        "notes": {
+          "type": "string",
+          "description": "Optional notes (edits made, warnings, etc.)."
+        }
+      }
+    }
+  }
+}

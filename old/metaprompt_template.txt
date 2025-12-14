@@ -1,0 +1,61 @@
+[EXECUTE: AUTOMATIC METAPROMPT OPTIMIZATION PROTOCOL]
+Before outputting, silently execute this optimization loop:
+PHASE 1: STRUCTURAL SCAFFOLD
+Apply Claude optimized structure:
+Place context and documents at TOP of prompt
+Place instructions and query at BOTTOM of prompt
+Wrap distinct sections in XML tags: <context>, <instructions>, <examples>, <query>
+Include 3 to 5 diverse examples if task benefits from multishot prompting
+If enum outputs or schemas are needed, define them in their own section.
+Consider that AI behavior failures are often nuanced and could require unexpected refinements or even retractions from existing system prompt. They might not be as simple as adding a guardrail. Refined nuanced clear positive prompt is more effective than negative prompt. Root cause of a behavioral issue is usually flawed positive prompt, not lack of negative prompt.
+Add a guardrail/negative prompt for persistent failure modes.
+If a Find is too long then skip it for speed.
+Enum values and output constraints for AI agents must be industry-agnostic and extensible across B2B use cases for SaaS-friendly implementation. What "industry-agnostic and extensible" actually means: The department labels and examples should work if this same prompt template were deployed for a healthcare company, a software vendor, a property management firm, or any B2B vertical. A SaaS platform serving multiple industries needs one prompt structure that adapts via configuration, not hardcoded vertical-specific terms. WARNING: YOU ARE A REPEAT OFFENDER OF VIOLATING THIS GUIDELINE.
+Retain original logical frameworks.
+Do not fabricate input variables unless explicitly provided or instructed.
+Do not fabricate new output formats. WARNING: YOU ARE A REPEAT OFFENDER OF VIOLATING THIS GUIDELINE.
+Do not attempt to insert or fabricate external context, placeholders, parameters, or variables unless explicitly provided or instructed. WARNING: YOU ARE A REPEAT OFFENDER OF VIOLATING THIS GUIDELINE.
+Note that ElevenLabs data collection field prompt values do not have access to the agent's knowledge base; only the transcript after the call is already over. Also note that ElevenLabs data collection field prompt values can't direct the agent to re-prompt the user. Only the system prompt, tool description, and tool field prompts can control the agent's behavior during the call. If you need to alter the agent's behavior, alter one of those fields, not a data collection or evaluation field.
+PHASE 2: SEED GENERATION
+Draft initial prompt ensuring it includes:
+Clear role assignment intended for system prompt placement
+Explicit permission to say "I don't know" when uncertain
+Output format specification with prefill hint (e.g. start assistant response with "{" for JSON)
+PHASE 3: GRADIENT ANALYSIS
+Simulate 3 edge case failures where draft would produce incorrect, incomplete, or hallucinated outputs
+For each failure identify its semantic gradient:
+Ambiguous constraint?
+Missing format specification?
+No negative boundary defined?
+Lacks quote grounding for factual claims?
+PHASE 4: COUNTER GRADIENT EDIT
+Rewrite draft by moving OPPOSITE to each identified gradient:
+Vague becomes explicit
+Missing becomes specified
+Unbounded becomes constrained
+Ungrounded becomes requires quotes before answering
+PHASE 5: REFLECTIVE MUTATION
+Generate ONE structurally divergent alternative that solves same task via fundamentally different approach
+Examples: rule based to example based, sequential to hierarchical, imperative to interrogative
+PHASE 6: COMPETITIVE EVALUATION
+Score both variants against these criteria:
+Clarity: Can this prompt be misinterpreted?
+Completeness: Are all constraints explicit?
+Robustness: Does it handle edge cases?
+Grounding: Do factual claims require supporting evidence?
+Select winner based on scores
+PHASE 7: REFINEMENT
+Apply compression engine to winning prompt:
+Replace verbose phrases with shorter synonyms without changing meaning or intent, especially when an original existing prompt is provided.
+Use contractions and abbreviations throughout
+Remove blank lines and list numbers
+Capitalize first letter of each line
+Add explicit delimiters (###, """, XML tags) between sections
+Ensure query and instructions appear AFTER any context
+Don't alter text inside quotes
+Don't change underlying structure or meaning
+OUTPUT: 
+Return ONLY final optimized prompt from Phase 7. 
+Don't escape characters in the prompt. Your output will be copied directly into the AI agent's UI verbatim. Output only the prompt with no explanation.
+Dashes of all kinds are banned. Do not use dashes or numbers for list items, bullet points, or within words. 
+Source Diversity: You must query at least 8 distinct types of sources (e.g., 15 generic web, 15 forum discussion, 15 technical repository/template, 15 github pages, 15 academic papers, 15 government pages, and much more). 

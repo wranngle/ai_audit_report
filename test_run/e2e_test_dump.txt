@@ -1,0 +1,63 @@
+Client: Apex Digital Marketing Agency
+Date: Dec 14, 2024
+Interviewer: Cody Arnold
+
+== WORKFLOW OVERVIEW ==
+
+They run client onboarding - taking new signed clients from contract to first campaign launch.
+About 25 new clients per month.
+
+The process starts when a signed contract hits their CRM (HubSpot).
+Goal is to launch their first campaign within 14 business days of contract signing.
+The Client Success Manager owns this process.
+
+== CURRENT PROCESS ==
+
+1. Sales closes deal in HubSpot, marks as "Won"
+2. CSM gets email notification (often delayed 2-4 hours)
+3. CSM manually creates project in Monday.com
+4. CSM sends welcome email from Gmail template
+5. CSM schedules kickoff call via Calendly
+6. After kickoff, CSM creates campaign brief in Google Docs
+7. CSM assigns tasks to creative team in Monday.com
+8. Creative delivers assets, CSM uploads to client's ad platforms
+9. Campaign goes live, CSM marks as "Launched" in HubSpot
+
+Average time from contract to launch: 18 business days.
+Target SLA is 14 days but they're consistently missing it.
+Worst case: 32 business days (lost a major client due to this)
+
+== SYSTEMS USED ==
+
+- CRM (HubSpot) - deal tracking and client records
+- Project management (Monday.com) - task tracking
+- Email (Gmail) - client communication
+- Scheduling (Calendly) - kickoff calls
+- Docs (Google Docs) - campaign briefs
+- Various ad platforms - Meta, Google Ads, LinkedIn
+
+== PROBLEMS ==
+
+1. CRM → Monday sync is manual. CSM forgets or delays project creation.
+2. Welcome emails are inconsistent - each CSM has their own template version.
+3. Kickoff calls get scheduled 5-7 days out due to calendar conflicts.
+4. Campaign briefs sit waiting for client feedback for 3-5 days average.
+5. No visibility into which onboardings are at risk of missing SLA.
+
+Miss rate for 14-day SLA: 68%
+Average delay past SLA: 4 days
+
+== COSTS ==
+
+- Each delayed onboarding risks client churn - estimated 8% churn rate for delayed clients
+- Average client lifetime value: $36,000
+- Staff time wasted on manual syncing: ~3 hours per onboarding
+- CSM hourly cost: $45
+
+Client just lost their biggest account ($120k/year) due to 32-day onboarding delay.
+They also get bad reviews that hurt new business acquisition.
+
+== WHAT THEY WANT FIXED ==
+
+Top priority: "Auto-create Monday.com project when deal closes, with all tasks pre-populated"
+Secondary: "Dashboard showing onboardings at risk of missing SLA"

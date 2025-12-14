@@ -1,0 +1,24 @@
+# Environment files (contain API keys)
+.env
+.env.local
+.env.*.local
+
+# Dependencies
+node_modules/
+
+# Output files
+test_run/output_*.html
+test_run/output_*.json
+test_run/generated_*.html
+test_run/generated_*.json
+test_run/*_extracted.json
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editor files
+.vscode/
+.idea/
+*.swp
+*.swo

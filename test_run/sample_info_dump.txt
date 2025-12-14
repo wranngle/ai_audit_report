@@ -1,0 +1,57 @@
+Client: Greenfield Property Management
+Date: Dec 13, 2024
+Interviewer: Cody
+
+== WORKFLOW OVERVIEW ==
+
+They handle maintenance requests from tenants. About 180 requests per month.
+The process starts when a tenant submits a maintenance request via their AppFolio portal.
+
+The goal is to get a technician scheduled and the tenant confirmed within 24 hours for routine maintenance.
+The operations coordinator owns this process end-to-end.
+
+== CURRENT PROCESS ==
+
+1. Request comes in via email notification from AppFolio
+2. Coordinator manually copies request details into their Excel work order spreadsheet
+3. Coordinator checks Google Calendar for technician availability (often looking at stale data)
+4. Coordinator calls tenant to confirm the appointment time
+5. Once confirmed, the appointment is considered complete
+
+They have 3 coordinators handling requests. Peak volume is Monday mornings.
+
+== SYSTEMS USED ==
+
+- Tenant portal (AppFolio) - where requests originate
+- Email inbox (Outlook) - notifications come here
+- Technician calendar (Google Calendar) - availability tracking
+- Work order spreadsheet (Excel) - tracking all requests
+- Phone calls to tenants - confirmation step
+
+== TIMING ==
+
+Average time from request to confirmed appointment: 26 hours
+Worst case delays: up to 4 days
+They work 8am to 6pm weekdays
+
+== PROBLEMS ==
+
+Double-bookings happen when calendar isn't refreshed before scheduling.
+Requests get buried in the email inbox, leading to missed appointments.
+Tenant no-shows because the confirmation call was delayed.
+Emergency requests sometimes get treated as routine due to misread priority.
+
+About 15% of requests miss their 24-hour SLA for routine maintenance.
+
+== COSTS ==
+
+Each missed SLA costs approximately $150 in tenant credits.
+They also spend staff time on escalation handling.
+Emergency delays can cause property damage - had a burst pipe sit for 2 days once.
+Tenant complaints lead to negative reviews which hurt lease renewals.
+
+== WHAT THEY WANT FIXED ==
+
+Their #1 priority: "Eliminate the manual copy-paste from portal to spreadsheet and auto-check technician availability"
+
+They mentioned they'd love to stop the double-bookings entirely.

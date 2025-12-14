@@ -1,0 +1,830 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wranngle Systems — AI Process Audit</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@600;700;800&display=swap" rel="stylesheet">
+    <style>
+        /* ═══════════════════════════════════════════════════════════════
+           WRANNGLE SYSTEMS LLC — TRAFFIC LIGHT REPORT
+           Theme: Sunset/Desert Tech (Tan, Sunset Orange, Violet, Night)
+           Philosophy: Irresistible B2B aesthetic, subtle "cowboy" warmth
+        ═══════════════════════════════════════════════════════════════ */
+
+        /* 1. CSS RESET & PAGE SETUP */
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        @page {
+            size: 8.5in 11in;
+            margin: 0.35in 0.35in 0.45in 0.35in;
+}
+
+        /* 2. COLOR TOKENS — Mapped to Wranngle Palette */
+        :root {
+            /* FUNCTIONAL ALERTS */
+            --critical: #cf3c69; /* Violet-500 */
+            --warning: #ff9e33;  /* Sunset-300 */
+            --healthy: #5D8C61;  /* Cactus Green */
+            --bleed: #972144;    /* Violet-700 */
+
+            /* BRAND */
+            --ink-primary: #12111a; /* Night-950 */
+            --ink-header: #393444;  /* Night-800 */
+            --ink-micro: #6a6380;   /* Night-500 */
+
+            --bg-page: #fcfaf5;     /* Sand-50 */
+            --surface: #ffffff;     /* White */
+
+            --cta-bg: #ff5f00;      /* Sunset-500 */
+            --cta-text: #fcfaf5;    /* Sand-50 */
+
+            --border-light: #dac39f; /* Sand-300 */
+            --row-alt: #f6f1e7;      /* Sand-100 */
+            --accent-soft: #f9dce5;  /* Violet-100 */
+        }
+
+        /* 3. TYPOGRAPHY SYSTEM */
+        html {
+            font-size: 16px;
+            height: 100%;
+        }
+
+        body {
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            background-color: var(--bg-page);
+            color: var(--ink-primary);
+            width: 8.5in;
+            min-height: 11in;
+            padding: 0.4in 0.5in;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            overflow: auto;
+            background-image: linear-gradient(to bottom, #fcfaf5 0%, #f6f1e7 70%, #f9dce5 90%, #e8b4c4 100%);
+            margin: 0 auto;
+            box-sizing: border-box;
+        }
+
+        /* Page Card Wrapper */
+        .page-card {
+            border: 1px solid var(--border-light);
+            border-radius: 16px;
+            background: var(--surface);
+            padding: 0.3in 0.35in;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 2px 12px rgba(45, 9, 20, 0.04);
+        }
+
+        /* Style 1: Doc Title */
+        .doc-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--ink-primary);
+            line-height: 1;
+            margin-bottom: 0.125rem;
+        }
+
+        /* Style 2: Section Header */
+        .section-header {
+            font-family: 'Outfit', sans-serif;
+            font-size: 0.8125rem;
+            font-weight: 700;
+            color: var(--ink-header);
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            line-height: 1.2;
+            margin-top: 0.4rem;
+            margin-bottom: 0.25rem;
+            flex-shrink: 0;
+        }
+
+        /* Style 3: Body */
+        .body-text {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.6875rem;
+            font-weight: 400;
+            color: var(--ink-primary);
+            line-height: 1.45;
+        }
+
+        /* Style 4: Micro */
+        .micro {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.5625rem;
+            font-weight: 500;
+            color: var(--ink-micro);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            line-height: 1.3;
+        }
+        .micro-semibold { font-weight: 600; color: var(--cta-bg); }
+
+        /* 4. ZONE LAYOUT — Recalculated for 10.2in content area */
+        .zone { flex-shrink: 0; position: relative; z-index: 1; }
+
+        .zone-header {
+            height: 0.85in;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            padding-bottom: 0.25rem;
+            border-bottom: 2px solid var(--border-light);
+            margin-bottom: 0.25rem;
+        }
+
+        .zone-summary { height: 0.95in; margin-bottom: 0.2rem; }
+        .zone-scorecard { margin-top: 0.35rem; margin-bottom: 0; }
+        .zone-bleed { height: 1.4in; margin-bottom: 0.1rem; }
+        .zone-fixes { margin-top: 0.35rem; margin-bottom: 0.25rem; display: flex; flex-direction: column; }
+        .zone-cta { height: 0.9in; margin-top: auto; margin-bottom: 0; }
+
+        /* 5. COMPONENT: WRANNGLE HEADER */
+        .header-left { display: flex; align-items: flex-start; }
+        .brand-logo {
+            height: 0.65in;
+            width: auto;
+            display: block;
+        }
+
+        .header-right {
+            text-align: right;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 0;
+        }
+        .doc-subtitle {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--ink-micro);
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+        }
+
+        /* 6. COMPONENT: SUMMARY CARD */
+        .summary-card {
+            background: linear-gradient(135deg, var(--surface) 0%, #fffbf7 100%);
+            padding: 0.75rem 1rem;
+            border-left: 5px solid var(--cta-bg);
+            border-radius: 0 10px 10px 0;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: 0.375rem;
+            box-shadow: 0 3px 12px rgba(255, 95, 0, 0.08), 0 1px 3px rgba(45, 9, 20, 0.04);
+        }
+        .summary-card strong { color: var(--bleed); font-weight: 700; }
+
+        /* 7. COMPONENT: SCORECARD TABLE */
+        .scorecard {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            table-layout: fixed;
+        }
+        .scorecard thead th {
+            background: var(--ink-header);
+            color: #ffffff;
+            padding: 0.375rem 0.5rem;
+            text-align: left;
+            font-family: 'Outfit', sans-serif;
+            font-size: 0.625rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            border-bottom: 0;
+        }
+        .scorecard thead th:nth-child(1) { width: 22%; }
+        .scorecard thead th:nth-child(2) { width: 13%; text-align: center; }
+        .scorecard thead th:nth-child(3) { width: 65%; }
+
+        .scorecard tbody td {
+            padding: 0.5rem;
+            border-bottom: 1px solid var(--border-light);
+            vertical-align: middle;
+        }
+        .scorecard tbody tr:last-child td { border-bottom: none; }
+
+        .scorecard tbody tr:nth-child(odd) { background: transparent; }
+        .scorecard tbody tr:nth-child(even) { background: rgba(246, 241, 231, 0.5); }
+
+        .scorecard tbody tr.row-critical { background: #fff0f5; }
+        .scorecard tbody tr.row-critical td:first-child {
+            box-shadow: inset 3px 0 0 var(--critical);
+        }
+
+        .scorecard .category {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 700;
+            font-size: 0.6875rem;
+            color: var(--ink-header);
+        }
+        .scorecard .finding {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.625rem;
+            font-weight: 400;
+            color: var(--ink-primary);
+            line-height: 1.4;
+        }
+
+        /* 8. COMPONENT: STATUS DOT */
+        .status-cell { text-align: center; }
+        .status-dot {
+            width: 0.3in;
+            height: 0.3in;
+            border-radius: 50%;
+            display: inline-block;
+            box-shadow: inset 0 -2px 4px rgba(0,0,0,0.1);
+        }
+        .status-dot.critical { background: var(--critical); }
+        .status-dot.warning { background: var(--warning); }
+        .status-dot.healthy { background: var(--healthy); }
+
+        /* 9. COMPONENT: THE BLEED */
+        .bleed-callout {
+            background: var(--surface);
+            border: 2px solid var(--bleed);
+            border-radius: 14px;
+            text-align: center;
+            padding: 0.625rem 1.25rem;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 4px 12px rgba(151, 33, 68, 0.05);
+        }
+        .bleed-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: var(--bleed);
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            margin-bottom: 0.125rem;
+        }
+        .bleed-amount {
+            font-family: 'Outfit', sans-serif;
+            font-size: 2.75rem;
+            font-weight: 800;
+            color: var(--bleed);
+            line-height: 1;
+            margin: 0.125rem 0;
+        }
+        .bleed-period {
+            font-family: 'Outfit', sans-serif;
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: var(--ink-header);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 0.2rem;
+        }
+
+        /* Bleed Breakdown with CSS dots */
+        .bleed-breakdown {
+            display: flex;
+            justify-content: center;
+            gap: 1.25rem;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.625rem;
+            color: var(--ink-primary);
+        }
+        .bleed-breakdown strong {
+            font-weight: 600;
+            color: var(--bleed);
+        }
+        .bleed-item {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.375rem;
+        }
+        .bleed-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            display: inline-block;
+            flex-shrink: 0;
+        }
+        .bleed-dot.critical { background: var(--critical); }
+        .bleed-dot.warning { background: var(--warning); }
+
+        .bleed-assumption {
+            margin-top: 0.375rem;
+            font-size: 0.5rem;
+            color: var(--ink-micro);
+            font-style: italic;
+        }
+
+        /* 10. COMPONENT: FIX BLOCKS */
+        .fix-container {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            flex: 1;
+            justify-content: flex-start;
+        }
+        .fix-block {
+            display: flex;
+            gap: 0.75rem;
+            padding: 0.625rem 1rem;
+            background: var(--surface);
+            border: 1px solid var(--border-light);
+            border-radius: 10px;
+            align-items: flex-start;
+        }
+        .fix-dot-wrapper {
+            padding-top: 0.125rem;
+            flex-shrink: 0;
+        }
+        .fix-dot {
+            width: 0.22in;
+            height: 0.22in;
+            border-radius: 50%;
+            display: block;
+        }
+        .fix-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+        }
+        .fix-line {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.6875rem;
+            color: var(--ink-primary);
+            line-height: 1.45;
+        }
+        .fix-label {
+            font-weight: 700;
+            font-size: 0.6875rem;
+            color: var(--ink-header);
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+            margin-right: 0.25rem;
+        }
+        .fix-label.impact { color: var(--cta-bg); }
+
+        /* 11. COMPONENT: CTA BUTTON */
+        .cta-button {
+            background: var(--cta-bg);
+            color: var(--cta-text);
+            border-radius: 10px;
+            text-align: center;
+            padding: 0.625rem 1.25rem;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background-image: linear-gradient(135deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.1) 100%);
+            box-shadow: 0 4px 10px rgba(255, 95, 0, 0.25);
+        }
+        .cta-headline {
+            font-family: 'Outfit', sans-serif;
+            font-size: 0.9375rem;
+            font-weight: 700;
+            margin-bottom: 0.125rem;
+        }
+        .cta-subtext {
+            font-size: 0.625rem;
+            opacity: 0.95;
+            margin-bottom: 0.25rem;
+            font-weight: 500;
+        }
+        .cta-link {
+            font-family: 'Outfit', sans-serif;
+            font-size: 0.6875rem;
+            font-weight: 700;
+            color: white;
+            text-decoration: none;
+            border-bottom: 2px solid rgba(255,255,255,0.6);
+            padding-bottom: 2px;
+            letter-spacing: 0.02em;
+        }
+
+        /* 12. DECORATION: DESERT LINEWORK */
+        .desert-scape {
+            position: absolute;
+            bottom: -0.2in;
+            left: -0.35in;
+            right: -0.35in;
+            width: calc(100% + 0.7in);
+            height: 3in;
+            z-index: 0;
+            pointer-events: none;
+            opacity: 0.55;
+            border-radius: 0 0 16px 16px;
+            overflow: hidden;
+        }
+        .desert-scape svg {
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+
+        /* 13. FOOTER */
+        .footer-contact {
+            text-align: center;
+            padding-top: 0.35rem;
+            padding-bottom: 0.25rem;
+            position: relative;
+            z-index: 2;
+        }
+@media print { .footer-contact { padding-bottom: 0.45rem; } }
+        .footer-copyright {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.5rem;
+            color: var(--ink-micro);
+            margin-top: 0.25rem;
+            letter-spacing: 0.02em;
+        }
+
+        /* 14. PRINT OPTIMIZATION */
+        @media print {
+            html, body {
+                margin: 0;
+                padding: 0;
+                overflow: hidden;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+            body {
+                width: 8.5in;
+                height: 11in;
+                margin: 0;
+                padding: 0;
+                background: #ffffff !important;
+            }
+            .page-card {
+                margin: 0;
+                page-break-inside: avoid;
+                break-inside: avoid;
+                transform: scale(0.94);
+                transform-origin: top left;
+                width: calc(100% / 0.94);
+            }
+            .desert-scape { display: none !important; }
+        }
+
+
+        /* 15. SCREEN CENTERING */
+        @media screen {
+            html {
+                background: #e0d8cc;
+            }
+        }
+
+/* ═══════════════════════════════════════════════════════════════
+   CONVERSION MODE (semantic color lock + removes decorative noise)
+   Brand colors = structure. Functional colors = diagnosis.
+═══════════════════════════════════════════════════════════════ */
+body.theme-conversion {
+  /* Functional alerts (diagnosis) */
+  --critical: #E53935; /* red */
+  --warning:  #FDD835; /* amber */
+  --healthy:  #43A047; /* green */
+  --bleed:    #B71C1C; /* money-leaving red */
+
+  /* Brand structure */
+  --ink-primary: #201e28;
+  --ink-header:  #393444;
+  --ink-micro:   #6a6380;
+
+  --bg-page:  #fcfaf5;
+  --surface:  #ffffff;
+
+  /* CTA uses brand (not functional) */
+  --cta-bg:   #b92a56;
+  --cta-text: #fdf1f5;
+
+  --border-light: #e0e0e0;
+  --row-alt: #fafafa;
+  --accent-soft: #fdf1f5;
+
+  /* Kill gradient + illustration noise */
+  background-image: none !important;
+  background-color: var(--bg-page) !important;
+}
+body.theme-conversion .desert-scape { display: none !important; }
+body.theme-conversion .summary-card { background: var(--surface) !important; border-left-color: var(--border-light) !important; box-shadow: none !important; }
+body.theme-conversion .status-dot { box-shadow: none !important; }
+
+/* 
+   Benchmark Gap (metric chips inside finding cell)
+ */
+.finding-metrics {
+  display: flex;
+  gap: 0.35rem;
+  flex-wrap: wrap;
+  margin-bottom: 0.25rem;
+}
+.metric-chip {
+  display: inline-flex;
+  flex-direction: column;
+  gap: 0.05rem;
+  padding: 0.25rem 0.4rem;
+  border: 1px solid var(--border-light);
+  border-radius: 8px;
+  background: rgba(255,255,255,0.85);
+}
+.metric-chip .chip-label {
+  font-size: 0.5rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ink-micro);
+  line-height: 1.1;
+}
+.metric-chip .chip-value {
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.8rem;
+  font-weight: 800;
+  color: var(--ink-primary);
+  line-height: 1;
+}
+.metric-chip.standard {
+  background: rgba(242,240,243,0.85);
+}
+
+.finding-text { font-size: 0.625rem; line-height: 1.4; }
+.finding-risk {
+  margin-top: 0.125rem;
+  font-size: 0.5625rem;
+  font-weight: 700;
+  color: var(--bleed);
+}
+.finding-meta {
+  margin-top: 0.125rem;
+  font-size: 0.5rem;
+  color: var(--ink-micro);
+}
+
+/* 
+   Math Defender styling
+ */
+.bleed-assumption {
+  margin-top: 0.375rem;
+  font-size: 0.5rem;
+  color: var(--ink-micro);
+  font-style: normal;
+}
+.bleed-assumption code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+  font-size: 0.5rem;
+  padding: 0.08rem 0.18rem;
+  border: 1px solid var(--border-light);
+  border-radius: 6px;
+  background: rgba(242,240,243,0.7);
+  color: var(--ink-header);
+}
+
+/* 
+   Effort / Impact / Turnaround pills for fixes
+ */
+.fix-pills {
+  display: flex;
+  gap: 0.25rem;
+  flex-wrap: wrap;
+  margin-top: 0.1rem;
+}
+.pill {
+  font-size: 0.5rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 0.14rem 0.35rem;
+  border-radius: 999px;
+  border: 1px solid var(--border-light);
+  background: rgba(242,240,243,0.7);
+  color: var(--ink-header);
+}
+
+/* 
+   Phase breadcrumb / stepper in CTA
+ */
+.cta-steps {
+  display: flex;
+  gap: 0.35rem;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-bottom: 0.25rem;
+}
+.cta-step {
+  font-size: 0.52rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  opacity: 0.95;
+}
+.cta-step.complete::before { content: "✓ "; }
+.cta-step.current { text-decoration: underline; }
+.cta-sep { opacity: 0.55; }
+    </style>
+</head>
+<body class="theme-conversion">
+    <div class="page-card">
+
+    <div class="desert-scape">
+        <svg viewBox="0 0 1200 200" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+            <style>
+                .dune-line {
+                    fill: none;
+                    stroke: var(--border-light);
+                    stroke-width: 2;
+                    stroke-linecap: round;
+                    vector-effect: non-scaling-stroke;
+                }
+                .cactus {
+                    fill: none;
+                    stroke: var(--border-light);
+                    stroke-width: 2;
+                    stroke-linejoin: round;
+                    stroke-linecap: round;
+                }
+            </style>
+
+            <path class="dune-line" d="M0 160 C 400 190, 700 130, 1200 150" opacity="0.4"/>
+            <path class="dune-line" d="M0 200 Q 300 120 700 170 T 1200 160" />
+
+            <g transform="translate(1080, 100) scale(1.1)">
+                <path class="cactus" d="M30 60 V 10 A 10 10 0 0 1 50 10 V 60" />
+                <path class="cactus" d="M30 35 H 20 A 8 8 0 0 1 12 27 V 25 A 8 8 0 0 1 20 17 H 30" />
+                <path class="cactus" d="M50 25 H 60 A 8 8 0 0 1 68 33 V 35 A 8 8 0 0 1 60 45 H 50" />
+            </g>
+
+            <g transform="translate(100, 150) scale(0.5)" opacity="0.5">
+                <path class="cactus" d="M30 60 V 10 A 10 10 0 0 1 50 10 V 60" />
+                <path class="cactus" d="M30 35 H 20 A 8 8 0 0 1 12 27 V 25 A 8 8 0 0 1 20 17 H 30" />
+                <path class="cactus" d="M50 25 H 60 A 8 8 0 0 1 68 33 V 35 A 8 8 0 0 1 60 45 H 50" />
+            </g>
+        </svg>
+    </div>
+
+    <header class="zone zone-header">
+        <div class="header-left">
+            <img src="wranngle-logo.png" alt="Wranngle" class="brand-logo">
+        </div>
+        <div class="header-right">
+            <div class="doc-title">AI Process Audit</div>
+            <div class="doc-subtitle">Traffic Light Report</div>
+            <div class="micro client-line">Prepared for: <span class="micro-semibold">Acme Corp</span> &nbsp;|&nbsp; December 13, 2025</div>
+        </div>
+    </header>
+
+    <section class="zone zone-summary">
+        <div class="summary-card">
+            <div class="section-header">Executive Summary</div>
+            <p class="body-text">
+                Your lead response process has a critical bottleneck: new inquiries sit untouched for 4+ hours before first contact. This delay is bleeding an estimated <strong>$4,200/month</strong> in lost conversions. Immediate automation of the intake-to-response handoff will recover the majority of this loss.
+            </p>
+        </div>
+    </section>
+
+    <section class="zone zone-scorecard">
+        <div class="section-header">Process Health Scorecard</div>
+        <table class="scorecard">
+            <thead>
+                <tr>
+                    <th>Category</th>
+                    <th>Status</th>
+                    <th>Finding</th>
+                </tr>
+            </thead>
+<tbody>
+  <tr class="row-critical">
+    <td class="category">Speed-to-Lead</td>
+    <td class="status-cell"><span class="status-dot critical"></span></td>
+    <td class="finding">
+      <div class="finding-metrics">
+        <div class="metric-chip">
+          <div class="chip-label">Your metric</div>
+          <div class="chip-value">4.2h</div>
+        </div>
+        <div class="metric-chip standard">
+          <div class="chip-label">Benchmark</div>
+          <div class="chip-value">&lt;5m</div>
+        </div>
+      </div>
+      <div class="finding-text">Leads wait 4.2 hours average before first human contact.</div>
+      <div class="finding-meta">Benchmark reference: InsideSales.com/MIT Lead Response Management Study.</div>
+    </td>
+  </tr>
+
+  <tr>
+    <td class="category">Integration Latency</td>
+    <td class="status-cell"><span class="status-dot warning"></span></td>
+    <td class="finding">
+      <div class="finding-metrics">
+        <div class="metric-chip">
+          <div class="chip-label">Your metric</div>
+          <div class="chip-value">0–59m</div>
+        </div>
+        <div class="metric-chip standard">
+          <div class="chip-label">Target</div>
+          <div class="chip-value">&lt;1m</div>
+        </div>
+      </div>
+      <div class="finding-text">CRM-to-email enrollment runs hourly batch jobs, delaying welcome sequences by up to 59 minutes.</div>
+      <div class="finding-risk">Risk: will break at &gt;100 leads/day (batch sync becomes a throughput bottleneck).</div>
+    </td>
+  </tr>
+
+  <tr>
+    <td class="category">Data Hygiene</td>
+    <td class="status-cell"><span class="status-dot healthy"></span></td>
+    <td class="finding">
+      <div class="finding-text">CRM records show 2.8% duplicate rate and &lt;3% field error rate. No action required.</div>
+    </td>
+  </tr>
+</tbody>
+        </table>
+    </section>
+
+    <section class="zone zone-bleed">
+        <div class="bleed-callout">
+            <div class="bleed-title">Monthly Revenue Bleed</div>
+            <div class="bleed-amount">$4,200</div>
+            <div class="bleed-period">Per Month</div>
+            <div class="bleed-breakdown">
+                <span class="bleed-item"><span class="bleed-dot critical"></span>Speed-to-Lead: <strong>$3,500</strong></span>
+                <span class="bleed-item"><span class="bleed-dot warning"></span>Sync Delay: <strong>$700</strong></span>
+            </div>
+<div class="bleed-assumption">
+  Assumptions (adjustable):
+  <code>70 missed leads/mo × $50 avg value = $3,500</code>
+  + <code>$700 from ~59m campaign enrollment delay</code>.
+  Observed: <code>4.2h avg response time</code>.
+</div>
+        </div>
+    </section>
+
+    <section class="zone zone-fixes">
+        <div class="section-header">Recommended Fixes</div>
+        <div class="fix-container">
+            <div class="fix-block">
+                <div class="fix-dot-wrapper">
+                    <span class="fix-dot" style="background: var(--critical);"></span>
+                </div>
+                <div class="fix-content">
+                    <div class="fix-line"><span class="fix-label">Problem:</span>New leads sit in queue until manual review (4+ hour delay).</div>
+                    <div class="fix-line"><span class="fix-label">Fix:</span>Webhook trigger → instant SMS + email auto-responder within 60 seconds.</div>
+                    <div class="fix-line"><span class="fix-label impact">Impact:</span>Recover ~$3,500/month in conversion opportunities.</div>
+                    <div class="fix-pills">
+                      <span class="pill">Low Effort</span>
+                      <span class="pill">High Impact</span>
+                      <span class="pill">1-Day</span>
+                    </div>
+                </div>
+            </div>
+            <div class="fix-block">
+                <div class="fix-dot-wrapper">
+                    <span class="fix-dot" style="background: var(--warning);"></span>
+                </div>
+                <div class="fix-content">
+                    <div class="fix-line"><span class="fix-label">Problem:</span>Batch sync delays welcome email sequence by up to 1 hour.</div>
+                    <div class="fix-line"><span class="fix-label">Fix:</span>Real-time API trigger replaces hourly cron job for campaign enrollment.</div>
+                    <div class="fix-line"><span class="fix-label impact">Impact:</span>Recover ~$700/month in engagement revenue.</div>
+                    <div class="fix-pills">
+                      <span class="pill">Medium Effort</span>
+                      <span class="pill">Medium Impact</span>
+                      <span class="pill">2–3 Days</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="zone zone-cta">
+<div class="cta-button">
+    <div class="cta-steps">
+      <span class="cta-step complete">Phase 1: Audit</span>
+      <span class="cta-sep">›</span>
+      <span class="cta-step current">Phase 2: Stabilization</span>
+      <span class="cta-sep">›</span>
+      <span class="cta-step">Phase 3: Scaling</span>
+    </div>
+
+    <div class="cta-headline">Approve Phase 2: Stabilization</div>
+    <div class="cta-subtext">30 minutes to scope quick wins + delivery plan</div>
+    <a href="https://calendly.com/wranngle-systems" class="cta-link">calendly.com/wranngle-systems</a>
+</div>
+    </section>
+
+    <footer class="footer-contact">
+        <span class="micro">Cody Arnold &nbsp;•&nbsp; codyarnold96@live.com &nbsp;•&nbsp; wranngle.com</span>
+        <p class="footer-copyright">Wranngle Systems LLC &copy; All Rights Reserved 2025</p>
+    </footer>
+
+    </div><!-- .page-card -->
+</body>
+</html>

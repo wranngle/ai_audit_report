@@ -1,0 +1,547 @@
+{
+  "schema_version": "1.0.0",
+  "document": {
+    "document_id": "test-run-002",
+    "created_at": "2025-12-13T14:45:00-05:00",
+    "report_date": "December 13, 2025",
+    "report_year": "2025",
+    "title": "AI Process Audit",
+    "subtitle": "Traffic Light Report",
+    "confidentiality": "confidential",
+    "locale": "en-US",
+    "timezone": "America/Indiana/Indianapolis",
+    "brand": {
+      "brand_name": "Wranngle Systems LLC",
+      "logo_uri": "wranngle-logo.png",
+      "primary_domain": "wranngle.com"
+    }
+  },
+  "prepared_for": {
+    "account_id": "TEST-002",
+    "account_name": "Greenfield Property Management",
+    "industry": "Property Management",
+    "primary_contact": {
+      "name": "Test Contact",
+      "title": "Operations Manager",
+      "email": "ops@greenfield.example",
+      "role_in_decision": "economic_buyer"
+    }
+  },
+  "prepared_by": {
+    "producer_name": "Cody Arnold",
+    "producer_email": "codyarnold96@live.com",
+    "producer_company": "Wranngle Systems LLC"
+  },
+  "audit": {
+    "audit_id": "audit-2025-12-002",
+    "scope": {
+      "scope_statement": "Audit of maintenance request scheduling workflow from tenant portal submission to confirmed technician appointment.",
+      "in_scope": [
+        "Tenant portal submissions",
+        "Request triage and prioritization",
+        "Technician calendar coordination",
+        "Appointment confirmation calls"
+      ],
+      "out_of_scope": [
+        "Technician dispatch and field operations",
+        "Invoice and payment workflows"
+      ],
+      "systems_involved": [
+        {
+          "system_name": "AppFolio",
+          "system_type": "property_management",
+          "environment": "prod"
+        },
+        {
+          "system_name": "Google Calendar",
+          "system_type": "calendar",
+          "environment": "prod"
+        },
+        {
+          "system_name": "Excel Spreadsheet",
+          "system_type": "spreadsheet",
+          "environment": "prod"
+        },
+        {
+          "system_name": "Outlook",
+          "system_type": "email",
+          "environment": "prod"
+        }
+      ],
+      "time_window": {
+        "start": "2025-11-01T00:00:00-05:00",
+        "end": "2025-11-30T23:59:59-05:00",
+        "timezone": "America/Indiana/Indianapolis"
+      }
+    },
+    "methodology": {
+      "methods": [
+        {
+          "method_type": "stakeholder_interview",
+          "details": "30-minute intake call with operations coordinator",
+          "sample_size": 1
+        }
+      ],
+      "data_sources": [
+        {
+          "source_id": "src-intake-call",
+          "source_type": "interview",
+          "source_label": "Operations coordinator interview (Dec 2025)"
+        }
+      ],
+      "limitations": [
+        "Metrics based on client estimates, not system logs",
+        "Sample period not verified against historical data"
+      ],
+      "confidence": {
+        "rating": "medium",
+        "rationale": "Client-provided estimates without system log validation"
+      }
+    },
+    "workflows": [
+      {
+        "workflow_id": "wf-maintenance-scheduling",
+        "name": "Maintenance Request Scheduling",
+        "trigger": "Tenant submits maintenance request via portal",
+        "objective": "Schedule technician visit within SLA window",
+        "primary_kpi": "Scheduling time <= 24 hours",
+        "steps": [
+          {
+            "step_id": "step-1",
+            "sequence": 1,
+            "name": "Request submitted in tenant portal",
+            "owner_type": "automation"
+          },
+          {
+            "step_id": "step-2",
+            "sequence": 2,
+            "name": "Email notification to coordinator",
+            "owner_type": "automation"
+          },
+          {
+            "step_id": "step-3",
+            "sequence": 3,
+            "name": "Manual copy to Excel spreadsheet",
+            "owner_type": "human"
+          },
+          {
+            "step_id": "step-4",
+            "sequence": 4,
+            "name": "Check technician availability in calendar",
+            "owner_type": "human"
+          },
+          {
+            "step_id": "step-5",
+            "sequence": 5,
+            "name": "Call tenant to confirm time slot",
+            "owner_type": "human"
+          },
+          {
+            "step_id": "step-6",
+            "sequence": 6,
+            "name": "Appointment confirmed",
+            "owner_type": "human"
+          }
+        ],
+        "measurements": [
+          {
+            "measurement_id": "m-scheduling-time",
+            "name": "Average scheduling time",
+            "metric_type": "latency",
+            "value": {
+              "kind": "duration",
+              "duration": {
+                "value": 26,
+                "unit": "h",
+                "display": "26h"
+              }
+            },
+            "value_display": "26h",
+            "target": "<24h",
+            "method": "stakeholder_interview",
+            "evidence": [
+              {
+                "evidence_id": "ev-001",
+                "source_id": "src-intake-call",
+                "evidence_type": "client_statement",
+                "summary": "Client stated average 26 hours from request to confirmed appointment"
+              }
+            ]
+          },
+          {
+            "measurement_id": "m-sla-miss-rate",
+            "name": "SLA miss rate",
+            "metric_type": "quality",
+            "value": {
+              "kind": "percentage",
+              "value": 15,
+              "scale": "percent",
+              "display": "15%"
+            },
+            "value_display": "15%",
+            "target": "<5%",
+            "method": "stakeholder_interview",
+            "evidence": [
+              {
+                "evidence_id": "ev-002",
+                "source_id": "src-intake-call",
+                "evidence_type": "client_statement",
+                "summary": "Client estimated 15% of requests miss the 24-hour SLA"
+              }
+            ]
+          },
+          {
+            "measurement_id": "m-worst-delay",
+            "name": "Worst case delay",
+            "metric_type": "latency",
+            "value": {
+              "kind": "duration",
+              "duration": {
+                "value": 4,
+                "unit": "d",
+                "display": "4 days"
+              }
+            },
+            "value_display": "4 days",
+            "target": "<1 day",
+            "method": "stakeholder_interview",
+            "evidence": [
+              {
+                "evidence_id": "ev-003",
+                "source_id": "src-intake-call",
+                "evidence_type": "client_statement",
+                "summary": "Client observed worst case delays of 4 days"
+              }
+            ]
+          },
+          {
+            "measurement_id": "m-manual-handoffs",
+            "name": "Manual handoff count",
+            "metric_type": "complexity",
+            "value": {
+              "kind": "count",
+              "value": 5,
+              "display": "5 systems"
+            },
+            "value_display": "5 systems",
+            "target": "2 systems",
+            "method": "stakeholder_interview",
+            "evidence": [
+              {
+                "evidence_id": "ev-004",
+                "source_id": "src-intake-call",
+                "evidence_type": "client_statement",
+                "summary": "5 systems involved: AppFolio, Outlook, Google Calendar, Excel, Phone"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "scorecard": {
+    "executive_summary": {
+      "body": "Your maintenance scheduling workflow has a systemic bottleneck: 15% of tenant requests miss the 24-hour SLA, with worst-case delays reaching 4 days. This is bleeding an estimated <strong>$4,050/month</strong> in tenant credits and escalation costs. Automating the portal-to-calendar handoff will eliminate the manual copy-paste bottleneck.",
+      "generated_by": "manual"
+    },
+    "rows": [
+      {
+        "row_id": "row-sla-compliance",
+        "category": "SLA Compliance",
+        "status": "critical",
+        "status_is_critical": true,
+        "has_metrics": true,
+        "finding": {
+          "summary": "15% of maintenance requests miss the 24-hour scheduling SLA, 3x the acceptable threshold.",
+          "benchmark_reference_id": null,
+          "meta": null
+        },
+        "metrics": [
+          {
+            "label": "Your metric",
+            "value_display": "15%",
+            "measurement_id": "m-sla-miss-rate",
+            "is_benchmark": false
+          },
+          {
+            "label": "Target",
+            "value_display": "<5%",
+            "is_benchmark": true
+          }
+        ],
+        "measurement_ids": ["m-sla-miss-rate"]
+      },
+      {
+        "row_id": "row-response-time",
+        "category": "Scheduling Time",
+        "status": "warning",
+        "status_is_critical": false,
+        "has_metrics": true,
+        "finding": {
+          "summary": "Average scheduling time of 26 hours exceeds the 24-hour target by 8%.",
+          "risk": "Risk: Tenant dissatisfaction compounds with each missed SLA."
+        },
+        "metrics": [
+          {
+            "label": "Your metric",
+            "value_display": "26h",
+            "measurement_id": "m-scheduling-time",
+            "is_benchmark": false
+          },
+          {
+            "label": "Target",
+            "value_display": "<24h",
+            "is_benchmark": true
+          }
+        ],
+        "measurement_ids": ["m-scheduling-time"]
+      },
+      {
+        "row_id": "row-process-complexity",
+        "category": "Process Complexity",
+        "status": "critical",
+        "status_is_critical": true,
+        "has_metrics": true,
+        "finding": {
+          "summary": "5 manual system handoffs create multiple failure points: portal, email, spreadsheet, calendar, phone.",
+          "risk": "Risk: Each handoff is a potential drop point where requests get lost."
+        },
+        "metrics": [
+          {
+            "label": "Your metric",
+            "value_display": "5 systems",
+            "measurement_id": "m-manual-handoffs",
+            "is_benchmark": false
+          },
+          {
+            "label": "Target",
+            "value_display": "2 systems",
+            "is_benchmark": true
+          }
+        ],
+        "measurement_ids": ["m-manual-handoffs"]
+      }
+    ],
+    "overall": {
+      "status_distribution": {
+        "critical": 2,
+        "warning": 1,
+        "healthy": 0
+      }
+    }
+  },
+  "bleed": {
+    "currency": "USD",
+    "period": "month",
+    "period_display": "Per Month",
+    "total": {
+      "amount": 4050,
+      "currency": "USD",
+      "display": "$4,050"
+    },
+    "breakdown": [
+      {
+        "item_id": "bleed-sla-miss",
+        "label": "SLA Miss Costs",
+        "status": "critical",
+        "amount": {
+          "amount": 4050,
+          "currency": "USD",
+          "display": "$4,050"
+        },
+        "driver_measurement_ids": ["m-sla-miss-rate"]
+      }
+    ],
+    "assumptions": [
+      {
+        "assumption_id": "a-monthly-volume",
+        "name": "Monthly request volume",
+        "value": 180,
+        "unit": "requests/mo",
+        "source_or_basis": "Client-provided estimate",
+        "confidence": "medium"
+      },
+      {
+        "assumption_id": "a-miss-rate",
+        "name": "SLA miss rate",
+        "value": 15,
+        "unit": "percent",
+        "source_or_basis": "Client-provided estimate",
+        "confidence": "medium"
+      },
+      {
+        "assumption_id": "a-cost-per-miss",
+        "name": "Cost per missed SLA",
+        "value": 150,
+        "unit": "USD",
+        "source_or_basis": "Tenant credits + escalation handling",
+        "confidence": "medium"
+      }
+    ],
+    "calculations": [
+      {
+        "calc_id": "calc-sla-bleed",
+        "label": "SLA miss bleed",
+        "formula": "180 requests × 15% miss rate × $150/miss",
+        "inputs": ["a-monthly-volume", "a-miss-rate", "a-cost-per-miss"],
+        "result_amount": {
+          "amount": 4050,
+          "currency": "USD"
+        },
+        "attribution_breakdown_item_id": "bleed-sla-miss"
+      }
+    ],
+    "math_defender_text": "Assumptions (adjustable): <code>180 requests/mo × 15% miss rate = 27 missed SLAs</code>. At <code>$150 per miss</code> (tenant credits + staff escalation time), monthly bleed = <code>$4,050</code>."
+  },
+  "fixes": {
+    "quick_win_fix_id": "fix-auto-routing",
+    "items": [
+      {
+        "fix_id": "fix-auto-routing",
+        "status": "proposed",
+        "severity": "critical",
+        "bleed_period": "month",
+        "problem": "Manual copy-paste from portal to spreadsheet creates 26h average delay.",
+        "solution": "Webhook integration: portal submission auto-creates calendar event with technician assignment.",
+        "quick_win": true,
+        "impact": {
+          "estimated_recovery": {
+            "amount": 3200,
+            "currency": "USD",
+            "display": "$3,200"
+          },
+          "basis": "SLA compliance improvement",
+          "maps_to_breakdown_item_ids": ["bleed-sla-miss"],
+          "tier": "high"
+        },
+        "effort": {
+          "tier": "low",
+          "estimated_hours_range": {
+            "min_hours": 4,
+            "most_likely_hours": 8,
+            "max_hours": 16
+          },
+          "skills_required": ["automation", "API"]
+        },
+        "turnaround": {
+          "label": "2-3 Days",
+          "business_days_min": 2,
+          "business_days_max": 3
+        },
+        "dependencies": [
+          {
+            "dependency_type": "access",
+            "description": "AppFolio API access or webhook capability",
+            "owner": "client",
+            "blocking": true
+          }
+        ],
+        "acceptance_criteria": [
+          "New portal submissions auto-create calendar event within 60 seconds",
+          "Technician assignment based on skill match and availability",
+          "Coordinator receives notification for exceptions only"
+        ],
+        "related_measurement_ids": ["m-scheduling-time", "m-sla-miss-rate"]
+      },
+      {
+        "fix_id": "fix-tenant-self-schedule",
+        "status": "proposed",
+        "severity": "warning",
+        "bleed_period": "month",
+        "problem": "Phone tag with tenants delays confirmation by hours or days.",
+        "solution": "Tenant self-scheduling link sent via SMS/email with available time slots.",
+        "quick_win": false,
+        "impact": {
+          "estimated_recovery": {
+            "amount": 850,
+            "currency": "USD",
+            "display": "$850"
+          },
+          "basis": "Reduced no-shows and faster confirmation",
+          "maps_to_breakdown_item_ids": ["bleed-sla-miss"],
+          "tier": "medium"
+        },
+        "effort": {
+          "tier": "medium",
+          "estimated_hours_range": {
+            "min_hours": 8,
+            "most_likely_hours": 16,
+            "max_hours": 24
+          },
+          "skills_required": ["automation", "SMS integration"]
+        },
+        "turnaround": {
+          "label": "3-5 Days",
+          "business_days_min": 3,
+          "business_days_max": 5
+        },
+        "dependencies": [
+          {
+            "dependency_type": "access",
+            "description": "SMS provider account (Twilio or similar)",
+            "owner": "client",
+            "blocking": true
+          }
+        ],
+        "acceptance_criteria": [
+          "Tenant receives scheduling link within 5 minutes of request",
+          "Available slots reflect real-time technician calendar",
+          "Confirmation sent to both tenant and technician automatically"
+        ],
+        "related_measurement_ids": ["m-worst-delay"]
+      }
+    ]
+  },
+  "cta": {
+    "phases": [
+      {
+        "phase_id": "phase_1_audit",
+        "label": "Phase 1: Audit",
+        "state": "complete",
+        "is_last": false
+      },
+      {
+        "phase_id": "phase_2_stabilize",
+        "label": "Phase 2: Stabilize",
+        "state": "current",
+        "is_last": false
+      },
+      {
+        "phase_id": "phase_3_scale",
+        "label": "Phase 3: Scale",
+        "state": "upcoming",
+        "is_last": true
+      }
+    ],
+    "current_phase": "phase_2_stabilize",
+    "completed_phase_ids": ["phase_1_audit"],
+    "headline": "Approve Phase 2: Stabilize",
+    "subtext": "30 minutes to scope quick wins + delivery plan",
+    "link": "https://calendly.com/wranngle-systems",
+    "link_display": "calendly.com/wranngle-systems",
+    "call_duration_minutes": 30
+  },
+  "benchmarks": [],
+  "sources": [],
+  "rendering": {
+    "mode": "conversion",
+    "is_conversion_mode": true,
+    "page": {
+      "size": "letter",
+      "margins_in": {
+        "top": 0.35,
+        "right": 0.35,
+        "bottom": 0.45,
+        "left": 0.35
+      }
+    },
+    "layout_guards": {
+      "max_pages": 1
+    }
+  },
+  "offer": {
+    "sku_code": "WR-AI-AUDIT-100",
+    "sku_name": "AI Process Audit (Phase 1)",
+    "display_in_footer": true
+  }
+}

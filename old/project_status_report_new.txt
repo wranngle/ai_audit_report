@@ -1,0 +1,187 @@
+================================================================================
+AI AUDIT TEMPLATE PROJECT - STATUS REPORT (REVISED)
+================================================================================
+Generated: December 13, 2025
+Project: Wranngle Systems LLC - AI Process Audit Template System
+
+--------------------------------------------------------------------------------
+1. PROJECT OVERVIEW
+--------------------------------------------------------------------------------
+
+Objective: Create a production-grade Mustache-compatible HTML template that
+renders AI audit reports from structured JSON data conforming to the
+comprehensive schema (big_json_schema.json).
+
+Deliverables:
+  - ai_audit_template.html       (~800 lines) - Mustache template
+  - ai_audit_sample_instance.json            - Sample data with computed fields
+
+Reference Files Used:
+  - big_json_schema.json         (~2500 lines) - Comprehensive JSON Schema
+  - ai_audit_draft_sample.html   (~830 lines)  - Original static reference
+  - template_development_prompt.txt           - 40+ requirement specification
+
+--------------------------------------------------------------------------------
+2. BUGS FIXED IN THIS REVISION
+--------------------------------------------------------------------------------
+
+[A] INVALID MUSTACHE PATH (CRITICAL BUG)
+    Location: Line 756 (Impact line in fixes section)
+    Problem:  {{../bleed.period}} is not valid Mustache syntax
+    Fix:      Changed to {{bleed_period}} - requires precomputed field per fix
+
+[B] NON-PORTABLE ARRAY CHECK
+    Location: Lines 705-714 (scorecard metrics display)
+    Problem:  {{#metrics.length}} works in JS but breaks on other Mustache
+    Fix:      Changed to {{#has_metrics}} - requires precomputed boolean
+
+[C] INCOMPLETE SCHEMA CHANGE DOCUMENTATION
+    Location: Template header comment (lines 2-30)
+    Problem:  Only listed 7 fields, template uses 16+
+    Fix:      Expanded header to document all 16 computed fields, unescaped
+              HTML fields, and external dependency
+
+--------------------------------------------------------------------------------
+3. EXTERNAL DEPENDENCIES
+--------------------------------------------------------------------------------
+
+Google Fonts: Template loads Outfit and Inter from fonts.googleapis.com
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;
+    600&family=Outfit:wght@600;700;800&display=swap" rel="stylesheet">
+
+Impact:
+  - Requires internet access for font loading
+  - If network unavailable, falls back to system-ui, -apple-system, sans-serif
+  - PDF rendering in air-gapped environments needs local font installation
+
+This is now documented in the template header comment.
+
+--------------------------------------------------------------------------------
+4. UNESCAPED HTML FIELDS (SECURITY CONSIDERATION)
+--------------------------------------------------------------------------------
+
+Two fields use triple-brace unescaped output:
+
+  1. {{{scorecard.executive_summary.body}}}
+     Purpose: Allows <strong>, <em> for emphasis
+     Example: "...bleeding an estimated <strong>$4,200/month</strong>..."
+
+  2. {{{bleed.math_defender_text}}}
+     Purpose: Allows <code> tags for formula display
+     Example: "<code>70 leads/mo × $50 = $3,500</code>"
+
+Requirement: These fields MUST be sanitized upstream before template rendering.
+If untrusted input can reach these fields, change to escaped {{...}} output.
+
+--------------------------------------------------------------------------------
+5. COMPUTED FIELDS REQUIRED
+--------------------------------------------------------------------------------
+
+The template requires the following fields to be pre-computed before rendering:
+
+  1.  rendering.is_conversion_mode (boolean)
+  2.  bleed.period_display (string)
+  3.  bleed.total.display (string)
+  4.  bleed.breakdown[].amount.display (string)
+  5.  fixes.items[].impact.estimated_recovery.display (string)
+  6.  fixes.items[].bleed_period (string) -- NEW: copy of bleed.period per item
+  7.  fixes.items[].impact.tier (string)
+  8.  scorecard.rows[].status_is_critical (boolean)
+  9.  scorecard.rows[].has_metrics (boolean) -- NEW: true when metrics non-empty
+  10. scorecard.rows[].metrics[].is_benchmark (boolean)
+  11. scorecard.rows[].finding.meta (string)
+  12. cta.phases[].state (string)
+  13. cta.phases[].is_last (boolean)
+  14. cta.link_display (string)
+  15. document.report_year (string)
+  16. offer.sku_code (string)
+
+Sample JSON has been updated with all required computed fields.
+
+--------------------------------------------------------------------------------
+6. SKILL COMPLIANCE STATUS
+--------------------------------------------------------------------------------
+
+[A] CANVAS-DESIGN SKILL
+    Status: PASS
+    - Cohesive color palette (Wranngle brand: Sunset, Sand, Violet, Night)
+    - Clear visual hierarchy with distinct zones
+    - Expert typographic system (Outfit headings, Inter body)
+    - Print-optimized layout
+
+[B] WEB-ARTIFACTS-BUILDER SKILL
+    Status: PASS
+    - No purple gradients as primary scheme
+    - Varied border-radius values (not uniform)
+    - Brand-specific fonts (not just Inter)
+    - No excessive drop shadows
+
+[C] BRAND-GUIDELINES SKILL
+    Status: NOT APPLICABLE
+    - Skill contains Anthropic brand guidelines
+    - Template correctly uses Wranngle brand palette
+
+--------------------------------------------------------------------------------
+7. STRUCTURAL PARITY WITH REFERENCE
+--------------------------------------------------------------------------------
+
+Status: PASS
+
+All zones preserved from ai_audit_draft_sample.html:
+  [x] Header - Logo, title, subtitle, prepared-for line
+  [x] Executive Summary - Gradient background, body text
+  [x] Scorecard - Table with status dots, metrics chips, findings
+  [x] Revenue Bleed - Total, breakdown, math defender
+  [x] Recommended Fixes - Problem/solution blocks, pills
+  [x] CTA - Phase breadcrumbs, headline, link
+  [x] Footer - Producer info, copyright
+
+CSS custom properties and print rules preserved.
+
+--------------------------------------------------------------------------------
+8. PROMPT ADHERENCE
+--------------------------------------------------------------------------------
+
+Status: PASS (40+ requirements verified)
+
+Key compliance points:
+  [x] Mustache-compatible syntax
+  [x] HTML escaping by default, unescaped only for trusted fields
+  [x] Only schema-defined fields used
+  [x] Schema changes documented in header
+  [x] No hardcoded client names/money/dates
+  [x] Arrays use loops
+  [x] Optional elements conditionally rendered
+  [x] Status styling parameterized
+  [x] Print rules intact
+
+--------------------------------------------------------------------------------
+9. KNOWN LIMITATIONS
+--------------------------------------------------------------------------------
+
+1. External Google Fonts dependency (documented in header)
+2. Requires JSON pre-processing to add computed fields
+3. Unescaped HTML fields require upstream sanitization
+4. Single-page constraint (rendering.layout_guards.max_pages)
+
+--------------------------------------------------------------------------------
+10. FILE MANIFEST
+--------------------------------------------------------------------------------
+
+Updated Files:
+  D:\Things\Work\Wranngle\AI Audit\ai_audit_template.html
+    - Fixed {{../bleed.period}} → {{bleed_period}}
+    - Fixed {{#metrics.length}} → {{#has_metrics}}
+    - Expanded computed fields documentation
+
+  D:\Things\Work\Wranngle\AI Audit\ai_audit_sample_instance.json
+    - Added has_metrics to all scorecard.rows[]
+    - Added bleed_period to all fixes.items[]
+
+  D:\Things\Work\Wranngle\AI Audit\project_status_report.txt
+    - Revised with accurate findings
+
+================================================================================
+END OF STATUS REPORT
+================================================================================

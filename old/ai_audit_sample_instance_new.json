@@ -1,0 +1,529 @@
+{
+  "schema_version": "1.0.0",
+  "document": {
+    "document_id": "3b2f2d4a-3c2a-4d9f-a0da-0d4d1b08f2f7",
+    "created_at": "2025-12-13T10:30:00-05:00",
+    "report_date": "December 13, 2025",
+    "report_year": "2025",
+    "title": "AI Process Audit",
+    "subtitle": "Traffic Light Report",
+    "confidentiality": "confidential",
+    "locale": "en-US",
+    "timezone": "America/Indiana/Indianapolis",
+    "brand": {
+      "brand_name": "Wranngle Systems LLC",
+      "logo_uri": "wranngle-logo.png",
+      "primary_domain": "wranngle.com"
+    }
+  },
+  "prepared_for": {
+    "account_id": "acme-001",
+    "account_name": "Acme Corp",
+    "industry": "Manufacturing",
+    "primary_contact": {
+      "name": "Jane Smith",
+      "title": "VP Operations",
+      "email": "jane.smith@acme.com",
+      "role_in_decision": "economic_buyer"
+    }
+  },
+  "prepared_by": {
+    "producer_name": "Cody Arnold",
+    "producer_email": "codyarnold96@live.com",
+    "producer_company": "Wranngle Systems LLC"
+  },
+  "audit": {
+    "audit_id": "audit-2025-12-001",
+    "scope": {
+      "scope_statement": "Audit of inbound lead response workflow from web form submission to first human contact.",
+      "in_scope": [
+        "Web form submissions",
+        "CRM lead creation",
+        "Email notification triggers",
+        "First response timing"
+      ],
+      "out_of_scope": [
+        "Outbound prospecting workflows",
+        "Post-sale customer success processes"
+      ],
+      "systems_involved": [
+        {
+          "system_name": "HubSpot",
+          "system_type": "crm",
+          "environment": "prod"
+        },
+        {
+          "system_name": "Mailchimp",
+          "system_type": "email",
+          "environment": "prod"
+        }
+      ],
+      "time_window": {
+        "start": "2025-11-01T00:00:00-05:00",
+        "end": "2025-11-30T23:59:59-05:00",
+        "timezone": "America/Indiana/Indianapolis"
+      }
+    },
+    "methodology": {
+      "methods": [
+        {
+          "method_type": "crm_history",
+          "details": "Extracted lead creation and activity timestamps from HubSpot",
+          "sample_size": 347
+        },
+        {
+          "method_type": "email_header_analysis",
+          "details": "Analyzed email send times vs lead creation times",
+          "sample_size": 289
+        }
+      ],
+      "data_sources": [
+        {
+          "source_id": "src-hubspot-export",
+          "source_type": "crm",
+          "source_label": "HubSpot Lead Export (Nov 2025)"
+        },
+        {
+          "source_id": "src-mailchimp-logs",
+          "source_type": "email_platform",
+          "source_label": "Mailchimp Campaign Logs"
+        }
+      ],
+      "limitations": [
+        "Phone call response times not tracked in CRM",
+        "Weekend leads excluded from analysis"
+      ],
+      "confidence": {
+        "rating": "high",
+        "rationale": "Large sample size with consistent CRM data quality"
+      }
+    },
+    "workflows": [
+      {
+        "workflow_id": "wf-lead-response",
+        "name": "Inbound Lead Response",
+        "trigger": "Web form submission",
+        "objective": "Convert inbound lead to qualified opportunity",
+        "primary_kpi": "First-response time <= 5 minutes",
+        "steps": [
+          {
+            "step_id": "step-1",
+            "sequence": 1,
+            "name": "Form submission received",
+            "owner_type": "automation"
+          },
+          {
+            "step_id": "step-2",
+            "sequence": 2,
+            "name": "Lead created in CRM",
+            "owner_type": "automation"
+          },
+          {
+            "step_id": "step-3",
+            "sequence": 3,
+            "name": "Sales rep notified",
+            "owner_type": "automation"
+          },
+          {
+            "step_id": "step-4",
+            "sequence": 4,
+            "name": "First human contact",
+            "owner_type": "human"
+          }
+        ],
+        "measurements": [
+          {
+            "measurement_id": "m-response-time",
+            "name": "Average first response time",
+            "metric_type": "latency",
+            "value": {
+              "kind": "duration",
+              "duration": {
+                "value": 4.2,
+                "unit": "h",
+                "display": "4.2h"
+              }
+            },
+            "value_display": "4.2h",
+            "target": "<5m",
+            "benchmark_id": "bench-lead-response",
+            "method": "crm_history",
+            "sample_size": 347,
+            "evidence": [
+              {
+                "evidence_id": "ev-001",
+                "source_id": "src-hubspot-export",
+                "evidence_type": "export_row_sample",
+                "summary": "Lead creation to first activity timestamp delta averaged 4.2 hours across 347 leads"
+              }
+            ]
+          },
+          {
+            "measurement_id": "m-sync-delay",
+            "name": "CRM-to-email sync latency",
+            "metric_type": "latency",
+            "value": {
+              "kind": "range",
+              "min": 0,
+              "max": 59,
+              "display": "0–59m"
+            },
+            "value_display": "0–59m",
+            "target": "<1m",
+            "method": "email_header_analysis",
+            "sample_size": 289,
+            "evidence": [
+              {
+                "evidence_id": "ev-002",
+                "source_id": "src-mailchimp-logs",
+                "evidence_type": "log_excerpt",
+                "summary": "Batch sync runs hourly; leads wait up to 59 minutes for campaign enrollment"
+              }
+            ]
+          },
+          {
+            "measurement_id": "m-duplicate-rate",
+            "name": "CRM duplicate rate",
+            "metric_type": "quality",
+            "value": {
+              "kind": "percentage",
+              "value": 2.8,
+              "scale": "percent",
+              "display": "2.8%"
+            },
+            "value_display": "2.8%",
+            "method": "crm_history",
+            "evidence": [
+              {
+                "evidence_id": "ev-003",
+                "source_id": "src-hubspot-export",
+                "evidence_type": "export_row_sample",
+                "summary": "10 duplicate records found in 347 total leads"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "scorecard": {
+    "executive_summary": {
+      "body": "Your lead response process has a critical bottleneck: new inquiries sit untouched for 4+ hours before first contact. This delay is bleeding an estimated <strong>$4,200/month</strong> in lost conversions. Immediate automation of the intake-to-response handoff will recover the majority of this loss.",
+      "generated_by": "human"
+    },
+    "rows": [
+      {
+        "row_id": "row-speed-to-lead",
+        "category": "Speed-to-Lead",
+        "status": "critical",
+        "status_is_critical": true,
+        "has_metrics": true,
+        "finding": {
+          "summary": "Leads wait 4.2 hours average before first human contact.",
+          "benchmark_reference_id": "bench-lead-response",
+          "meta": "Benchmark reference: InsideSales.com/MIT Lead Response Management Study."
+        },
+        "metrics": [
+          {
+            "label": "Your metric",
+            "value_display": "4.2h",
+            "measurement_id": "m-response-time",
+            "is_benchmark": false
+          },
+          {
+            "label": "Benchmark",
+            "value_display": "<5m",
+            "benchmark_id": "bench-lead-response",
+            "is_benchmark": true
+          }
+        ],
+        "measurement_ids": ["m-response-time"]
+      },
+      {
+        "row_id": "row-integration-latency",
+        "category": "Integration Latency",
+        "status": "warning",
+        "status_is_critical": false,
+        "has_metrics": true,
+        "finding": {
+          "summary": "CRM-to-email enrollment runs hourly batch jobs, delaying welcome sequences by up to 59 minutes.",
+          "risk": "Risk: will break at >100 leads/day (batch sync becomes a throughput bottleneck)."
+        },
+        "metrics": [
+          {
+            "label": "Your metric",
+            "value_display": "0–59m",
+            "measurement_id": "m-sync-delay",
+            "is_benchmark": false
+          },
+          {
+            "label": "Target",
+            "value_display": "<1m",
+            "is_benchmark": true
+          }
+        ],
+        "measurement_ids": ["m-sync-delay"]
+      },
+      {
+        "row_id": "row-data-hygiene",
+        "category": "Data Hygiene",
+        "status": "healthy",
+        "status_is_critical": false,
+        "has_metrics": false,
+        "finding": {
+          "summary": "CRM records show 2.8% duplicate rate and <3% field error rate. No action required."
+        },
+        "metrics": [],
+        "measurement_ids": ["m-duplicate-rate"]
+      }
+    ],
+    "overall": {
+      "status_distribution": {
+        "critical": 1,
+        "warning": 1,
+        "healthy": 1
+      }
+    }
+  },
+  "bleed": {
+    "currency": "USD",
+    "period": "month",
+    "period_display": "Per Month",
+    "total": {
+      "amount": 4200,
+      "currency": "USD",
+      "display": "$4,200"
+    },
+    "breakdown": [
+      {
+        "item_id": "bleed-speed",
+        "label": "Speed-to-Lead",
+        "status": "critical",
+        "amount": {
+          "amount": 3500,
+          "currency": "USD",
+          "display": "$3,500"
+        },
+        "driver_measurement_ids": ["m-response-time"]
+      },
+      {
+        "item_id": "bleed-sync",
+        "label": "Sync Delay",
+        "status": "warning",
+        "amount": {
+          "amount": 700,
+          "currency": "USD",
+          "display": "$700"
+        },
+        "driver_measurement_ids": ["m-sync-delay"]
+      }
+    ],
+    "assumptions": [
+      {
+        "assumption_id": "a-missed-leads",
+        "name": "Missed leads per month",
+        "value": 70,
+        "unit": "leads/mo",
+        "source_or_basis": "Estimated from response time decay curve",
+        "confidence": "medium"
+      },
+      {
+        "assumption_id": "a-lead-value",
+        "name": "Average lead value",
+        "value": 50,
+        "unit": "USD/lead",
+        "source_or_basis": "Client-provided historical close rate × ACV",
+        "confidence": "high"
+      }
+    ],
+    "calculations": [
+      {
+        "calc_id": "calc-speed",
+        "label": "Speed-to-Lead bleed",
+        "formula": "70 leads/mo × $50/lead",
+        "inputs": ["a-missed-leads", "a-lead-value"],
+        "result_amount": {
+          "amount": 3500,
+          "currency": "USD"
+        },
+        "attribution_breakdown_item_id": "bleed-speed"
+      },
+      {
+        "calc_id": "calc-sync",
+        "label": "Sync delay bleed",
+        "formula": "Engagement drop from 59m enrollment delay",
+        "inputs": ["m-sync-delay"],
+        "result_amount": {
+          "amount": 700,
+          "currency": "USD"
+        },
+        "attribution_breakdown_item_id": "bleed-sync"
+      }
+    ],
+    "math_defender_text": "Assumptions (adjustable): <code>70 missed leads/mo × $50 avg value = $3,500</code> + <code>$700 from ~59m campaign enrollment delay</code>. Observed: <code>4.2h avg response time</code>."
+  },
+  "fixes": {
+    "quick_win_fix_id": "fix-auto-responder",
+    "items": [
+      {
+        "fix_id": "fix-auto-responder",
+        "status": "proposed",
+        "severity": "critical",
+        "bleed_period": "month",
+        "problem": "New leads sit in queue until manual review (4+ hour delay).",
+        "solution": "Webhook trigger → instant SMS + email auto-responder within 60 seconds.",
+        "quick_win": true,
+        "impact": {
+          "estimated_recovery": {
+            "amount": 3500,
+            "currency": "USD",
+            "display": "$3,500"
+          },
+          "basis": "conversion opportunities",
+          "maps_to_breakdown_item_ids": ["bleed-speed"],
+          "tier": "high"
+        },
+        "effort": {
+          "tier": "low",
+          "estimated_hours_range": {
+            "min_hours": 2,
+            "most_likely_hours": 4,
+            "max_hours": 8
+          },
+          "skills_required": ["automation", "API"]
+        },
+        "turnaround": {
+          "label": "1-Day",
+          "business_days_min": 1,
+          "business_days_max": 1
+        },
+        "dependencies": [],
+        "acceptance_criteria": [
+          "New form submissions trigger auto-response within 60 seconds",
+          "Response includes personalized greeting with lead name",
+          "Sales rep receives parallel notification"
+        ],
+        "related_measurement_ids": ["m-response-time"]
+      },
+      {
+        "fix_id": "fix-realtime-sync",
+        "status": "proposed",
+        "severity": "warning",
+        "bleed_period": "month",
+        "problem": "Batch sync delays welcome email sequence by up to 1 hour.",
+        "solution": "Real-time API trigger replaces hourly cron job for campaign enrollment.",
+        "quick_win": false,
+        "impact": {
+          "estimated_recovery": {
+            "amount": 700,
+            "currency": "USD",
+            "display": "$700"
+          },
+          "basis": "engagement revenue",
+          "maps_to_breakdown_item_ids": ["bleed-sync"],
+          "tier": "medium"
+        },
+        "effort": {
+          "tier": "medium",
+          "estimated_hours_range": {
+            "min_hours": 8,
+            "most_likely_hours": 16,
+            "max_hours": 24
+          },
+          "skills_required": ["API", "automation"]
+        },
+        "turnaround": {
+          "label": "2–3 Days",
+          "business_days_min": 2,
+          "business_days_max": 3
+        },
+        "dependencies": [
+          {
+            "dependency_type": "access",
+            "description": "Mailchimp API key with campaign enrollment permissions",
+            "owner": "client",
+            "blocking": true
+          }
+        ],
+        "acceptance_criteria": [
+          "New CRM leads enrolled in welcome campaign within 60 seconds",
+          "Batch job disabled after verification",
+          "Error alerting configured for failed enrollments"
+        ],
+        "related_measurement_ids": ["m-sync-delay"]
+      }
+    ]
+  },
+  "cta": {
+    "phases": [
+      {
+        "phase_id": "phase_1_audit",
+        "label": "Phase 1: Audit",
+        "state": "complete",
+        "is_last": false
+      },
+      {
+        "phase_id": "phase_2_stabilize",
+        "label": "Phase 2: Stabilize",
+        "state": "current",
+        "is_last": false
+      },
+      {
+        "phase_id": "phase_3_scale",
+        "label": "Phase 3: Scale",
+        "state": "upcoming",
+        "is_last": true
+      }
+    ],
+    "current_phase": "phase_2_stabilize",
+    "completed_phase_ids": ["phase_1_audit"],
+    "headline": "Approve Phase 2: Stabilize",
+    "subtext": "30 minutes to scope quick wins + delivery plan",
+    "link": "https://calendly.com/wranngle-systems",
+    "link_display": "calendly.com/wranngle-systems",
+    "call_duration_minutes": 30
+  },
+  "benchmarks": [
+    {
+      "benchmark_id": "bench-lead-response",
+      "name": "MIT Lead Response Management Study",
+      "metric_name": "First response time",
+      "target_value": "<5m",
+      "unit": "minutes",
+      "citation": "src-mit-study",
+      "year": 2011
+    }
+  ],
+  "sources": [
+    {
+      "source_id": "src-mit-study",
+      "type": "study",
+      "title": "Lead Response Management Study",
+      "authors": ["James Oldroyd", "Kristina McElheran"],
+      "publisher": "InsideSales.com / MIT",
+      "published_date": "2011-01-01",
+      "url": "https://www.leadresponsemanagement.org/lrm_study"
+    }
+  ],
+  "rendering": {
+    "mode": "conversion",
+    "is_conversion_mode": true,
+    "page": {
+      "size": "letter",
+      "margins_in": {
+        "top": 0.35,
+        "right": 0.35,
+        "bottom": 0.45,
+        "left": 0.35
+      }
+    },
+    "layout_guards": {
+      "max_pages": 1
+    }
+  },
+  "offer": {
+    "sku_code": "WR-AI-AUDIT-100",
+    "sku_name": "AI Process Audit (Phase 1)",
+    "display_in_footer": true
+  }
+}

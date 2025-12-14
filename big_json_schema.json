@@ -1,0 +1,1240 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://wranngle.com/schemas/ai-process-audit-report.schema.json",
+  "title": "Wranngle AI Process Audit Report",
+  "description": "Canonical contract between audit capture tooling and report rendering. Supports single-workflow audits with strict validation.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "document",
+    "prepared_for",
+    "prepared_by",
+    "audit",
+    "scorecard",
+    "bleed",
+    "fixes",
+    "cta",
+    "rendering"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "description": "Schema version (semver).",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$",
+      "examples": [
+        "1.0.0"
+      ]
+    },
+    "document": {
+      "type": "object",
+      "description": "Document identity and lifecycle metadata.",
+      "additionalProperties": false,
+      "required": [
+        "document_id",
+        "created_at",
+        "report_date",
+        "title",
+        "locale",
+        "timezone"
+      ],
+      "properties": {
+        "document_id": {
+          "type": "string",
+          "description": "Unique document identifier (UUID)."
+        },
+        "created_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "report_date": {
+          "type": "string",
+          "description": "Human-readable report date."
+        },
+        "report_year": {
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        },
+        "subtitle": {
+          "type": "string"
+        },
+        "confidentiality": {
+          "type": "string",
+          "enum": [
+            "public",
+            "internal",
+            "confidential",
+            "restricted"
+          ]
+        },
+        "locale": {
+          "type": "string"
+        },
+        "timezone": {
+          "type": "string"
+        },
+        "brand": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "brand_name": {
+              "type": "string"
+            },
+            "logo_uri": {
+              "type": "string"
+            },
+            "primary_domain": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "prepared_for": {
+      "type": "object",
+      "description": "Client organization details.",
+      "additionalProperties": false,
+      "required": [
+        "account_name"
+      ],
+      "properties": {
+        "account_id": {
+          "type": "string"
+        },
+        "account_name": {
+          "type": "string"
+        },
+        "industry": {
+          "type": "string"
+        },
+        "primary_contact": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "name": {
+              "type": "string"
+            },
+            "title": {
+              "type": "string"
+            },
+            "email": {
+              "type": "string"
+            },
+            "role_in_decision": {
+              "type": "string",
+              "enum": [
+                "economic_buyer",
+                "technical_buyer",
+                "end_user",
+                "champion",
+                "other"
+              ]
+            }
+          }
+        }
+      }
+    },
+    "prepared_by": {
+      "type": "object",
+      "description": "Report producer details.",
+      "additionalProperties": false,
+      "required": [
+        "producer_name"
+      ],
+      "properties": {
+        "producer_name": {
+          "type": "string"
+        },
+        "producer_email": {
+          "type": "string"
+        },
+        "producer_company": {
+          "type": "string"
+        }
+      }
+    },
+    "audit": {
+      "type": "object",
+      "description": "Audit scope, methodology, and raw measurements.",
+      "additionalProperties": false,
+      "required": [
+        "audit_id",
+        "scope"
+      ],
+      "properties": {
+        "audit_id": {
+          "type": "string"
+        },
+        "scope": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "scope_statement",
+            "in_scope",
+            "out_of_scope",
+            "systems_involved"
+          ],
+          "properties": {
+            "scope_statement": {
+              "type": "string"
+            },
+            "in_scope": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "out_of_scope": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "systems_involved": {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/system_involved"
+              }
+            },
+            "time_window": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "start": {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                "end": {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                "timezone": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "methodology": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "methods": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "method_type": {
+                    "type": "string"
+                  },
+                  "details": {
+                    "type": "string"
+                  },
+                  "sample_size": {
+                    "type": "integer"
+                  }
+                }
+              }
+            },
+            "data_sources": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "source_id": {
+                    "type": "string"
+                  },
+                  "source_type": {
+                    "type": "string"
+                  },
+                  "source_label": {
+                    "type": "string"
+                  }
+                }
+              }
+            },
+            "limitations": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "confidence": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "rating": {
+                  "type": "string",
+                  "enum": [
+                    "low",
+                    "medium",
+                    "high"
+                  ]
+                },
+                "rationale": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "workflows": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "workflow_id",
+              "name"
+            ],
+            "properties": {
+              "workflow_id": {
+                "type": "string"
+              },
+              "name": {
+                "type": "string"
+              },
+              "trigger": {
+                "type": "string"
+              },
+              "objective": {
+                "type": "string"
+              },
+              "primary_kpi": {
+                "type": "string"
+              },
+              "steps": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "step_id": {
+                      "type": "string"
+                    },
+                    "sequence": {
+                      "type": "integer"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "owner_type": {
+                      "type": "string",
+                      "enum": [
+                        "human",
+                        "automation",
+                        "hybrid"
+                      ]
+                    }
+                  }
+                }
+              },
+              "measurements": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/$defs/measurement"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "scorecard": {
+      "type": "object",
+      "description": "Report-friendly health summary.",
+      "additionalProperties": false,
+      "required": [
+        "rows"
+      ],
+      "properties": {
+        "executive_summary": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "body": {
+              "type": "string"
+            },
+            "generated_by": {
+              "type": "string"
+            }
+          }
+        },
+        "rows": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "row_id",
+              "category",
+              "status"
+            ],
+            "properties": {
+              "row_id": {
+                "type": "string"
+              },
+              "category": {
+                "type": "string"
+              },
+              "status": {
+                "type": "string",
+                "enum": [
+                  "critical",
+                  "warning",
+                  "healthy"
+                ]
+              },
+              "status_is_critical": {
+                "type": "boolean"
+              },
+              "has_metrics": {
+                "type": "boolean"
+              },
+              "finding": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "summary": {
+                    "type": "string"
+                  },
+                  "risk": {
+                    "type": "string"
+                  },
+                  "benchmark_reference_id": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "meta": {
+                    "type": [
+                      "object",
+                      "null"
+                    ]
+                  }
+                }
+              },
+              "metrics": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/$defs/metric_chip"
+                }
+              },
+              "measurement_ids": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "overall": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "status_distribution": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "critical": {
+                  "type": "integer"
+                },
+                "warning": {
+                  "type": "integer"
+                },
+                "healthy": {
+                  "type": "integer"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "bleed": {
+      "type": "object",
+      "description": "Revenue bleed analysis.",
+      "additionalProperties": false,
+      "required": [
+        "total"
+      ],
+      "properties": {
+        "currency": {
+          "type": "string"
+        },
+        "period": {
+          "type": "string",
+          "enum": [
+            "day",
+            "week",
+            "month",
+            "quarter",
+            "year"
+          ]
+        },
+        "period_display": {
+          "type": "string"
+        },
+        "total": {
+          "$ref": "#/$defs/money"
+        },
+        "breakdown": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "item_id": {
+                "type": "string"
+              },
+              "label": {
+                "type": "string"
+              },
+              "status": {
+                "type": "string",
+                "enum": [
+                  "critical",
+                  "warning",
+                  "healthy"
+                ]
+              },
+              "amount": {
+                "$ref": "#/$defs/money"
+              },
+              "driver_measurement_ids": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "assumptions": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "assumption_id": {
+                "type": "string"
+              },
+              "name": {
+                "type": "string"
+              },
+              "value": {
+                "type": "number"
+              },
+              "unit": {
+                "type": "string"
+              },
+              "source_or_basis": {
+                "type": "string"
+              },
+              "confidence": {
+                "type": "string",
+                "enum": [
+                  "low",
+                  "medium",
+                  "high"
+                ]
+              }
+            }
+          }
+        },
+        "calculations": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "calc_id": {
+                "type": "string"
+              },
+              "label": {
+                "type": "string"
+              },
+              "formula": {
+                "type": "string"
+              },
+              "inputs": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "result_amount": {
+                "$ref": "#/$defs/money"
+              },
+              "attribution_breakdown_item_id": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "math_defender_text": {
+          "type": "string"
+        }
+      }
+    },
+    "fixes": {
+      "type": "object",
+      "description": "Recommended fixes.",
+      "additionalProperties": false,
+      "required": [
+        "items"
+      ],
+      "properties": {
+        "quick_win_fix_id": {
+          "type": "string"
+        },
+        "items": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "fix_id",
+              "problem",
+              "solution"
+            ],
+            "properties": {
+              "fix_id": {
+                "type": "string"
+              },
+              "status": {
+                "type": "string",
+                "enum": [
+                  "proposed",
+                  "approved",
+                  "in_progress",
+                  "completed",
+                  "rejected"
+                ]
+              },
+              "severity": {
+                "type": "string",
+                "enum": [
+                  "critical",
+                  "warning",
+                  "healthy"
+                ]
+              },
+              "bleed_period": {
+                "type": "string"
+              },
+              "problem": {
+                "type": "string"
+              },
+              "solution": {
+                "type": "string"
+              },
+              "quick_win": {
+                "type": "boolean"
+              },
+              "impact": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "estimated_recovery": {
+                    "$ref": "#/$defs/money"
+                  },
+                  "basis": {
+                    "type": "string"
+                  },
+                  "maps_to_breakdown_item_ids": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "tier": {
+                    "type": "string",
+                    "enum": [
+                      "low",
+                      "medium",
+                      "high"
+                    ]
+                  }
+                }
+              },
+              "effort": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "tier": {
+                    "type": "string",
+                    "enum": [
+                      "low",
+                      "medium",
+                      "high"
+                    ]
+                  },
+                  "estimated_hours_range": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "min_hours": {
+                        "type": "number"
+                      },
+                      "most_likely_hours": {
+                        "type": "number"
+                      },
+                      "max_hours": {
+                        "type": "number"
+                      }
+                    }
+                  },
+                  "skills_required": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  }
+                }
+              },
+              "turnaround": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "label": {
+                    "type": "string"
+                  },
+                  "business_days_min": {
+                    "type": "integer"
+                  },
+                  "business_days_max": {
+                    "type": "integer"
+                  }
+                }
+              },
+              "dependencies": {
+                "type": "array",
+                "items": {
+                  "oneOf": [
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "type": "object"
+                    }
+                  ]
+                }
+              },
+              "acceptance_criteria": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "related_measurement_ids": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "cta": {
+      "type": "object",
+      "description": "Call to action. Supports both booking calls (Phase 1) and proposal approval (Phase 2).",
+      "additionalProperties": false,
+      "required": [
+        "headline",
+        "link"
+      ],
+      "properties": {
+        "action_type": {
+          "type": "string",
+          "enum": [
+            "book_call",
+            "view_proposal",
+            "approve_proposal"
+          ],
+          "description": "Primary CTA action type. Defaults to book_call for backwards compatibility."
+        },
+        "phases": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "phase_id": {
+                "type": "string"
+              },
+              "label": {
+                "type": "string"
+              },
+              "state": {
+                "type": "string",
+                "enum": [
+                  "complete",
+                  "current",
+                  "upcoming"
+                ]
+              },
+              "is_last": {
+                "type": "boolean"
+              }
+            }
+          }
+        },
+        "current_phase": {
+          "type": "string"
+        },
+        "completed_phase_ids": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "headline": {
+          "type": "string"
+        },
+        "subtext": {
+          "type": "string"
+        },
+        "link": {
+          "type": "string",
+          "format": "uri",
+          "description": "Primary action URL (Calendly for book_call, proposal viewer for view_proposal)."
+        },
+        "link_display": {
+          "type": "string"
+        },
+        "call_duration_minutes": {
+          "type": "integer"
+        },
+        "proposal": {
+          "type": "object",
+          "description": "Proposal tracking details for Phase 2 approval flow.",
+          "additionalProperties": false,
+          "properties": {
+            "proposal_id": {
+              "type": "string",
+              "description": "Unique proposal identifier."
+            },
+            "token": {
+              "type": "string",
+              "description": "Secure token for proposal access (used in link)."
+            },
+            "status": {
+              "type": "string",
+              "enum": [
+                "draft",
+                "sent",
+                "viewed",
+                "approved",
+                "rejected",
+                "expired"
+              ]
+            },
+            "expires_at": {
+              "type": "string",
+              "format": "date-time",
+              "description": "Proposal expiration timestamp for urgency."
+            },
+            "expires_display": {
+              "type": "string",
+              "description": "Human-readable expiration (e.g., 'Expires in 7 days')."
+            },
+            "total_value": {
+              "$ref": "#/$defs/money",
+              "description": "Total proposal value for display."
+            }
+          }
+        },
+        "secondary_action": {
+          "type": "object",
+          "description": "Optional secondary CTA (e.g., 'Have questions? Book a call').",
+          "additionalProperties": false,
+          "properties": {
+            "label": {
+              "type": "string"
+            },
+            "link": {
+              "type": "string",
+              "format": "uri"
+            },
+            "link_display": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "benchmarks": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "benchmark_id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "source": {
+            "type": "string"
+          },
+          "value": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "sources": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "source_id": {
+            "type": "string"
+          },
+          "citation": {
+            "type": "string"
+          },
+          "url": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "rendering": {
+      "type": "object",
+      "description": "Rendering configuration.",
+      "additionalProperties": false,
+      "properties": {
+        "mode": {
+          "type": "string",
+          "enum": [
+            "conversion",
+            "internal",
+            "executive"
+          ]
+        },
+        "is_conversion_mode": {
+          "type": "boolean"
+        },
+        "page": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "size": {
+              "type": "string",
+              "enum": [
+                "letter",
+                "a4"
+              ]
+            },
+            "margins_in": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "top": {
+                  "type": "number"
+                },
+                "right": {
+                  "type": "number"
+                },
+                "bottom": {
+                  "type": "number"
+                },
+                "left": {
+                  "type": "number"
+                }
+              }
+            }
+          }
+        },
+        "layout_guards": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "max_pages": {
+              "type": "integer"
+            }
+          }
+        }
+      }
+    },
+    "offer": {
+      "type": "object",
+      "description": "Product offer details.",
+      "additionalProperties": false,
+      "properties": {
+        "sku_code": {
+          "type": "string"
+        },
+        "sku_name": {
+          "type": "string"
+        },
+        "display_in_footer": {
+          "type": "boolean"
+        }
+      }
+    }
+  },
+  "$defs": {
+    "money": {
+      "type": "object",
+      "description": "Currency-aware money value.",
+      "additionalProperties": false,
+      "required": [
+        "amount",
+        "currency"
+      ],
+      "properties": {
+        "amount": {
+          "type": "number",
+          "description": "Monetary amount in currency units."
+        },
+        "currency": {
+          "type": "string",
+          "description": "ISO 4217 currency code.",
+          "examples": [
+            "USD"
+          ]
+        },
+        "display": {
+          "type": "string",
+          "description": "Formatted display string."
+        },
+        "precision_note": {
+          "type": "string",
+          "description": "Optional note on precision."
+        }
+      }
+    },
+    "duration": {
+      "type": "object",
+      "description": "Duration value with unit.",
+      "additionalProperties": false,
+      "required": [
+        "value",
+        "unit"
+      ],
+      "properties": {
+        "value": {
+          "type": "number",
+          "minimum": 0,
+          "description": "Numeric duration value."
+        },
+        "unit": {
+          "type": "string",
+          "enum": [
+            "s",
+            "m",
+            "h",
+            "d",
+            "w",
+            "mo",
+            "y"
+          ],
+          "description": "Duration unit."
+        },
+        "display": {
+          "type": "string",
+          "description": "Formatted display string."
+        }
+      }
+    },
+    "metric_chip": {
+      "type": "object",
+      "description": "UI-oriented metric for scorecard display.",
+      "additionalProperties": false,
+      "required": [
+        "label",
+        "value_display"
+      ],
+      "properties": {
+        "label": {
+          "type": "string",
+          "description": "Chip label (e.g., 'Your metric', 'Target')."
+        },
+        "value_display": {
+          "type": "string",
+          "description": "Formatted value string."
+        },
+        "measurement_id": {
+          "type": "string",
+          "description": "Reference to source measurement."
+        },
+        "is_benchmark": {
+          "type": "boolean",
+          "description": "Whether this is a benchmark/target value."
+        }
+      }
+    },
+    "evidence": {
+      "type": "object",
+      "description": "Evidence record supporting a measurement.",
+      "additionalProperties": false,
+      "required": [
+        "evidence_id",
+        "evidence_type"
+      ],
+      "properties": {
+        "evidence_id": {
+          "type": "string"
+        },
+        "source_id": {
+          "type": "string"
+        },
+        "evidence_type": {
+          "type": "string",
+          "enum": [
+            "client_statement",
+            "log_excerpt",
+            "screenshot",
+            "api_response",
+            "manual_timing",
+            "email_sample",
+            "interview_note",
+            "other"
+          ]
+        },
+        "summary": {
+          "type": "string"
+        }
+      }
+    },
+    "measurement_value": {
+      "type": "object",
+      "description": "Polymorphic measurement value.",
+      "additionalProperties": false,
+      "required": [
+        "kind"
+      ],
+      "properties": {
+        "kind": {
+          "type": "string",
+          "enum": [
+            "duration",
+            "percentage",
+            "count",
+            "money",
+            "ratio"
+          ]
+        },
+        "value": {
+          "type": "number"
+        },
+        "scale": {
+          "type": "string"
+        },
+        "display": {
+          "type": "string"
+        },
+        "duration": {
+          "$ref": "#/$defs/duration"
+        }
+      }
+    },
+    "measurement": {
+      "type": "object",
+      "description": "Canonical measurement from audit.",
+      "additionalProperties": false,
+      "required": [
+        "measurement_id",
+        "name",
+        "value_display"
+      ],
+      "properties": {
+        "measurement_id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "metric_type": {
+          "type": "string",
+          "enum": [
+            "latency",
+            "error_rate",
+            "quality",
+            "complexity",
+            "volume",
+            "cost"
+          ]
+        },
+        "value": {
+          "$ref": "#/$defs/measurement_value"
+        },
+        "value_display": {
+          "type": "string"
+        },
+        "target": {
+          "type": "string"
+        },
+        "method": {
+          "type": "string"
+        },
+        "evidence": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/evidence"
+          }
+        }
+      }
+    },
+    "system_involved": {
+      "type": "object",
+      "description": "System/tool involved in the workflow.",
+      "additionalProperties": false,
+      "required": [
+        "system_name",
+        "system_type"
+      ],
+      "properties": {
+        "system_name": {
+          "type": "string"
+        },
+        "system_type": {
+          "type": "string",
+          "enum": [
+            "crm",
+            "email",
+            "calendar",
+            "spreadsheet",
+            "call_tracking",
+            "custom_app",
+            "database",
+            "analytics",
+            "portal",
+            "phone",
+            "sms",
+            "forms",
+            "property_management",
+            "erp",
+            "ticketing",
+            "chat",
+            "other"
+          ]
+        },
+        "environment": {
+          "type": "string",
+          "enum": [
+            "prod",
+            "staging",
+            "dev",
+            "unknown"
+          ]
+        }
+      }
+    }
+  }
+}

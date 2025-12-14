@@ -1,0 +1,49 @@
+{
+  "$schema": "./intake_packet_schema.json",
+  "intake_version": "1.0.0",
+  "captured_at": "",
+  "captured_by": "",
+
+  "prepared_for": {
+    "account_id": "",
+    "account_name": ""
+  },
+
+  "section_a_workflow_definition": {
+    "q01_workflow_name": "",
+    "q02_trigger_event": "",
+    "q03_business_objective": "",
+    "q04_end_condition": "",
+    "q05_outcome_owner": ""
+  },
+
+  "section_b_volume_timing": {
+    "q06_runs_per_period": "",
+    "q06_period_unit": "",
+    "q07_avg_trigger_to_end": "",
+    "q07_time_unit": "",
+    "q08_worst_case_delay": "",
+    "q08_delay_unit": "",
+    "q09_business_hours_expected": ""
+  },
+
+  "section_c_systems_handoffs": {
+    "q10_systems_involved": [],
+    "q11_manual_data_transfers": "",
+    "q12_human_decision_gates": ""
+  },
+
+  "section_d_failure_cost": {
+    "q13_common_failures": "",
+    "q14_cost_if_slow_or_failed": ""
+  },
+
+  "section_e_priority": {
+    "q15_one_thing_to_fix": ""
+  },
+
+  "attachments": {
+    "evidence_uris": [],
+    "notes": ""
+  }
+}
