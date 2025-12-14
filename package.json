@@ -7,9 +7,8 @@
     "ai-audit": "./cli.js"
   },
   "scripts": {
-    "render": "node render.js",
-    "pipeline": "node cli.js",
-    "test": "node test_run/run_pipeline_test.js"
+    "test": "node test_run/run_pipeline_test.js",
+    "test:render": "node test_run/render_test.js"
   },
   "keywords": [],
   "author": "",

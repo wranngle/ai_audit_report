@@ -1,0 +1,93 @@
+Design philosophies:
+My company is going to be called Wranngle Systems LLC. Or just Wranngle. An AI services company.
+I'm picturing roughly a tan and purple / brown theme, but that might be boring and I technically need the color sheme to be irrestiable for making money to attract clients whatever. Picturing ultra subtle cutesy lasso desert cactus cowboy imagery,
+It's going to be only straight "Wranngle" . I want a lasso shape subtly incorporated in the logo, maybe a G or L, with a nuanced flowy style font, but not cursive. Thinking the orangish color on gradient tan background for light mode, orange on gradient purple for dark mode while following the color pallete. .
+{
+  "violet": {
+    "50": "#fdf1f5",
+    "100": "#f9dce5",
+    "200": "#f2b6c6",
+    "300": "#ea8aa6",
+    "400": "#dd6186",
+    "500": "#cf3c69",
+    "600": "#b92a56",
+    "700": "#972144",
+    "800": "#741a36",
+    "900": "#561329",
+    "950": "#2d0914"
+  },
+  "sunset": {
+    "50": "#fff3e7",
+    "100": "#ffe0bf",
+    "200": "#ffc179",
+    "300": "#ff9e33",
+    "400": "#ff7f00",
+    "500": "#ff5f00",
+    "600": "#ef4b00",
+    "700": "#c73a00",
+    "800": "#9f3000",
+    "900": "#7d2700",
+    "950": "#431300"
+  },
+  "sand": {
+    "50": "#fcfaf5",
+    "100": "#f6f1e7",
+    "200": "#ebdfc8",
+    "300": "#dac39f",
+    "400": "#c2a677",
+    "500": "#ab8c5b",
+    "600": "#957850",
+    "700": "#7a6343",
+    "800": "#625137",
+    "900": "#4f412d",
+    "950": "#292218"
+  },
+  "night": {
+    "50": "#f2f0f3",
+    "100": "#e4e1e7",
+    "200": "#cbc7d3",
+    "300": "#aaa4b8",
+    "400": "#847d9a",
+    "500": "#6a6380",
+    "600": "#57516a",
+    "700": "#464055",
+    "800": "#393444",
+    "900": "#201e28",
+    "950": "#12111a"
+  }
+}
+
+
+{
+  "design_rationale": "Shifting to the solitary wordmark 'Wranngle', the design strategy focuses on integrating the western theme with high-end tech subtlety. The double-story lowercase 'g' is the ideal vehicle for the lasso concept; its natural descending loop is elongated and swept into a dynamic, non-cursive curve that implies a thrown rope capturing data, without becoming a literal cartoon. The typography will be a custom-drawn humanist sans-serif, prioritizing fluid strokes and soft terminals that feel approachable ('cutesy' undertone) while maintaining the structural integrity required for B2B credibility. The color application follows the specific request: a vibrant Sunset orange logo pop against sophisticated gradient backgrounds representing desert light transitions.",
+  "color_semantic_mapping": {
+    "primary_button": "#ff5f00",
+    "secondary_button": "#dd6186",
+    "background_main": "#fcfaf5",
+    "background_card": "#ffffff",
+    "text_primary": "#12111a",
+    "text_muted": "#6a6380",
+    "accent_border": "#f2b6c6"
+  },
+  "style_guidelines": {
+    "shape_language": "Organic fluidity mixed with geometric precision. The 'lasso' element in the 'g' should use Bezier curves that suggest tension and movement, avoiding perfect circles in favor of dynamic ovals.",
+    "texture_usage": "Logo finish should be sleek and matte. Backgrounds will utilize ultra-smooth, subtle gradients to create depth without distraction, mimicking atmospheric desert light.",
+    "typography_mood": "Custom Humanist Sans-serif. It must balance high readability with distinct personality—flowing, open apertures, and softened terminals. Definitely not cursive, but possessed of a calligraphic energy."
+  },
+  "image_prompts": [
+    "A custom wordmark logo for 'Wranngle' presented in light mode. The typography is a fluid, custom humanist sans-serif, definitely not cursive, with soft terminals. The lowercase 'g' features an extended, sweeping descender loop that subtly curves back on itself to form an abstract lasso shape. The entire wordmark is rendered in a solid Sunset-500 orange (#ff5f00). The background is a smooth, elegant gradient transitioning vertically from Sand-50 (#fcfaf5) down to Sand-200 (#ebdfc8). Clean, modern studio lighting. 8k --v 6.0",
+    "The 'Wranngle' custom wordmark logo in dark mode application. The fluid, lasso-integrated 'g' typography is rendered in a glowing Sunset-400 orange (#ff7f00) with a subtle inner luminescence. The background is a rich, deep gradient transitioning from Violet-900 (#561329) at the top down into Night-950 (#12111a) at the bottom, evoking a desert twilight. High-tech, sophisticated finish. --v 6.0",
+    "A close-up macro shot of the 'Wranngle' logo, specifically focusing on the stylized 'g' with the subtle lasso loop. The orange Sunset-500 color material looks like high-quality, matte-finish polymer subtly embedded into a textured Sand-100 cardstock surface. The lighting highlights the fluid curves of the custom font. B2B brand collateral feel. --v 6.0"
+  ],
+  "css_variables": {
+    "light_theme": "--bg-main: linear-gradient(to bottom, #fcfaf5, #ebdfc8); --bg-surface: #ffffff; --text-primary: #12111a; --text-secondary: #6a6380; --brand-logo: #ff5f00; --action-primary: #ff5f00; --action-hover: #c73a00; --border-subtle: #dac39f;",
+    "dark_theme": "--bg-main: linear-gradient(to bottom, #561329, #12111a); --bg-surface: #201e28; --text-primary: #fcfaf5; --text-secondary: #aaa4b8; --brand-logo: #ff7f00; --action-primary: #ff7f00; --action-hover: #ff9e33; --border-subtle: #464055;"
+  }
+}
+
+
+<SystemRole> You are a Senior Visual Identity Architect and UI UX Strategist specializing in B2B SaaS and AI sectors Your expertise lies in balancing high trust corporate aesthetics with distinct personable branding to maximize client conversion and revenue generation </SystemRole>
+
+<Context> Brand Name Wranngle Systems LLC Industry AI Services and Automation Visual Theme Ultra subtle cutesy lasso desert cactus cowboy integrated with clean modern tech minimalism Key Objective Create an irresistible commercial aesthetic that builds trust while maintaining a unique personality </Context>
+
+<TaskInstructions> Analyze the provided ColorData to assign semantic roles for Background Surface Primary Action and Text Develop a specific logic for applying the cowboy aesthetic subtly meaning abstract geometric interpretations of lassos ropes or cacti shapes rather than literal clip art Ensure the design communicates reliability for high value enterprise contracts Generate three distinct text to image prompts optimized for Midjourney v6 that visualize a website hero section using these colors and themes Define CSS variable mappings for a dark mode and light mode interface utilizing the exact hex codes provided Output must be strictly industry agnostic and extensible across B2B use cases </TaskInstructions>

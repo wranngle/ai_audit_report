@@ -1,0 +1,48 @@
+{
+  "intake_version": "1.0.0",
+  "captured_at": "2024-12-14T00:00:00.000Z",
+  "captured_by": "Cody Arnold",
+  "prepared_for": {
+    "account_id": "CLIENT-001",
+    "account_name": "Apex Digital Marketing Agency"
+  },
+  "section_a_workflow_definition": {
+    "q01_workflow_name": "client onboarding",
+    "q02_trigger_event": "a signed contract hits their CRM (HubSpot)",
+    "q03_business_objective": "launch their first campaign within 14 business days of contract signing",
+    "q04_end_condition": "Campaign goes live, CSM marks as \"Launched\" in HubSpot",
+    "q05_outcome_owner": "Client Success Manager"
+  },
+  "section_b_volume_timing": {
+    "q06_runs_per_period": "25",
+    "q06_period_unit": "month",
+    "q07_avg_trigger_to_end": "18",
+    "q07_time_unit": "days",
+    "q08_worst_case_delay": "32",
+    "q08_delay_unit": "days",
+    "q09_business_hours_expected": "Yes, the target SLA is 14 business days."
+  },
+  "section_c_systems_handoffs": {
+    "q10_systems_involved": [
+      "CRM (HubSpot)",
+      "Project management (Monday.com)",
+      "Email (Gmail)",
+      "Scheduling (Calendly)",
+      "Docs (Google Docs)",
+      "Various ad platforms (Meta, Google Ads, LinkedIn)"
+    ],
+    "q11_manual_data_transfers": "CSM manually creates project in Monday.com; CSM uploads assets to client's ad platforms.",
+    "q12_human_decision_gates": "CSM decides when to create project in Monday.com (often delays); CSM decides which version of welcome email template to use; CSM schedules kickoff call (often 5-7 days out due to conflicts); CSM creates campaign brief content; CSM assigns tasks to creative team; CSM decides when to mark campaign as \"Launched\" in HubSpot."
+  },
+  "section_d_failure_cost": {
+    "q13_common_failures": "CRM → Monday sync is manual, CSM forgets or delays project creation; Welcome emails are inconsistent - each CSM has their own template version; Kickoff calls get scheduled 5-7 days out due to calendar conflicts; Campaign briefs sit waiting for client feedback for 3-5 days average; No visibility into which onboardings are at risk of missing SLA. Miss rate for 14-day SLA: 68%, Average delay past SLA: 4 days.",
+    "q14_cost_if_slow_or_failed": "Each delayed onboarding risks client churn - estimated 8% churn rate for delayed clients. Average client lifetime value: $36,000. Staff time wasted on manual syncing: ~3 hours per onboarding, CSM hourly cost: $45. Client just lost their biggest account ($120k/year) due to 32-day onboarding delay. They also get bad reviews that hurt new business acquisition."
+  },
+  "section_e_priority": {
+    "q15_one_thing_to_fix": "Auto-create Monday.com project when deal closes, with all tasks pre-populated"
+  },
+  "attachments": {
+    "evidence_uris": [],
+    "notes": "Secondary priority: Dashboard showing onboardings at risk of missing SLA"
+  }
+}

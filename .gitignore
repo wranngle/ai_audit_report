@@ -6,12 +6,18 @@
 # Dependencies
 node_modules/
 
-# Output files
+# Output files (test artifacts)
 test_run/output_*.html
 test_run/output_*.json
 test_run/generated_*.html
 test_run/generated_*.json
+test_run/e2e_*.html
+test_run/e2e_*.json
+test_run/cli_*.html
+test_run/cli_*.json
 test_run/*_extracted.json
+test_run/final_report.*
+test_run/report_with_narratives.json
 
 # OS files
 .DS_Store
