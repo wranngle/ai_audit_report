@@ -1,0 +1,62 @@
+Client: Riverside Medical Group
+Date: December 14, 2024
+Interviewer: Wranngle Auditor
+
+== WORKFLOW OVERVIEW ==
+
+They handle new patient intake and appointment scheduling. About 450 new patients per month across 3 locations.
+The process starts when a patient calls to schedule their first appointment.
+
+The goal is to complete intake paperwork and schedule the first visit within 48 hours for routine care.
+The front desk coordinator owns this process.
+
+== CURRENT PROCESS ==
+
+1. Patient calls, receptionist takes basic info over phone
+2. Receptionist manually emails a PDF intake form to the patient
+3. Patient prints, fills out by hand, and either faxes or brings to appointment
+4. Front desk manually enters data from paper form into EHR system (Athenahealth)
+5. Insurance verification done manually by calling insurance companies
+6. Appointment scheduled once insurance verified
+7. Confirmation call made 24 hours before appointment
+
+They have 2 front desk staff handling intake during business hours (8am-5pm).
+
+== SYSTEMS USED ==
+
+- Phone system (RingCentral) - initial contact
+- Email (Outlook) - sending intake forms
+- Fax machine - receiving completed forms
+- EHR system (Athenahealth) - patient records
+- Insurance verification (manual phone calls)
+- Google Calendar - appointment scheduling
+- Excel spreadsheet - tracking intake status
+
+== TIMING ==
+
+Average time from initial call to scheduled appointment: 72 hours
+Worst case delays: up to 2 weeks when insurance verification is complex
+They work Monday-Friday, 8am-5pm
+
+== PROBLEMS ==
+
+Patients don't return intake forms - about 30% no-show on first appointment due to incomplete paperwork.
+Insurance verification takes 45 minutes per patient on average, tying up staff.
+Data entry errors when transcribing from paper to EHR - about 15% error rate on allergies and medications.
+Faxed forms are often illegible, requiring callbacks to patients.
+No tracking system - staff loses track of who's in what stage of intake.
+
+About 30% of new patients fail to complete intake within the 48-hour SLA.
+
+== COSTS ==
+
+Each no-show costs approximately $200 in lost revenue.
+Staff spends 2 hours per patient on manual data entry and verification.
+Insurance verification delays cause appointment backlog, losing urgent care patients to competitors.
+Data entry errors lead to clinical risks and compliance issues.
+
+== WHAT THEY WANT FIXED ==
+
+Their #1 priority: "Automate the intake form delivery and make it digital so patients can fill it out online before their appointment"
+
+They also want automated insurance verification to free up staff time.

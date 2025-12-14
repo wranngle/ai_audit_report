@@ -1,0 +1,63 @@
+Client: HomeGoods Express
+Date: December 14, 2024
+Interviewer: Wranngle Auditor
+
+== WORKFLOW OVERVIEW ==
+
+They handle order fulfillment for home goods sold through Shopify. About 2,800 orders per month.
+The process starts when a customer completes checkout on their website.
+
+The goal is to ship orders within 24 hours for in-stock items.
+The warehouse manager owns this process end-to-end.
+
+== CURRENT PROCESS ==
+
+1. Order comes in through Shopify
+2. Email notification sent to warehouse team
+3. Warehouse staff manually prints packing slip from email
+4. Staff checks inventory in separate spreadsheet to see if item is in stock
+5. If in stock, item is picked from warehouse shelves
+6. Manual packing and labeling using USPS Click-N-Ship website
+7. Shipping label printed and applied
+8. Warehouse staff manually updates order status in Shopify
+9. Tracking number copied and pasted into customer notification email
+
+They have 4 warehouse staff working shifts to cover 6am-8pm daily.
+
+== SYSTEMS USED ==
+
+- Shopify store - order intake
+- Email inbox (Gmail) - order notifications
+- Excel spreadsheet - inventory tracking
+- USPS Click-N-Ship - shipping labels
+- Paper packing slips - pick lists
+- Manual inventory counts - weekly cycle counts
+
+== TIMING ==
+
+Average time from order to shipment: 38 hours
+Worst case delays: up to 5 days during peak seasons
+They work 7 days per week, 6am-8pm
+
+== PROBLEMS ==
+
+Inventory spreadsheet is frequently out of sync with actual stock - leads to overselling.
+Staff can't find items in warehouse because location tracking is on paper.
+Peak season (holidays) creates massive backlog - orders take 5+ days.
+Tracking numbers are manually entered wrong about 10% of the time.
+Customer service gets 50+ "where's my order" calls per day.
+
+About 25% of orders miss the 24-hour shipping SLA.
+
+== COSTS ==
+
+Each delayed order costs approximately $15 in customer service time and rush shipping to make up for delays.
+Overselling causes refunds and customer complaints - about 8% of orders are oversold.
+Lost sales due to "out of stock" when items are actually available but not found.
+Customer acquisition cost is $45, and delayed shipping causes 12% of first-time buyers not to return.
+
+== WHAT THEY WANT FIXED ==
+
+Their #1 priority: "Sync Shopify with our inventory in real-time so we stop overselling and can auto-generate shipping labels"
+
+They mentioned they desperately need better inventory location tracking to speed up picking.

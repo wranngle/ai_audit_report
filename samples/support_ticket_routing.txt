@@ -1,0 +1,64 @@
+Client: CloudTech Solutions (SaaS Company)
+Date: December 14, 2024
+Interviewer: Wranngle Auditor
+
+== WORKFLOW OVERVIEW ==
+
+They handle customer support tickets for their project management software. About 1,200 tickets per month.
+The process starts when a customer submits a support request via email or web form.
+
+The goal is to route tickets to the right specialist and provide first response within 2 hours.
+The support manager owns triage, specialists own resolution.
+
+== CURRENT PROCESS ==
+
+1. Ticket arrives via email or Zendesk web form
+2. Support manager manually reads each ticket to determine category
+3. Manager manually assigns to one of 6 specialists based on expertise and workload
+4. Specialist receives notification and starts working ticket
+5. Specialist searches internal wiki for similar issues (often can't find relevant info)
+6. Specialist asks engineering team for help via Slack if needed
+7. Engineer responds when available (no SLA for internal support)
+8. Specialist updates customer via Zendesk
+9. Manager manually checks all tickets daily for SLA compliance
+
+They have 1 support manager and 6 specialists covering 24/5 (M-F around the clock).
+
+== SYSTEMS USED ==
+
+- Zendesk - ticketing system
+- Email (Gmail) - some tickets come via email
+- Slack - internal communication with engineering
+- Confluence wiki - knowledge base (outdated)
+- Google Sheets - SLA tracking
+- Jira - bug tracking (separate from Zendesk)
+
+== TIMING ==
+
+Average time from ticket arrival to first response: 4.5 hours
+Worst case delays: up to 24 hours when tickets are miscategorized
+They work 24/5, Monday-Friday around the clock with offshore team
+
+== PROBLEMS ==
+
+Manual routing is slow - manager is a bottleneck, especially during peak hours (9am-11am PST).
+Miscategorization happens about 20% of the time - ticket goes to wrong specialist, gets re-routed.
+No integration between Zendesk and Jira - specialists manually create bug tickets.
+Knowledge base is disorganized and outdated - specialists can't find solutions quickly.
+Engineering team has no visibility into support queue - they don't know what's urgent.
+
+About 35% of tickets miss the 2-hour first response SLA.
+
+== COSTS ==
+
+Each SLA miss costs approximately $75 in customer credits per their service agreement.
+Misrouted tickets waste 30 minutes of specialist time on average.
+Duplicate work - specialists solve same problems repeatedly because solutions aren't documented.
+Customer churn - they've identified slow support as reason #2 for cancellations (12% annual churn rate).
+Average customer lifetime value: $18,000, losing 15 customers/year to support issues.
+
+== WHAT THEY WANT FIXED ==
+
+Their #1 priority: "Auto-route tickets based on keywords and past ticket history so our support manager doesn't have to manually triage everything"
+
+They mentioned they need better knowledge base search with AI to help specialists find solutions faster.

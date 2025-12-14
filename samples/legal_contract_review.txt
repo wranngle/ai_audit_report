@@ -1,0 +1,64 @@
+Client: Morrison & Associates Law Firm
+Date: December 14, 2024
+Interviewer: Wranngle Auditor
+
+== WORKFLOW OVERVIEW ==
+
+They handle vendor contract reviews for corporate clients. About 85 contracts per month.
+The process starts when a client emails a contract for review.
+
+The goal is to complete initial review and return redlines within 3 business days for standard contracts.
+The associate attorney owns the intake, senior partner does final review.
+
+== CURRENT PROCESS ==
+
+1. Client emails contract (usually PDF or Word doc) to generic firm email
+2. Paralegal manually forwards to assigned attorney based on practice area
+3. Attorney downloads contract and saves to shared network drive
+4. Attorney manually reads entire contract (30-120 pages typical)
+5. Attorney creates redline document in Word with tracked changes
+6. Attorney fills out internal risk assessment form in Excel
+7. Senior partner reviews redlines (another full read-through)
+8. Paralegal compiles final documents and emails back to client
+9. Time entry done manually in separate billing system
+
+They have 3 associates and 2 senior partners doing contract work.
+
+== SYSTEMS USED ==
+
+- Email (Outlook) - client communication
+- Network drive - document storage
+- Microsoft Word - redlining
+- Excel - risk assessment tracking
+- Billing system (Clio) - time tracking
+- Client database (Salesforce) - matter tracking
+
+== TIMING ==
+
+Average time from contract received to client delivery: 6 business days
+Worst case delays: up to 3 weeks during busy periods
+They work Monday-Friday, 9am-6pm (attorneys often work evenings)
+
+== PROBLEMS ==
+
+Standard clauses aren't standardized - each attorney has their own templates and preferences.
+No way to search past contracts for similar language - attorneys re-invent the wheel.
+Risk assessment is inconsistent - associates miss high-risk clauses that partners catch.
+Version control issues - multiple people edit same contract, lose track of latest version.
+Billing is inconsistent - attorneys forget to log time or estimate hours inaccurately.
+
+About 40% of standard contracts miss the 3-day SLA.
+
+== COSTS ==
+
+Each day of delay costs approximately $300 in partner time reviewing rushed contracts.
+Inconsistent risk assessment has led to 2 major client issues in the past year (liability exposure).
+Associates spend 70% of their time on contract review that could be templatized.
+Billing leakage - about $12,000/month in unbilled hours due to poor time tracking.
+Client complaints about slow turnaround causing 3 clients to switch firms this year (average client value: $48,000/year).
+
+== WHAT THEY WANT FIXED ==
+
+Their #1 priority: "Build a contract clause library with AI search so we can quickly find and reuse standard language from past contracts"
+
+They also want automated risk flagging to catch problematic clauses before senior partner review.

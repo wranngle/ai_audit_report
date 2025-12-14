@@ -1,0 +1,49 @@
+{
+  "intake_version": "1.0.0",
+  "captured_at": "2024-12-14T00:00:00.000Z",
+  "captured_by": "Wranngle Auditor",
+  "prepared_for": {
+    "account_id": "CLIENT-001",
+    "account_name": "Riverside Medical Group"
+  },
+  "section_a_workflow_definition": {
+    "q01_workflow_name": "New patient intake and appointment scheduling",
+    "q02_trigger_event": "A patient calls to schedule their first appointment",
+    "q03_business_objective": "To complete intake paperwork and schedule the first visit within 48 hours for routine care",
+    "q04_end_condition": "Intake paperwork is complete and first visit is scheduled",
+    "q05_outcome_owner": "The front desk coordinator"
+  },
+  "section_b_volume_timing": {
+    "q06_runs_per_period": "450",
+    "q06_period_unit": "month",
+    "q07_avg_trigger_to_end": "72",
+    "q07_time_unit": "hours",
+    "q08_worst_case_delay": "2",
+    "q08_delay_unit": "weeks",
+    "q09_business_hours_expected": "Yes, Monday-Friday, 8am-5pm"
+  },
+  "section_c_systems_handoffs": {
+    "q10_systems_involved": [
+      "Phone system (RingCentral)",
+      "Email (Outlook)",
+      "Fax machine",
+      "EHR system (Athenahealth)",
+      "Insurance verification (manual phone calls)",
+      "Google Calendar",
+      "Excel spreadsheet"
+    ],
+    "q11_manual_data_transfers": "Receptionist manually emails a PDF intake form to the patient. Patient fills out by hand. Front desk manually enters data from paper form into EHR system. Insurance verification done manually by calling insurance companies. Staff manually tracks intake status in an Excel spreadsheet.",
+    "q12_human_decision_gates": "Appointment is scheduled once insurance is manually verified by calling insurance companies. Front desk staff make a confirmation call 24 hours before the appointment."
+  },
+  "section_d_failure_cost": {
+    "q13_common_failures": "Patients don't return intake forms. Insurance verification takes 45 minutes per patient on average, tying up staff. Data entry errors occur when transcribing from paper to EHR. Faxed forms are often illegible, requiring callbacks to patients. No tracking system leads to staff losing track of intake status. About 30% of new patients fail to complete intake within the 48-hour SLA.",
+    "q14_cost_if_slow_or_failed": "Each no-show costs approximately $200 in lost revenue. Staff spends 2 hours per patient on manual data entry and verification. Insurance verification delays cause appointment backlog, losing urgent care patients to competitors. Data entry errors lead to clinical risks and compliance issues."
+  },
+  "section_e_priority": {
+    "q15_one_thing_to_fix": "Automate the intake form delivery and make it digital so patients can fill it out online before their appointment."
+  },
+  "attachments": {
+    "evidence_uris": [],
+    "notes": "About 450 new patients per month across 3 locations. 30% no-show on first appointment due to incomplete paperwork. 15% error rate on allergies and medications during data entry. 30% of new patients fail to complete intake within the 48-hour SLA. Worst case delays up to 2 weeks when insurance verification is complex."
+  }
+}
