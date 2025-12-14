@@ -509,6 +509,15 @@ ai_audit_report/
 **Q: Do I need both API keys to run the pipeline?**
 **A:** Yes. `GEMINI_API_KEY` is required for both extraction (converting unstructured text to JSON) and narrative generation. If not provided, you can use the `--skip-llm` flag to generate reports with placeholder text instead of AI-generated narratives. This is useful for testing or when API quotas are exceeded.
 
+**Q: What happens when I hit API rate limits?**
+**A:** The pipeline includes automatic model fallback to handle rate limits gracefully. When the primary model hits quota limits, it automatically switches to alternative models in this order:
+1. `gemini-2.5-flash` (premium quality, 5 RPM free tier)
+2. `gemini-2.5-flash-lite` (lite version, 10 RPM free tier)
+3. `gemma-3-27b` (large open model, 19 RPM free tier)
+4. `gemma-3-12b` → `gemma-3-4b` → `gemma-3-2b` → `gemma-3-1b` (progressively smaller models, 30 RPM)
+
+Each model has different rate limits (RPM = requests per minute). The system automatically adjusts delays between requests based on the current model's limits. If all models are rate-limited, it waits for the retry-after period specified by the API.
+
 **Q: How much does it cost to generate a report?**
 **A:** Costs depend on API usage. A typical report uses:
 - **Gemini (extraction):** ~5,000-10,000 tokens (~$0.01-0.02 at current rates)
