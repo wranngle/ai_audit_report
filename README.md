@@ -22,8 +22,7 @@ The AI Audit Report Generator is an intelligent document pipeline designed to ac
 
 ## Official Documentation
 
-- [Gemini API Documentation](https://ai.google.dev/gemini-api/docs) - Used for extraction stage
-- [Claude API Documentation](https://docs.anthropic.com/claude/reference/getting-started-with-the-api) - Used for narrative generation
+- [Gemini API Documentation](https://ai.google.dev/gemini-api/docs) - Used for extraction and narrative generation
 - [Mustache.js Documentation](https://github.com/janl/mustache.js/) - Template rendering engine
 - [AJV JSON Schema Validator](https://ajv.js.org/) - Schema validation
 - [Node.js Documentation](https://nodejs.org/docs/latest/api/) - Runtime environment
@@ -52,8 +51,7 @@ The AI Audit Report Generator is an intelligent document pipeline designed to ac
 - **Node.js** 18 or higher
 - **npm** (included with Node.js)
 - **API Keys:**
-  - `GEMINI_API_KEY` for extraction (required)
-  - `ANTHROPIC_API_KEY` for narratives (optional, can use `--skip-llm`)
+  - `GEMINI_API_KEY` for extraction and narratives (required, can use `--skip-llm` to skip narrative generation)
 
 ### Installation
 
@@ -68,22 +66,17 @@ The AI Audit Report Generator is an intelligent document pipeline designed to ac
 
    Create a `.env` file in the project root:
    ```bash
-   # Gemini API (used for extraction stage)
+   # Gemini API (used for extraction and LLM narrative generation)
    GEMINI_API_KEY=your-gemini-api-key-here
-
-   # Anthropic API (used for LLM narrative generation)
-   ANTHROPIC_API_KEY=your-anthropic-key-here
    ```
 
    **Alternative:** Set environment variables directly:
    ```bash
    # Windows PowerShell
    $env:GEMINI_API_KEY="your-key"
-   $env:ANTHROPIC_API_KEY="your-key"
 
    # Linux/macOS
    export GEMINI_API_KEY="your-key"
-   export ANTHROPIC_API_KEY="your-key"
    ```
 
 ### Generate Your First Report
@@ -514,14 +507,14 @@ ai_audit_report/
 **A:** The pipeline accepts plain text files (`.txt`) for the `generate` and `extract` commands. For advanced workflows, you can provide structured JSON files (intake + measurements) directly to the `full` command. The output is always HTML, which can be printed to PDF from any browser.
 
 **Q: Do I need both API keys to run the pipeline?**
-**A:** No. `GEMINI_API_KEY` is required for the extraction stage (converting unstructured text to JSON). `ANTHROPIC_API_KEY` is optional—if not provided, you can use the `--skip-llm` flag to generate reports with placeholder text instead of AI-generated narratives. This is useful for testing or when API quotas are exceeded.
+**A:** Yes. `GEMINI_API_KEY` is required for both extraction (converting unstructured text to JSON) and narrative generation. If not provided, you can use the `--skip-llm` flag to generate reports with placeholder text instead of AI-generated narratives. This is useful for testing or when API quotas are exceeded.
 
 **Q: How much does it cost to generate a report?**
 **A:** Costs depend on API usage. A typical report uses:
 - **Gemini (extraction):** ~5,000-10,000 tokens (~$0.01-0.02 at current rates)
-- **Anthropic (narratives):** ~8,000-12,000 tokens (~$0.03-0.05 at current rates)
+- **Gemini (narratives):** ~8,000-12,000 tokens (~$0.02-0.03 at current rates)
 
-Total cost per report: **$0.04-0.07**. Use `--skip-llm` for free (no narrative generation).
+Total cost per report: **$0.03-0.05**. Use `--skip-llm` for free (no narrative generation).
 
 **Q: Can I run this on a server or integrate it into another application?**
 **A:** Yes. The CLI is designed for automation. You can call it from scripts, CI/CD pipelines, or wrap it in an API. All commands support non-interactive execution and return proper exit codes (0 for success, 1 for failure).

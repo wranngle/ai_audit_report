@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-Wranngle Systems LLC is an AI services company. This repository contains an **AI Audit Report Generator** - a Node.js pipeline that transforms client workflow interviews into professional single-page diagnostic reports ("Traffic Light Reports"). The system uses LLMs (Gemini for extraction, Claude for narratives) to process unstructured text or structured JSON into validated, brand-consistent HTML/PDF reports.
+Wranngle Systems LLC is an AI services company. This repository contains an **AI Audit Report Generator** - a Node.js pipeline that transforms client workflow interviews into professional single-page diagnostic reports ("Traffic Light Reports"). The system uses Google Gemini API for both extraction and narrative generation to process unstructured text or structured JSON into validated, brand-consistent HTML/PDF reports.
 
 ## Brand Identity
 
@@ -60,8 +60,7 @@ npm install
 **Environment variables required:**
 ```bash
 # Create .env file or set in shell
-GEMINI_API_KEY=your-key-here      # Used by extract stage (Gemini 2.0 Flash)
-ANTHROPIC_API_KEY=your-key-here   # Used by LLM fill stage (Claude)
+GEMINI_API_KEY=your-key-here      # Used by extract stage and LLM fill stage (Gemini 2.0 Flash)
 ```
 
 **Primary workflows:**
@@ -100,7 +99,7 @@ npm test  # Runs test_run/run_pipeline_test.js
 **Pipeline stages:**
 1. **Extract** (`lib/extract.js`) - Gemini API converts unstructured text → structured JSON (intake + measurements)
 2. **Transform** (`lib/transform.js`) - Deterministic conversion: intake + measurements → report JSON with placeholders
-3. **LLM Fill** (`lib/llm_executor.js`) - Claude API replaces placeholders with narrative content using prompt registry
+3. **LLM Fill** (`lib/llm_executor.js`) - Gemini API replaces placeholders with narrative content using prompt registry
 4. **Validate** (`lib/validate.js`) - JSON Schema validation against `big_json_schema.json`
 5. **Render** (`lib/pipeline.js`) - Mustache templating: report JSON → HTML using `ai_audit_template_new.html`
 
@@ -115,7 +114,7 @@ LLM prompts are defined in `prompts/prompt_registry.json`. Each prompt specifies
 - `prompt_id` - Unique identifier (e.g., `executive_summary_v1`)
 - `schema_path` - Where output goes in report JSON
 - `output_type` - `string`, `array_of_strings`, or `html_fragment`
-- `system_prompt` / `user_prompt_template` - Claude instructions with Mustache variables
+- `system_prompt` / `user_prompt_template` - Gemini instructions with Mustache variables
 - `approval_required` - Whether output needs manual review
 - `output_constraints` - Forbidden phrases, max length, etc.
 
@@ -129,7 +128,7 @@ These are replaced during the LLM fill stage using prompts mapped in `lib/llm_ex
 - `lib/pipeline.js` - Pipeline orchestration and Mustache rendering
 - `lib/extract.js` - Gemini-powered extraction from unstructured text
 - `lib/transform.js` - Intake → Report JSON transformation logic
-- `lib/llm_executor.js` - Claude API integration for narrative generation
+- `lib/llm_executor.js` - Gemini API integration for narrative generation
 - `lib/validate.js` - JSON Schema validation (Ajv)
 - `prompts/prompt_registry.json` - LLM prompt definitions
 - `ai_audit_template_new.html` - Mustache template for HTML output

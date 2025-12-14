@@ -15,7 +15,6 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
-    "@anthropic-ai/sdk": "^0.71.2",
     "@google/genai": "^1.33.0",
     "ajv": "^8.17.1",
     "ajv-draft-04": "^1.0.0",
