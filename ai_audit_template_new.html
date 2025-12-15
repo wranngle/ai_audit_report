@@ -183,10 +183,10 @@
         }
 
         .zone-summary { height: 0.7in; margin-bottom: 0.1rem; }
-        .zone-scorecard { margin-top: 0.15rem; margin-bottom: 0; padding-bottom: 0; flex: 1 1 auto; }
+        .zone-scorecard { margin-top: 0.15rem; margin-bottom: 0; padding-bottom: 0; flex-shrink: 0; }
         .zone-bleed { min-height: 1.2in; margin-top: -1px; margin-bottom: 0.1rem; flex-shrink: 0; }
-        .zone-fixes { margin-top: 0.15rem; margin-bottom: 0.1rem; display: flex; flex-direction: column; flex: 0 0 auto; }
-        .zone-cta { min-height: 0.7in; margin-top: auto; margin-bottom: 0; flex-shrink: 0; }
+        .zone-fixes { margin-top: 0.15rem; margin-bottom: 0.1rem; display: flex; flex-direction: column; flex: 1 1 auto; }
+        .zone-cta { min-height: 0.7in; margin-top: 0.15rem; margin-bottom: 0; flex-shrink: 0; }
 
         /* 5. COMPONENT: WRANNGLE HEADER */
         .header-left {
@@ -406,6 +406,7 @@
             gap: 0.35rem;
             flex: 1;
             justify-content: flex-start;
+            /* When extra space available, adds padding at bottom rather than between items */
         }
         .fix-block {
             display: flex;
