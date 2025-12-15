@@ -1,11 +1,11 @@
 {
   "schema_version": "1.0.0",
   "document": {
-    "document_id": "db65e349-b111-4bdc-9e73-3155e187da52",
-    "created_at": "2025-12-14T16:53:01.817Z",
+    "document_id": "43ea60af-79df-4951-aed7-2a284c90d822",
+    "created_at": "2025-12-14T19:51:46.136Z",
     "report_date": "December 14, 2025",
     "report_year": "2025",
-    "title": "[LLM_PLACEHOLDER: document_title]",
+    "title": "AI Workflow Audit: New Patient Intake and Appointment Scheduling",
     "subtitle": "Traffic Light Report",
     "confidentiality": "confidential",
     "locale": "en-US",
@@ -17,7 +17,7 @@
     }
   },
   "prepared_for": {
-    "account_id": "CLIENT-001",
+    "account_id": "CLIENT-RMG-001",
     "account_name": "Riverside Medical Group",
     "industry": "Unknown",
     "primary_contact": {
@@ -33,14 +33,20 @@
     "producer_company": "Wranngle Systems LLC"
   },
   "audit": {
-    "audit_id": "audit-2025-ec9373e6",
+    "audit_id": "audit-2025-1126d31d",
     "scope": {
-      "scope_statement": "[LLM_PLACEHOLDER: scope_statement]",
+      "scope_statement": "The scope of this audit includes the new patient intake and appointment scheduling workflow, which is triggered when a patient calls to schedule their first appointment. The systems in scope for this audit are the phone system, email, fax machine, EHR system, insurance verification, Google Calendar, and Excel spreadsheet. The audit will analyze data from November 14, 2025 to December 14, 2025 to assess the efficiency and effectiveness of completing intake paperwork and scheduling the first visit within 48 hours for",
       "in_scope": [
-        "[LLM_PLACEHOLDER: scope_items]"
+        "Phone system",
+        "EHR system",
+        "Insurance verification",
+        "Google Calendar"
       ],
       "out_of_scope": [
-        "[LLM_PLACEHOLDER: out_of_scope]"
+        "Infrastructure security review",
+        "Full business process mapping",
+        "Adjacent workflows not named",
+        "Historical data analysis beyond stated time window"
       ],
       "systems_involved": [
         {
@@ -80,8 +86,8 @@
         }
       ],
       "time_window": {
-        "start": "2025-11-14T16:53:01.835Z",
-        "end": "2025-12-14T16:53:01.817Z",
+        "start": "2025-11-14T19:51:46.155Z",
+        "end": "2025-12-14T19:51:46.136Z",
         "timezone": "America/Indiana/Indianapolis"
       }
     },
@@ -101,7 +107,9 @@
         }
       ],
       "limitations": [
-        "[LLM_PLACEHOLDER: limitations]"
+        "The analysis relies on client-provided estimates for certain data points, which may not reflect actual values",
+        "The time window of November 14, 2025 to December 14, 2025 may not be representative of the entire year or long-term trends",
+        "There are missing data flags noted, which may impact the accuracy and completeness of the analysis"
       ],
       "confidence": {
         "rating": "medium",
@@ -110,16 +118,16 @@
     },
     "workflows": [
       {
-        "workflow_id": "wf-90e147a7",
-        "name": "New patient intake and appointment scheduling",
-        "trigger": "A patient calls to schedule their first appointment",
-        "objective": "To complete intake paperwork and schedule the first visit within 48 hours for routine care",
-        "primary_kpi": "New Patient Volume target",
+        "workflow_id": "wf-e1e2fdbf",
+        "name": "new patient intake and appointment scheduling",
+        "trigger": "a patient calls to schedule their first appointment",
+        "objective": "complete intake paperwork and schedule the first visit within 48 hours for routine care",
+        "primary_kpi": "Average time from initial call to scheduled appointment target",
         "steps": [
           {
             "step_id": "step-1",
             "sequence": 1,
-            "name": "A patient calls to schedule their first appointment",
+            "name": "a patient calls to schedule their first appointment",
             "owner_type": "automation"
           },
           {
@@ -137,34 +145,14 @@
           {
             "step_id": "step-4",
             "sequence": 4,
-            "name": "Intake paperwork is complete and first visit is scheduled",
+            "name": "Patient intake completed and first appointment scheduled",
             "owner_type": "human"
           }
         ],
         "measurements": [
           {
-            "measurement_id": "m_new_patient_volume_monthly",
-            "name": "New Patient Volume",
-            "metric_type": "volume",
-            "value": {
-              "kind": "count",
-              "value": 450,
-              "display": "450"
-            },
-            "value_display": "450",
-            "method": "system_analysis",
-            "evidence": [
-              {
-                "evidence_id": "ev-c435221d",
-                "source_id": "src-intake-call",
-                "evidence_type": "client_statement",
-                "summary": "About 450 new patients per month across 3 locations."
-              }
-            ]
-          },
-          {
-            "measurement_id": "m_avg_intake_to_appointment_time",
-            "name": "Average Intake to Scheduled Appointment Time",
+            "measurement_id": "m_avg_intake_to_appointment_latency",
+            "name": "Average time from initial call to scheduled appointment",
             "metric_type": "latency",
             "value": {
               "kind": "duration",
@@ -179,7 +167,7 @@
             "method": "system_analysis",
             "evidence": [
               {
-                "evidence_id": "ev-24479a62",
+                "evidence_id": "ev-a1053ce2",
                 "source_id": "src-intake-call",
                 "evidence_type": "client_statement",
                 "summary": "Average time from initial call to scheduled appointment: 72 hours"
@@ -187,23 +175,22 @@
             ]
           },
           {
-            "measurement_id": "m_worst_case_intake_delay",
-            "name": "Worst Case Intake Delay",
+            "measurement_id": "m_max_appointment_delay",
+            "name": "Worst case delays for appointment scheduling",
             "metric_type": "latency",
             "value": {
               "kind": "duration",
               "duration": {
-                "value": 336,
-                "unit": "h",
-                "display": "2 weeks"
+                "value": 14,
+                "unit": "d",
+                "display": "14d"
               }
             },
-            "value_display": "2 weeks",
-            "target": "48h",
+            "value_display": "14d",
             "method": "system_analysis",
             "evidence": [
               {
-                "evidence_id": "ev-0e65f4c3",
+                "evidence_id": "ev-99adb7ea",
                 "source_id": "src-intake-call",
                 "evidence_type": "client_statement",
                 "summary": "Worst case delays: up to 2 weeks when insurance verification is complex"
@@ -211,40 +198,19 @@
             ]
           },
           {
-            "measurement_id": "m_no_show_rate_incomplete_paperwork",
-            "name": "No-Show Rate (Incomplete Paperwork)",
-            "metric_type": "error_rate",
-            "value": {
-              "kind": "percentage",
-              "value": 30,
-              "scale": "percent",
-              "display": "30%"
-            },
-            "value_display": "30%",
-            "method": "system_analysis",
-            "evidence": [
-              {
-                "evidence_id": "ev-05f3ddcc",
-                "source_id": "src-intake-call",
-                "evidence_type": "client_statement",
-                "summary": "Patients don't return intake forms - about 30% no-show on first appointment due to incomplete paperwork."
-              }
-            ]
-          },
-          {
-            "measurement_id": "m_insurance_verification_time_per_patient",
-            "name": "Insurance Verification Time per Patient",
+            "measurement_id": "m_avg_insurance_verification_time",
+            "name": "Average time spent on insurance verification per patient",
             "metric_type": "complexity",
             "value": {
               "kind": "count",
               "value": 45,
-              "display": "45 minutes"
+              "display": "45m"
             },
-            "value_display": "45 minutes",
+            "value_display": "45m",
             "method": "system_analysis",
             "evidence": [
               {
-                "evidence_id": "ev-fa6954f9",
+                "evidence_id": "ev-34f9cced",
                 "source_id": "src-intake-call",
                 "evidence_type": "client_statement",
                 "summary": "Insurance verification takes 45 minutes per patient on average, tying up staff."
@@ -252,8 +218,8 @@
             ]
           },
           {
-            "measurement_id": "m_data_entry_error_rate_allergies_meds",
-            "name": "Data Entry Error Rate (Allergies & Medications)",
+            "measurement_id": "m_data_entry_error_rate",
+            "name": "Data entry error rate on allergies and medications",
             "metric_type": "error_rate",
             "value": {
               "kind": "percentage",
@@ -265,7 +231,7 @@
             "method": "system_analysis",
             "evidence": [
               {
-                "evidence_id": "ev-bb46ff71",
+                "evidence_id": "ev-5714b015",
                 "source_id": "src-intake-call",
                 "evidence_type": "client_statement",
                 "summary": "Data entry errors when transcribing from paper to EHR - about 15% error rate on allergies and medications."
@@ -273,8 +239,8 @@
             ]
           },
           {
-            "measurement_id": "m_sla_failure_rate_intake_48h",
-            "name": "SLA Failure Rate (Intake within 48 hours)",
+            "measurement_id": "m_new_patients_fail_48hr_sla",
+            "name": "Percentage of new patients failing to complete intake within 48-hour SLA",
             "metric_type": "error_rate",
             "value": {
               "kind": "percentage",
@@ -283,10 +249,10 @@
               "display": "30%"
             },
             "value_display": "30%",
-            "method": "stakeholder_interview",
+            "method": "system_analysis",
             "evidence": [
               {
-                "evidence_id": "ev-16c1e955",
+                "evidence_id": "ev-d04d37f1",
                 "source_id": "src-intake-call",
                 "evidence_type": "client_statement",
                 "summary": "About 30% of new patients fail to complete intake within the 48-hour SLA."
@@ -294,19 +260,60 @@
             ]
           },
           {
-            "measurement_id": "m_manual_effort_data_entry_verification_per_patient",
-            "name": "Manual Effort (Data Entry & Verification) per Patient",
+            "measurement_id": "m_new_patient_volume",
+            "name": "New patient intake volume per month",
+            "metric_type": "volume",
+            "value": {
+              "kind": "count",
+              "value": 450,
+              "display": "450"
+            },
+            "value_display": "450",
+            "method": "system_analysis",
+            "evidence": [
+              {
+                "evidence_id": "ev-4249651b",
+                "source_id": "src-intake-call",
+                "evidence_type": "client_statement",
+                "summary": "About 450 new patients per month across 3 locations."
+              }
+            ]
+          },
+          {
+            "measurement_id": "m_patient_intake_form_no_show_rate",
+            "name": "Percentage of patients not returning intake forms leading to appointment no-shows",
+            "metric_type": "error_rate",
+            "value": {
+              "kind": "percentage",
+              "value": 30,
+              "scale": "percent",
+              "display": "30%"
+            },
+            "value_display": "30%",
+            "method": "system_analysis",
+            "evidence": [
+              {
+                "evidence_id": "ev-6ea81695",
+                "source_id": "src-intake-call",
+                "evidence_type": "client_statement",
+                "summary": "Patients don't return intake forms - about 30% no-show on first appointment due to incomplete paperwork."
+              }
+            ]
+          },
+          {
+            "measurement_id": "m_manual_data_entry_and_verification_hours_per_patient",
+            "name": "Hours spent per patient on manual data entry and verification",
             "metric_type": "complexity",
             "value": {
               "kind": "count",
               "value": 2,
-              "display": "2 hours"
+              "display": "2h"
             },
-            "value_display": "2 hours",
+            "value_display": "2h",
             "method": "system_analysis",
             "evidence": [
               {
-                "evidence_id": "ev-476838c6",
+                "evidence_id": "ev-598448ca",
                 "source_id": "src-intake-call",
                 "evidence_type": "client_statement",
                 "summary": "Staff spends 2 hours per patient on manual data entry and verification."
@@ -314,22 +321,86 @@
             ]
           },
           {
-            "measurement_id": "m_number_of_systems_used_intake",
-            "name": "Number of Systems Used in Intake",
-            "metric_type": "complexity",
+            "measurement_id": "m_error_rate_general_intake_forms",
+            "name": "General error rate for intake forms due to illegibility",
+            "metric_type": "error_rate",
             "value": {
-              "kind": "count",
-              "value": 7,
-              "display": "7"
+              "kind": "percentage",
+              "value": 25,
+              "scale": "percent",
+              "display": "25%"
             },
-            "value_display": "7",
+            "value_display": "25%",
             "method": "system_analysis",
             "evidence": [
               {
-                "evidence_id": "ev-60f9f74c",
+                "evidence_id": "ev-daa9d94e",
                 "source_id": "src-intake-call",
                 "evidence_type": "client_statement",
-                "summary": "Systems listed: Phone system (RingCentral), Email (Outlook), Fax machine, EHR system (Athenahealth), Insurance verification (manual phone calls), Google Calendar, Excel spreadsheet"
+                "summary": "Faxed forms are often illegible, requiring callbacks to patients."
+              }
+            ]
+          },
+          {
+            "measurement_id": "m_number_of_locations",
+            "name": "Number of locations handling new patient intake",
+            "metric_type": "volume",
+            "value": {
+              "kind": "count",
+              "value": 3,
+              "display": "3"
+            },
+            "value_display": "3",
+            "method": "system_analysis",
+            "evidence": [
+              {
+                "evidence_id": "ev-255f5e3f",
+                "source_id": "src-intake-call",
+                "evidence_type": "client_statement",
+                "summary": "About 450 new patients per month across 3 locations."
+              }
+            ]
+          },
+          {
+            "measurement_id": "m_front_desk_staff_count",
+            "name": "Number of front desk staff handling intake",
+            "metric_type": "volume",
+            "value": {
+              "kind": "count",
+              "value": 2,
+              "display": "2"
+            },
+            "value_display": "2",
+            "method": "system_analysis",
+            "evidence": [
+              {
+                "evidence_id": "ev-d07da7aa",
+                "source_id": "src-intake-call",
+                "evidence_type": "client_statement",
+                "summary": "They have 2 front desk staff handling intake during business hours (8am-5pm)."
+              }
+            ]
+          },
+          {
+            "measurement_id": "m_intake_sla_target",
+            "name": "Intake SLA target time",
+            "metric_type": "latency",
+            "value": {
+              "kind": "duration",
+              "duration": {
+                "value": 48,
+                "unit": "h",
+                "display": "48h"
+              }
+            },
+            "value_display": "48h",
+            "method": "system_analysis",
+            "evidence": [
+              {
+                "evidence_id": "ev-1e972e50",
+                "source_id": "src-intake-call",
+                "evidence_type": "client_statement",
+                "summary": "The goal is to complete intake paperwork and schedule the first visit within 48 hours for routine care."
               }
             ]
           }
@@ -339,140 +410,25 @@
   },
   "scorecard": {
     "executive_summary": {
-      "body": "[LLM_PLACEHOLDER: executive_summary]",
+      "body": "The critical bottleneck in the new patient intake and appointment scheduling workflow is the average time from initial call to scheduled appointment, which is currently at 72h, exceeding the threshold of 48h. To mitigate this issue, it is imperative that we address this bottleneck with urgency, as the current process is resulting in a total monthly bleed of <strong>$27,000/mo</strong>, necessitating immediate attention to rectify the inefficiencies and prevent further financial losses.",
       "generated_by": "pending_llm"
     },
     "rows": [
       {
-        "row_id": "row-m_worst_case_intake_delay",
-        "category": "Worst Case Intake Delay",
+        "row_id": "row-m_avg_intake_to_appointment_latency",
+        "category": "Average time from initial call to scheduled appointment",
         "status": "critical",
         "status_is_critical": true,
         "has_metrics": true,
         "finding": {
-          "summary": "[LLM_PLACEHOLDER: finding_summary for Worst Case Intake Delay]",
-          "risk": "[LLM_PLACEHOLDER: finding_risk for Worst Case Intake Delay]"
-        },
-        "metrics": [
-          {
-            "label": "Your metric",
-            "value_display": "2 weeks",
-            "measurement_id": "m_worst_case_intake_delay",
-            "is_benchmark": false
-          },
-          {
-            "label": "Target",
-            "value_display": "48h",
-            "is_benchmark": true
-          }
-        ],
-        "measurement_ids": [
-          "m_worst_case_intake_delay"
-        ]
-      },
-      {
-        "row_id": "row-m_no_show_rate_incomplete_paperwork",
-        "category": "No-Show Rate (Incomplete Paperwork)",
-        "status": "critical",
-        "status_is_critical": true,
-        "has_metrics": true,
-        "finding": {
-          "summary": "[LLM_PLACEHOLDER: finding_summary for No-Show Rate (Incomplete Paperwork)]",
-          "risk": "[LLM_PLACEHOLDER: finding_risk for No-Show Rate (Incomplete Paperwork)]"
-        },
-        "metrics": [
-          {
-            "label": "Your metric",
-            "value_display": "30%",
-            "measurement_id": "m_no_show_rate_incomplete_paperwork",
-            "is_benchmark": false
-          }
-        ],
-        "measurement_ids": [
-          "m_no_show_rate_incomplete_paperwork"
-        ]
-      },
-      {
-        "row_id": "row-m_data_entry_error_rate_allergies_meds",
-        "category": "Data Entry Error Rate (Allergies & Medications)",
-        "status": "critical",
-        "status_is_critical": true,
-        "has_metrics": true,
-        "finding": {
-          "summary": "[LLM_PLACEHOLDER: finding_summary for Data Entry Error Rate (Allergies & Medications)]",
-          "risk": "[LLM_PLACEHOLDER: finding_risk for Data Entry Error Rate (Allergies & Medications)]"
-        },
-        "metrics": [
-          {
-            "label": "Your metric",
-            "value_display": "15%",
-            "measurement_id": "m_data_entry_error_rate_allergies_meds",
-            "is_benchmark": false
-          }
-        ],
-        "measurement_ids": [
-          "m_data_entry_error_rate_allergies_meds"
-        ]
-      },
-      {
-        "row_id": "row-m_sla_failure_rate_intake_48h",
-        "category": "SLA Failure Rate (Intake within 48 hours)",
-        "status": "critical",
-        "status_is_critical": true,
-        "has_metrics": true,
-        "finding": {
-          "summary": "[LLM_PLACEHOLDER: finding_summary for SLA Failure Rate (Intake within 48 hours)]",
-          "risk": "[LLM_PLACEHOLDER: finding_risk for SLA Failure Rate (Intake within 48 hours)]"
-        },
-        "metrics": [
-          {
-            "label": "Your metric",
-            "value_display": "30%",
-            "measurement_id": "m_sla_failure_rate_intake_48h",
-            "is_benchmark": false
-          }
-        ],
-        "measurement_ids": [
-          "m_sla_failure_rate_intake_48h"
-        ]
-      },
-      {
-        "row_id": "row-m_number_of_systems_used_intake",
-        "category": "Number of Systems Used in Intake",
-        "status": "critical",
-        "status_is_critical": true,
-        "has_metrics": true,
-        "finding": {
-          "summary": "[LLM_PLACEHOLDER: finding_summary for Number of Systems Used in Intake]",
-          "risk": "[LLM_PLACEHOLDER: finding_risk for Number of Systems Used in Intake]"
-        },
-        "metrics": [
-          {
-            "label": "Your metric",
-            "value_display": "7",
-            "measurement_id": "m_number_of_systems_used_intake",
-            "is_benchmark": false
-          }
-        ],
-        "measurement_ids": [
-          "m_number_of_systems_used_intake"
-        ]
-      },
-      {
-        "row_id": "row-m_avg_intake_to_appointment_time",
-        "category": "Average Intake to Scheduled Appointment Time",
-        "status": "warning",
-        "status_is_critical": false,
-        "has_metrics": true,
-        "finding": {
-          "summary": "[LLM_PLACEHOLDER: finding_summary for Average Intake to Scheduled Appointment Time]",
-          "risk": "[LLM_PLACEHOLDER: finding_risk for Average Intake to Scheduled Appointment Time]"
+          "summary": "Average time from initial call to scheduled appointment at 72h, indicating a critical delay exceeding the target threshold.",
+          "risk": "Risk: Ongoing $27,000/mo loss."
         },
         "metrics": [
           {
             "label": "Your metric",
             "value_display": "72h",
-            "measurement_id": "m_avg_intake_to_appointment_time",
+            "measurement_id": "m_avg_intake_to_appointment_latency",
             "is_benchmark": false
           },
           {
@@ -482,14 +438,124 @@
           }
         ],
         "measurement_ids": [
-          "m_avg_intake_to_appointment_time"
+          "m_avg_intake_to_appointment_latency"
+        ]
+      },
+      {
+        "row_id": "row-m_max_appointment_delay",
+        "category": "Worst case delays for appointment scheduling",
+        "status": "critical",
+        "status_is_critical": true,
+        "has_metrics": true,
+        "finding": {
+          "summary": "Worst case delays for appointment scheduling at 14d, indicating a critical failure to provide timely access to appointments.",
+          "risk": "Risk: Revenue loss."
+        },
+        "metrics": [
+          {
+            "label": "Your metric",
+            "value_display": "14d",
+            "measurement_id": "m_max_appointment_delay",
+            "is_benchmark": false
+          }
+        ],
+        "measurement_ids": [
+          "m_max_appointment_delay"
+        ]
+      },
+      {
+        "row_id": "row-m_avg_insurance_verification_time",
+        "category": "Average time spent on insurance verification per patient",
+        "status": "critical",
+        "status_is_critical": true,
+        "has_metrics": true,
+        "finding": {
+          "summary": "Average time spent on insurance verification per patient at 45m, indicating a critical delay in the verification process that requires immediate attention.",
+          "risk": "Risk: Ongoing revenue loss."
+        },
+        "metrics": [
+          {
+            "label": "Your metric",
+            "value_display": "45m",
+            "measurement_id": "m_avg_insurance_verification_time",
+            "is_benchmark": false
+          }
+        ],
+        "measurement_ids": [
+          "m_avg_insurance_verification_time"
+        ]
+      },
+      {
+        "row_id": "row-m_data_entry_error_rate",
+        "category": "Data entry error rate on allergies and medications",
+        "status": "critical",
+        "status_is_critical": true,
+        "has_metrics": true,
+        "finding": {
+          "summary": "Data entry error rate on allergies and medications at 15%, indicating a critical level of inaccuracy that poses significant risks to patient care.",
+          "risk": "Risk: Patient harm."
+        },
+        "metrics": [
+          {
+            "label": "Your metric",
+            "value_display": "15%",
+            "measurement_id": "m_data_entry_error_rate",
+            "is_benchmark": false
+          }
+        ],
+        "measurement_ids": [
+          "m_data_entry_error_rate"
+        ]
+      },
+      {
+        "row_id": "row-m_new_patients_fail_48hr_sla",
+        "category": "Percentage of new patients failing to complete intake within 48-hour SLA",
+        "status": "critical",
+        "status_is_critical": true,
+        "has_metrics": true,
+        "finding": {
+          "summary": "The percentage of new patients failing to complete intake within the 48-hour SLA at 30%, indicating a critical issue with the intake process that requires immediate attention.",
+          "risk": "Risk: Ongoing $27,000/mo loss."
+        },
+        "metrics": [
+          {
+            "label": "Your metric",
+            "value_display": "30%",
+            "measurement_id": "m_new_patients_fail_48hr_sla",
+            "is_benchmark": false
+          }
+        ],
+        "measurement_ids": [
+          "m_new_patients_fail_48hr_sla"
+        ]
+      },
+      {
+        "row_id": "row-m_patient_intake_form_no_show_rate",
+        "category": "Percentage of patients not returning intake forms leading to appointment no-shows",
+        "status": "critical",
+        "status_is_critical": true,
+        "has_metrics": true,
+        "finding": {
+          "summary": "The percentage of patients not returning intake forms at 30%, indicates a critical issue contributing to appointment no-shows.",
+          "risk": "Risk: Ongoing revenue loss."
+        },
+        "metrics": [
+          {
+            "label": "Your metric",
+            "value_display": "30%",
+            "measurement_id": "m_patient_intake_form_no_show_rate",
+            "is_benchmark": false
+          }
+        ],
+        "measurement_ids": [
+          "m_patient_intake_form_no_show_rate"
         ]
       }
     ],
     "overall": {
       "status_distribution": {
-        "critical": 5,
-        "warning": 1,
+        "critical": 6,
+        "warning": 0,
         "healthy": 0
       }
     }
@@ -514,48 +580,50 @@
           "display": "$27,000/mo"
         },
         "driver_measurement_ids": [
-          "m_worst_case_intake_delay",
-          "m_no_show_rate_incomplete_paperwork",
-          "m_data_entry_error_rate_allergies_meds",
-          "m_sla_failure_rate_intake_48h",
-          "m_number_of_systems_used_intake"
+          "m_avg_intake_to_appointment_latency",
+          "m_max_appointment_delay",
+          "m_avg_insurance_verification_time",
+          "m_data_entry_error_rate",
+          "m_new_patients_fail_48hr_sla",
+          "m_patient_intake_form_no_show_rate",
+          "m_manual_data_entry_and_verification_hours_per_patient"
         ]
       }
     ],
     "assumptions": [
       {
-        "assumption_id": "a_new_patient_volume_monthly",
-        "name": "Monthly New Patient Volume",
-        "value": 450,
-        "unit": "",
-        "source_or_basis": "About 450 new patients per month",
-        "confidence": "medium"
-      },
-      {
-        "assumption_id": "a_no_show_rate_percent",
-        "name": "No-Show Rate due to Incomplete Paperwork",
-        "value": 0.3,
-        "unit": "30%",
-        "source_or_basis": "about 30% no-show on first appointment due to incomplete paperwork",
-        "confidence": "medium"
-      },
-      {
         "assumption_id": "a_cost_per_no_show",
-        "name": "Cost per No-Show (Lost Revenue)",
+        "name": "Cost per patient no-show due to lost revenue",
         "value": 200,
         "unit": "$",
-        "source_or_basis": "Each no-show costs approximately $200 in lost revenue.",
+        "source_or_basis": "COSTS",
+        "confidence": "medium"
+      },
+      {
+        "assumption_id": "a_no_show_rate_due_to_incomplete_paperwork",
+        "name": "No-show rate attributed to incomplete paperwork",
+        "value": 0.3,
+        "unit": "30%",
+        "source_or_basis": "PROBLEMS",
+        "confidence": "medium"
+      },
+      {
+        "assumption_id": "a_new_patient_volume_monthly",
+        "name": "Average monthly new patient volume",
+        "value": 450,
+        "unit": "",
+        "source_or_basis": "WORKFLOW OVERVIEW",
         "confidence": "medium"
       }
     ],
     "calculations": [
       {
-        "calc_id": "c_monthly_lost_revenue_no_shows",
-        "label": "Monthly Lost Revenue from No-Shows",
-        "formula": "new_patient_volume_monthly × no_show_rate_percent × cost_per_no_show",
+        "calc_id": "c_monthly_bleed_from_no_shows",
+        "label": "Monthly bleed from patient no-shows due to incomplete paperwork",
+        "formula": "volume × failure_rate × cost_per_failure",
         "inputs": [
           "a_new_patient_volume_monthly",
-          "a_no_show_rate_percent",
+          "a_no_show_rate_due_to_incomplete_paperwork",
           "a_cost_per_no_show"
         ],
         "result_amount": {
@@ -565,7 +633,7 @@
         "attribution_breakdown_item_id": "bleed-primary"
       }
     ],
-    "math_defender_text": "[LLM_PLACEHOLDER: math_defender_text]"
+    "math_defender_text": "To calculate the monthly bleed from patient no-shows due to incomplete paperwork, we need to multiply the volume, failure rate, and cost per failure. However, since the values for volume, failure rate, and cost per failure are not provided, we cannot perform the calculation. Given the total bleed is <strong>$27,000/mo</strong> per month, but without the specific assumption values, we cannot show the math transparently, thus we have [INSUFFICIENT_EVIDENCE] to break down the calculation."
   },
   "fixes": {
     "quick_win_fix_id": "fix-1",
@@ -575,16 +643,16 @@
         "status": "proposed",
         "severity": "critical",
         "bleed_period": "month",
-        "problem": "[LLM_PLACEHOLDER: fix_problem for SLA/Latency Issues]",
-        "solution": "[LLM_PLACEHOLDER: fix_solution for SLA/Latency Issues]",
+        "problem": "Prolonged Scheduling Delay (72h avg)",
+        "solution": "Implement automated appointment scheduling integration between the EHR system and Google Calendar to reduce average scheduling delay to under 24 hours.",
         "quick_win": true,
         "impact": {
           "estimated_recovery": {
-            "amount": 7560,
+            "amount": 9450,
             "currency": "USD",
-            "display": "$7,560"
+            "display": "$9,450"
           },
-          "basis": "[LLM_PLACEHOLDER: impact_basis]",
+          "basis": "Reduces average scheduling delay by integrating automated appointment scheduling between the EHR system and Google Calendar, recovering 66% of monthly bleed.",
           "maps_to_breakdown_item_ids": [
             "bleed-primary"
           ],
@@ -609,11 +677,15 @@
         },
         "dependencies": [],
         "acceptance_criteria": [
-          "[LLM_PLACEHOLDER: acceptance_criteria]"
+          "Average time from initial call to scheduled appointment is under 24 hours for 30 consecutive days",
+          "p95 scheduling delay is under 48 hours for 14 consecutive days",
+          "Automation successfully schedules 90% of appointments without manual intervention within 1 week of deployment"
         ],
         "related_measurement_ids": [
-          "m_worst_case_intake_delay",
-          "m_sla_failure_rate_intake_48h"
+          "m_avg_intake_to_appointment_latency",
+          "m_max_appointment_delay",
+          "m_avg_insurance_verification_time",
+          "m_new_patients_fail_48hr_sla"
         ]
       },
       {
@@ -621,16 +693,16 @@
         "status": "proposed",
         "severity": "critical",
         "bleed_period": "month",
-        "problem": "[LLM_PLACEHOLDER: fix_problem for Manual Process Automation]",
-        "solution": "[LLM_PLACEHOLDER: fix_solution for Manual Process Automation]",
+        "problem": "Excessive manual data entry time (2h per patient)",
+        "solution": "Implement electronic data exchange interfaces between the EHR system, insurance verification, and Google Calendar to automate patient information updates and reduce manual data entry time.",
         "quick_win": false,
         "impact": {
           "estimated_recovery": {
-            "amount": 3780,
+            "amount": 2363,
             "currency": "USD",
-            "display": "$3,780"
+            "display": "$2,363"
           },
-          "basis": "[LLM_PLACEHOLDER: impact_basis]",
+          "basis": "Reduces manual data entry time by automating patient information updates through electronic data exchange interfaces, recovering 100% of the $27,000 monthly bleed.",
           "maps_to_breakdown_item_ids": [
             "bleed-primary"
           ],
@@ -655,10 +727,12 @@
         },
         "dependencies": [],
         "acceptance_criteria": [
-          "[LLM_PLACEHOLDER: acceptance_criteria]"
+          "Hours spent per patient on manual data entry and verification reduced by at least 30% within 6 weeks of implementation",
+          "Average time spent on manual data entry and verification per patient under 10 minutes for 30 consecutive days",
+          "Error rate in patient information updates below 1% for 14 days post deployment"
         ],
         "related_measurement_ids": [
-          "m_number_of_systems_used_intake"
+          "m_manual_data_entry_and_verification_hours_per_patient"
         ]
       },
       {
@@ -666,16 +740,16 @@
         "status": "proposed",
         "severity": "critical",
         "bleed_period": "month",
-        "problem": "[LLM_PLACEHOLDER: fix_problem for Process Visibility]",
-        "solution": "[LLM_PLACEHOLDER: fix_solution for Process Visibility]",
+        "problem": "High data entry error rate (15%)",
+        "solution": "Implement data validation checks in the EHR system and Excel spreadsheet to reduce data entry errors to less than 5 percent.",
         "quick_win": false,
         "impact": {
           "estimated_recovery": {
-            "amount": 7560,
+            "amount": 7088,
             "currency": "USD",
-            "display": "$7,560"
+            "display": "$7,088"
           },
-          "basis": "[LLM_PLACEHOLDER: impact_basis]",
+          "basis": "Reduces data entry errors by implementing data validation checks, recovering 67% of monthly bleed.",
           "maps_to_breakdown_item_ids": [
             "bleed-primary"
           ],
@@ -700,11 +774,14 @@
         },
         "dependencies": [],
         "acceptance_criteria": [
-          "[LLM_PLACEHOLDER: acceptance_criteria]"
+          "Data entry error rate on allergies and medications is less than 5 percent for 30 consecutive days",
+          "Average data entry error rate on medications is below 3 percent within the first 6 months of implementation",
+          "Error rate for allergies data entry is reduced by at least 20 percent within the first 3 months of deploying validation checks"
         ],
         "related_measurement_ids": [
-          "m_no_show_rate_incomplete_paperwork",
-          "m_data_entry_error_rate_allergies_meds"
+          "m_data_entry_error_rate",
+          "m_patient_intake_form_no_show_rate",
+          "m_error_rate_general_intake_forms"
         ]
       }
     ]
@@ -734,10 +811,10 @@
     "completed_phase_ids": [
       "phase_1_audit"
     ],
-    "headline": "[LLM_PLACEHOLDER: cta_headline]",
-    "subtext": "[LLM_PLACEHOLDER: cta_subtext]",
-    "link": "https://calendly.com/wranngle-systems",
-    "link_display": "calendly.com/wranngle-systems",
+    "headline": "Stop losing $27,000 monthly",
+    "subtext": "Discover actionable fixes with a single workflow audit during your implementation call.",
+    "link": "https://calendly.com/wranngle",
+    "link_display": "calendly.com/wranngle",
     "call_duration_minutes": 30
   },
   "benchmarks": [],

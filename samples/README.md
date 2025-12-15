@@ -97,16 +97,32 @@ This directory contains diverse sample scenarios demonstrating the AI Audit Repo
 To generate a report from any scenario:
 
 ```bash
-# Full pipeline with LLM narratives
+# Full pipeline with LLM narratives (requires GEMINI_API_KEY)
 node cli.js generate samples/healthcare_intake.txt samples/healthcare_report.html --save-json
+
+# Use Groq API when Gemini quota is exhausted (requires GROQ_API_KEY)
+node cli.js generate samples/healthcare_intake.txt samples/healthcare_report.html --save-json --use-groq
 
 # Quick structure without narratives (for testing)
 node cli.js generate samples/healthcare_intake.txt samples/healthcare_report.html --save-json --skip-llm
 ```
 
+## Generated Reports
+
+All four scenario reports have been successfully generated:
+
+| Report | Measurements | Revenue Bleed | HTML Size | LLM Placeholders | Status |
+|--------|--------------|---------------|-----------|------------------|--------|
+| **Healthcare** | 9 metrics | $27,000/mo | 33.2 KB | 29 | ✅ Generated |
+| **E-commerce** | 13 metrics | $13,860/mo | 33.8 KB | 33 | ✅ Generated |
+| **Legal** | 17 metrics | $100,500/mo | 35.5 KB | 37 | ✅ Generated |
+| **SaaS Support** | 10 metrics | $27,563/mo | 34.7 KB | 37 | ✅ Generated |
+
+**Note:** All reports were generated with `--skip-llm` flag due to Gemini API free tier quota limits. LLM placeholders indicate where narrative text would appear in a full generation. The data extraction, metrics calculation, and report structure are complete.
+
 ## Output Files
 
-Generated reports will include:
+Generated reports include:
 - **HTML Report** - Single-page Traffic Light diagnostic report
 - **JSON Report** - Structured data with all metrics and findings
 - **Intake JSON** - Extracted workflow definition

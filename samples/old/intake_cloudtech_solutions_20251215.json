@@ -1,0 +1,48 @@
+{
+  "intake_version": "1.0.0",
+  "captured_at": "2024-12-15T00:00:00.000Z",
+  "captured_by": "Wranngle Auditor",
+  "prepared_for": {
+    "account_id": "CLIENT-001",
+    "account_name": "CloudTech Solutions"
+  },
+  "section_a_workflow_definition": {
+    "q01_workflow_name": "Customer Support Ticket Process",
+    "q02_trigger_event": "Customer submits a support request via email or web form",
+    "q03_business_objective": "Route tickets to the right specialist and provide first response within 2 hours",
+    "q04_end_condition": "Ticket is resolved and closed",
+    "q05_outcome_owner": "Support manager and specialists"
+  },
+  "section_b_volume_timing": {
+    "q06_runs_per_period": "1,200",
+    "q06_period_unit": "month",
+    "q07_avg_trigger_to_end": "4.5",
+    "q07_time_unit": "hours",
+    "q08_worst_case_delay": "24",
+    "q08_delay_unit": "hours",
+    "q09_business_hours_expected": "Yes, 24/5 (Monday-Friday around the clock)"
+  },
+  "section_c_systems_handoffs": {
+    "q10_systems_involved": [
+      "Zendesk (ticketing system)",
+      "Email (Gmail)",
+      "Slack (internal communication)",
+      "Confluence wiki (knowledge base)",
+      "Google Sheets (SLA tracking)",
+      "Jira (bug tracking)"
+    ],
+    "q11_manual_data_transfers": "Manual routing of tickets, manual creation of bug tickets in Jira",
+    "q12_human_decision_gates": "Support manager manually determines category and assigns to specialist"
+  },
+  "section_d_failure_cost": {
+    "q13_common_failures": "Manual routing is slow, miscategorization happens about 20% of the time, no integration between Zendesk and Jira",
+    "q14_cost_if_slow_or_failed": "Each SLA miss costs approximately $75 in customer credits, misrouted tickets waste 30 minutes of specialist time, duplicate work, customer churn (12% annual churn rate, average customer lifetime value: $18,000)"
+  },
+  "section_e_priority": {
+    "q15_one_thing_to_fix": "Auto-route tickets based on keywords and past ticket history"
+  },
+  "attachments": {
+    "evidence_uris": [],
+    "notes": "Client has 1 support manager and 6 specialists, they work 24/5 with an offshore team"
+  }
+}

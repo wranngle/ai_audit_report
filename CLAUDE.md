@@ -86,13 +86,18 @@ node cli.js render report.json output.html
 
 **Testing:**
 ```bash
-npm test  # Runs test_run/run_pipeline_test.js
+# Generate a report from sample scenarios
+node cli.js generate samples/support_ticket_routing.txt samples/test_output.html --save-json
+
+# Use Groq API when Gemini quota is exhausted
+node cli.js generate samples/healthcare_intake.txt samples/test.html --use-groq
 ```
 
 **Flags:**
 - `--skip-llm` - Skip LLM narrative generation (keeps placeholders)
 - `--save-json` - Save intermediate JSON alongside HTML output
 - `--output-dir <dir>` - Specify output directory for extract command
+- `--use-groq` - Use Groq API instead of Gemini (fallback for rate limits)
 
 ## Architecture
 
@@ -124,22 +129,33 @@ These are replaced during the LLM fill stage using prompts mapped in `lib/llm_ex
 
 ## Key Files
 
+**Core Pipeline:**
 - `cli.js` - CLI entry point
 - `lib/pipeline.js` - Pipeline orchestration and Mustache rendering
 - `lib/extract.js` - Gemini-powered extraction from unstructured text
 - `lib/transform.js` - Intake → Report JSON transformation logic
 - `lib/llm_executor.js` - Gemini API integration for narrative generation
+- `lib/llm_batch_executor.js` - Batch LLM narrative generation (single API call)
 - `lib/validate.js` - JSON Schema validation (Ajv)
+- `lib/pdf_generator.js` - Puppeteer-based PDF generation
+
+**API Adapters:**
+- `lib/model_config.js` - Gemini model configuration and fallback logic
+- `lib/groq_adapter.js` - Groq API adapter (rate limit fallback)
+
+**Configuration:**
 - `prompts/prompt_registry.json` - LLM prompt definitions
 - `ai_audit_template_new.html` - Mustache template for HTML output
 - `big_json_schema.json` - Comprehensive report JSON schema
 - `build_comprehensive_schema.js` - Schema generator
 - `intake_packet_template.json` - Empty intake template
-- `test_run/sample_info_dump.txt` - Example unstructured input
-- `test_run/intake_packet_filled.json` - Example structured intake
-- `test_run/measurements_extracted.json` - Example measurements
-- `test_run/run_pipeline_test.js` - Test suite
 - `design_philosophy.txt` - Complete brand guidelines and color tokens
+
+**Sample Scenarios:**
+- `samples/support_ticket_routing.txt` - Customer support workflow example
+- `samples/healthcare_intake.txt` - Healthcare claims processing example
+- `samples/ecommerce_fulfillment.txt` - E-commerce fulfillment example
+- `samples/legal_contract_review.txt` - Legal contract review example
 
 ## AI Audit Report Structure
 

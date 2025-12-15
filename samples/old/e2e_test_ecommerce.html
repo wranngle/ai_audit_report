@@ -39,7 +39,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Wranngle — {{document.title}}</title>
+    <title>Wranngle — AI Process Audit: Order Fulfillment for Home Goods Sold through Shopify</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@600;700;800&display=swap" rel="stylesheet">
     <style>
         /*
@@ -174,17 +174,18 @@
         .zone { flex-shrink: 0; position: relative; z-index: 1; }
 
         .zone-header {
+            height: 0.7in;
             display: flex;
             justify-content: space-between;
             align-items: flex-start;
-            padding: 0.1rem 0 0.15rem 0;
+            padding: 0 0 0.15rem 0;
             border-bottom: 2px solid var(--border-light);
             margin-bottom: 0.15rem;
         }
 
         .zone-summary { height: 0.7in; margin-bottom: 0.1rem; }
-        .zone-scorecard { margin-top: 0.15rem; margin-bottom: 0; padding-bottom: 0; flex: 1 1 auto; }
-        .zone-bleed { min-height: 1.2in; margin-top: -1px; margin-bottom: 0.1rem; flex-shrink: 0; }
+        .zone-scorecard { margin-top: 0.15rem; margin-bottom: 0; flex: 1 1 auto; }
+        .zone-bleed { min-height: 1.35in; margin-bottom: 0.1rem; flex-shrink: 0; }
         .zone-fixes { margin-top: 0.15rem; margin-bottom: 0.1rem; display: flex; flex-direction: column; flex: 0 0 auto; }
         .zone-cta { min-height: 0.7in; margin-top: auto; margin-bottom: 0; flex-shrink: 0; }
 
@@ -195,16 +196,14 @@
             align-self: flex-start;
             margin: 0;
             padding: 0;
-            flex-shrink: 0;
         }
         .brand-logo {
-            height: 0.5in;
+            height: 0.55in;
             width: auto;
             display: block;
             margin: 0;
             padding: 0;
             vertical-align: top;
-            object-position: top;
         }
 
         .header-right {
@@ -213,7 +212,6 @@
             flex-direction: column;
             align-items: flex-end;
             align-self: flex-start;
-            justify-content: flex-start;
             gap: 0.05rem;
             overflow: visible;
             flex: 1;
@@ -273,9 +271,11 @@
             border-bottom: 1px solid var(--border-light);
             vertical-align: middle;
         }
-        .scorecard tbody tr:last-child td { border-bottom: 2px solid var(--bleed); }
+        .scorecard tbody tr:last-child td { border-bottom: none; }
 
-        .scorecard tbody tr { background: transparent; }
+        .scorecard tbody tr:nth-child(odd) { background: transparent; }
+        .scorecard tbody tr:nth-child(even) { background: rgba(246, 241, 231, 0.5); }
+
         .scorecard tbody tr.row-critical { background: #fff0f5; }
         .scorecard tbody tr.row-critical td:first-child {
             box-shadow: inset 3px 0 0 var(--critical);
@@ -313,10 +313,9 @@
         .bleed-callout {
             background: var(--surface);
             border: 2px solid var(--bleed);
-            border-top: none;
             border-radius: 0 0 14px 14px;
             text-align: center;
-            padding: 0.3in 1rem 0.2in 1rem;
+            padding: 0.35in 1rem 0.25in 1rem;
             height: 100%;
             display: flex;
             flex-direction: column;
@@ -633,7 +632,9 @@
                 margin: 0;
                 page-break-inside: avoid;
                 break-inside: avoid;
-                /* Removed transform scale to match HTML sizing */
+                transform: scale(0.94);
+                transform-origin: top left;
+                width: calc(100% / 0.94);
             }
             .desert-scape { display: none !important; }
         }
@@ -740,7 +741,7 @@ body.theme-conversion .status-dot { box-shadow: none !important; }
 }
     </style>
 </head>
-<body class="{{#rendering.is_conversion_mode}}theme-conversion{{/rendering.is_conversion_mode}}">
+<body class="theme-conversion">
     <div class="page-card">
 
     <div class="desert-scape">
@@ -781,19 +782,19 @@ body.theme-conversion .status-dot { box-shadow: none !important; }
 
     <header class="zone zone-header">
         <div class="header-left">
-            <img src="{{{document.brand.logo_uri}}}" alt="{{document.brand.brand_name}}" class="brand-logo">
+            <img src="https://i.ibb.co/sdfPMCVx/wranngle-color-transparent.png" alt="Wranngle Systems LLC" class="brand-logo">
         </div>
         <div class="header-right">
-            <div class="doc-title">{{document.title}}</div>
-            {{#document.subtitle}}<div class="doc-subtitle">{{document.subtitle}}</div>{{/document.subtitle}}
-            <div class="micro client-line">Prepared for: <span class="micro-semibold">{{prepared_for.account_name}}</span> &nbsp;|&nbsp; {{document.report_date}}</div>
+            <div class="doc-title">AI Process Audit: Order Fulfillment for Home Goods Sold through Shopify</div>
+            
+            <div class="micro client-line">Prepared for: <span class="micro-semibold">HomeGoods Express</span> &nbsp;|&nbsp; December 14, 2025</div>
         </div>
     </header>
 
     <section class="zone zone-summary">
         <div class="summary-card">
             <div class="section-header">Executive Summary</div>
-            <p class="body-text">{{{scorecard.executive_summary.body}}}</p>
+            <p class="body-text">The critical bottleneck is the Order Response Time, which exceeds the target by 37 hours. The business is experiencing a significant monthly bleed of <strong>$4,050</strong> due to overselling, lost sales, and delayed orders, necessitating immediate attention.</p>
         </div>
     </section>
 
@@ -808,112 +809,138 @@ body.theme-conversion .status-dot { box-shadow: none !important; }
                 </tr>
             </thead>
 <tbody>
-{{#scorecard.rows}}
-  <tr class="{{#status_is_critical}}row-critical{{/status_is_critical}}">
-    <td class="category">{{category}}</td>
-    <td class="status-cell"><span class="status-dot {{status}}"></span></td>
+  <tr class="row-critical">
+    <td class="category">Overselling Rate</td>
+    <td class="status-cell"><span class="status-dot critical"></span></td>
     <td class="finding">
-      {{#has_metrics}}
       <div class="finding-metrics">
-        {{#metrics}}
-        <div class="metric-chip{{#is_benchmark}} standard{{/is_benchmark}}">
-          <div class="chip-label">{{label}}</div>
-          <div class="chip-value">{{value_display}}</div>
+        <div class="metric-chip">
+          <div class="chip-label">Your metric</div>
+          <div class="chip-value">8%</div>
         </div>
-        {{/metrics}}
+        <div class="metric-chip standard">
+          <div class="chip-label">Target</div>
+          <div class="chip-value">&lt; 5%</div>
+        </div>
       </div>
-      {{/has_metrics}}
-      <div class="finding-text">{{{finding.summary}}}</div>
-      {{#finding.risk}}
-      <div class="finding-risk">{{{finding.risk}}}</div>
-      {{/finding.risk}}
-      {{#finding.benchmark_reference_id}}
-      <div class="finding-meta">{{finding.meta}}</div>
-      {{/finding.benchmark_reference_id}}
+      <div class="finding-text">The Overselling Rate is 8%, exceeding the critical threshold of 5%.</div>
+      <div class="finding-risk">Risk: Excessive overselling may lead to stockouts, damaging customer trust and loyalty.</div>
     </td>
   </tr>
-{{/scorecard.rows}}
+  <tr class="row-critical">
+    <td class="category">Lost Sales Rate</td>
+    <td class="status-cell"><span class="status-dot critical"></span></td>
+    <td class="finding">
+      <div class="finding-metrics">
+        <div class="metric-chip">
+          <div class="chip-label">Your metric</div>
+          <div class="chip-value">12%</div>
+        </div>
+        <div class="metric-chip standard">
+          <div class="chip-label">Target</div>
+          <div class="chip-value">&lt; 5%</div>
+        </div>
+      </div>
+      <div class="finding-text">The Lost Sales Rate is 12%, exceeding the critical threshold of 5%.</div>
+      <div class="finding-risk">Risk: Lost sales may result in revenue loss and decreased customer satisfaction.</div>
+    </td>
+  </tr>
+  <tr class="">
+    <td class="category">Order Response Time</td>
+    <td class="status-cell"><span class="status-dot warning"></span></td>
+    <td class="finding">
+      <div class="finding-metrics">
+        <div class="metric-chip">
+          <div class="chip-label">Your metric</div>
+          <div class="chip-value">38h</div>
+        </div>
+        <div class="metric-chip standard">
+          <div class="chip-label">Target</div>
+          <div class="chip-value">1h</div>
+        </div>
+      </div>
+      <div class="finding-text">The Order Response Time is 38 hours, exceeding the target of 1 hour.</div>
+      <div class="finding-risk">Risk: Delayed order fulfillment may lead to dissatisfied customers and decreased loyalty.</div>
+    </td>
+  </tr>
+  <tr class="">
+    <td class="category">Customer Service Time</td>
+    <td class="status-cell"><span class="status-dot warning"></span></td>
+    <td class="finding">
+      <div class="finding-metrics">
+        <div class="metric-chip">
+          <div class="chip-label">Your metric</div>
+          <div class="chip-value">$15</div>
+        </div>
+        <div class="metric-chip standard">
+          <div class="chip-label">Target</div>
+          <div class="chip-value">&lt; 8dollars</div>
+        </div>
+      </div>
+      <div class="finding-text">The Customer Service Time is $15, which does not have a defined target.</div>
+      <div class="finding-risk">Risk: Inadequate customer service may result in negative reviews and decreased customer loyalty.</div>
+    </td>
+  </tr>
 </tbody>
         </table>
     </section>
 
     <section class="zone zone-bleed">
         <div class="bleed-callout">
-            <div class="bleed-title">Revenue Bleed</div>
-            <div class="bleed-amount">{{bleed.total.display}}</div>
-            <div class="bleed-period">{{bleed.period_display}}</div>
+            <div class="bleed-title">Per Month Revenue Bleed</div>
+            <div class="bleed-amount">$4,050&#x2F;mo</div>
+            <div class="bleed-period">Per Month</div>
             <div class="bleed-breakdown">
-                {{#bleed.breakdown}}
-                <span class="bleed-item"><span class="bleed-dot {{status}}"></span>{{label}}: <strong>{{amount.display}}</strong></span>
-                {{/bleed.breakdown}}
+                <span class="bleed-item"><span class="bleed-dot critical"></span>Primary Bleed: <strong>$4,050&#x2F;mo</strong></span>
             </div>
-{{#bleed.math_defender_text}}
-<div class="bleed-assumption">{{{bleed.math_defender_text}}}</div>
-{{/bleed.math_defender_text}}
+<div class="bleed-assumption">Based on overselling rate × $15 cost per delayed order, the business incurs a monthly bleed of $2,835 due to overselling alone.</div>
         </div>
     </section>
 
     <section class="zone zone-fixes">
         <div class="section-header">Recommended Fixes</div>
         <div class="fix-container">
-            {{#fixes.items}}
             <div class="fix-block">
                 <div class="fix-dot-wrapper">
-                    <span class="fix-dot" style="background: var(--{{severity}});"></span>
+                    <span class="fix-dot" style="background: var(--critical);"></span>
                 </div>
                 <div class="fix-content">
-                    <div class="fix-line"><span class="fix-label">Problem:</span>{{{problem}}}</div>
-                    <div class="fix-line"><span class="fix-label">Fix:</span>{{{solution}}}</div>
-                    <div class="fix-line"><span class="fix-label impact">Impact:</span>Recover ~{{impact.estimated_recovery.display}}/{{bleed_period}}. {{{impact.basis}}}</div>
+                    <div class="fix-line"><span class="fix-label">Problem:</span>The Overselling Rate is 8%, resulting in excessive stockouts and lost sales.</div>
+                    <div class="fix-line"><span class="fix-label">Fix:</span>Implement a real-time inventory management system to accurately track stock levels and prevent overselling.</div>
+                    <div class="fix-line"><span class="fix-label impact">Impact:</span>Recover ~$2,835/month. This fix will enable timely identification of stockouts, allowing for proactive adjustments to prevent overselling and lost sales.</div>
                     <div class="fix-pills">
-                      <span class="pill">{{effort.tier}} Effort</span>
-                      {{#impact.tier}}<span class="pill">{{impact.tier}} Impact</span>{{/impact.tier}}
-                      <span class="pill">{{turnaround.label}}</span>
+                      <span class="pill">low Effort</span>
+                      <span class="pill">high Impact</span>
+                      <span class="pill">7-14 Days</span>
                     </div>
                 </div>
             </div>
-            {{/fixes.items}}
         </div>
     </section>
 
     <section class="zone zone-cta">
 <div class="cta-button">
     <div class="cta-steps">
-      {{#cta.phases}}
-      <span class="cta-step {{state}}">{{label}}</span>
-      {{^is_last}}<span class="cta-sep">›</span>{{/is_last}}
-      {{/cta.phases}}
+      <span class="cta-step complete">Phase 1: Audit</span>
+      <span class="cta-sep">›</span>
+      <span class="cta-step current">Phase 2: Stabilize</span>
+      <span class="cta-sep">›</span>
+      <span class="cta-step upcoming">Phase 3: Scale</span>
+      
     </div>
 
-    {{! Proposal meta: expiration and value (only for proposal mode) }}
-    {{#cta.proposal}}
-    <div class="cta-proposal-meta">
-      {{#expires_display}}<span class="cta-expires">{{expires_display}}</span>{{/expires_display}}
-      {{#total_value}}<span class="cta-value">{{total_value.display}}</span>{{/total_value}}
-    </div>
-    {{/cta.proposal}}
 
-    <div class="cta-headline">{{{cta.headline}}}</div>
-    <div class="cta-subtext">{{{cta.subtext}}}</div>
+    <div class="cta-headline">Stop losing <strong>$4,050</strong> monthly due to overselling, lost sales, and delayed orders</div>
+    <div class="cta-subtext">Implement the recommended fixes to prevent overselling, improve order response time, and enhance customer satisfaction, ensuring timely and accurate order fulfillment.</div>
 
-    {{! Dual-action layout when secondary_action is present }}
-    {{#cta.secondary_action}}
-    <div class="cta-actions">
-      <a href="{{{cta.link}}}" class="cta-link cta-primary">{{#cta.link_display}}{{{cta.link_display}}}{{/cta.link_display}}{{^cta.link_display}}View Proposal{{/cta.link_display}}</a>
-      <a href="{{{cta.secondary_action.link}}}" class="cta-link cta-secondary">{{#cta.secondary_action.label}}{{{cta.secondary_action.label}}}{{/cta.secondary_action.label}}{{^cta.secondary_action.label}}Have questions?{{/cta.secondary_action.label}}</a>
-    </div>
-    {{/cta.secondary_action}}
 
-    {{! Single-action layout (default/book_call mode) }}
-    {{^cta.secondary_action}}
-    <a href="{{{cta.link}}}" class="cta-link">{{#cta.link_display}}{{{cta.link_display}}}{{/cta.link_display}}{{^cta.link_display}}{{{cta.link}}}{{/cta.link_display}}</a>
-    {{/cta.secondary_action}}
+    <a href="https://calendly.com/wranngle" class="cta-link">calendly.com/wranngle</a>
 </div>
     </section>
 
     <footer class="footer-contact">
-        <span class="micro">{{#prepared_by.producer_name}}{{prepared_by.producer_name}} &nbsp;•&nbsp; {{/prepared_by.producer_name}}{{prepared_by.producer_email}} &nbsp;•&nbsp; {{document.brand.primary_domain}}{{#offer.sku_code}} &nbsp;•&nbsp; {{offer.sku_code}}{{/offer.sku_code}}</span>
-        <p class="footer-copyright">{{document.brand.brand_name}} &copy; All Rights Reserved {{document.report_year}}</p>
+        <span class="micro">audit@wranngle.com &nbsp;•&nbsp; wranngle.com &nbsp;•&nbsp; WR-AI-AUDIT-100</span>
+        <p class="footer-copyright">Wranngle Systems LLC &copy; All Rights Reserved 2025</p>
     </footer>
 
     </div><!-- .page-card -->

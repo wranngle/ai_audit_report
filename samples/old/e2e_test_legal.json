@@ -1,0 +1,627 @@
+{
+  "schema_version": "1.0.0",
+  "document": {
+    "document_id": "9241dca8-0037-4465-96cf-b9c41d467da0",
+    "created_at": "2025-12-15T02:26:57.427Z",
+    "report_date": "December 14, 2025",
+    "report_year": "2025",
+    "title": "AI Process Audit: Vendor Contract Reviews for Corporate Clients",
+    "subtitle": "",
+    "confidentiality": "confidential",
+    "locale": "en-US",
+    "timezone": "America/Indiana/Indianapolis",
+    "brand": {
+      "brand_name": "Wranngle Systems LLC",
+      "logo_uri": "https://i.ibb.co/sdfPMCVx/wranngle-color-transparent.png",
+      "primary_domain": "wranngle.com"
+    }
+  },
+  "prepared_for": {
+    "account_id": "CLIENT-MORRISON",
+    "account_name": "Morrison & Associates Law Firm",
+    "industry": "Unknown",
+    "primary_contact": {
+      "name": "Unknown",
+      "title": "Unknown",
+      "email": "unknown@example.com",
+      "role_in_decision": "economic_buyer"
+    }
+  },
+  "prepared_by": {
+    "producer_name": "",
+    "producer_email": "audit@wranngle.com",
+    "producer_company": "Wranngle Systems LLC"
+  },
+  "audit": {
+    "audit_id": "audit-2025-3f120267",
+    "scope": {
+      "scope_statement": "This audit examined the vendor contract review workflow for Morrison & Associates Law Firm from November 2025 to December 2025, focusing on the use of email, network drive, Microsoft Word, Excel, billing system, and client database systems.",
+      "in_scope": [
+        "Vendor contract review workflow",
+        "Email",
+        "Network drive",
+        "Microsoft Word",
+        "Excel",
+        "Billing system",
+        "Client database"
+      ],
+      "out_of_scope": [
+        "Other business processes",
+        "Non-client-related activities"
+      ],
+      "systems_involved": [
+        {
+          "system_name": "Email",
+          "system_type": "email",
+          "environment": "prod"
+        },
+        {
+          "system_name": "Network drive",
+          "system_type": "other",
+          "environment": "prod"
+        },
+        {
+          "system_name": "Microsoft Word",
+          "system_type": "other",
+          "environment": "prod"
+        },
+        {
+          "system_name": "Excel",
+          "system_type": "spreadsheet",
+          "environment": "prod"
+        },
+        {
+          "system_name": "Billing system",
+          "system_type": "other",
+          "environment": "prod"
+        },
+        {
+          "system_name": "Client database",
+          "system_type": "crm",
+          "environment": "prod"
+        }
+      ],
+      "time_window": {
+        "start": "2025-11-15T02:26:57.444Z",
+        "end": "2025-12-15T02:26:57.427Z",
+        "timezone": "America/Indiana/Indianapolis"
+      }
+    },
+    "methodology": {
+      "methods": [
+        {
+          "method_type": "stakeholder_interview",
+          "details": "30-minute intake call",
+          "sample_size": 1
+        }
+      ],
+      "data_sources": [
+        {
+          "source_id": "src-intake-call",
+          "source_type": "interview",
+          "source_label": "Intake interview (December 14, 2025)"
+        }
+      ],
+      "limitations": [
+        "Limited data availability",
+        "No target values for key metrics"
+      ],
+      "confidence": {
+        "rating": "medium",
+        "rationale": "Client-provided estimates without system log validation"
+      }
+    },
+    "workflows": [
+      {
+        "workflow_id": "wf-2e306e7a",
+        "name": "Vendor contract reviews for corporate clients",
+        "trigger": "Client emails a contract for review",
+        "objective": "Complete initial review and return redlines within 3 business days for standard contracts",
+        "primary_kpi": "Response Time target",
+        "steps": [
+          {
+            "step_id": "step-1",
+            "sequence": 1,
+            "name": "Client emails a contract for review",
+            "owner_type": "automation"
+          },
+          {
+            "step_id": "step-2",
+            "sequence": 2,
+            "name": "Manual data transfer",
+            "owner_type": "human"
+          },
+          {
+            "step_id": "step-3",
+            "sequence": 3,
+            "name": "Human review/decision",
+            "owner_type": "human"
+          },
+          {
+            "step_id": "step-4",
+            "sequence": 4,
+            "name": "Senior partner review",
+            "owner_type": "human"
+          }
+        ],
+        "measurements": [
+          {
+            "measurement_id": "response_time",
+            "name": "Response Time",
+            "metric_type": "latency",
+            "value": {
+              "kind": "duration",
+              "duration": {
+                "value": 6,
+                "unit": "d",
+                "display": "6d"
+              }
+            },
+            "value_display": "6d",
+            "method": "system_analysis",
+            "evidence": [
+              {
+                "evidence_id": "ev-881619c9",
+                "source_id": "src-intake-call",
+                "evidence_type": "client_statement",
+                "summary": "Average time from contract received to client delivery: 6 business days"
+              }
+            ]
+          },
+          {
+            "measurement_id": "delay_rate",
+            "name": "Delay Rate",
+            "metric_type": "error_rate",
+            "value": {
+              "kind": "percentage",
+              "value": 40,
+              "scale": "percent",
+              "display": "40%"
+            },
+            "value_display": "40%",
+            "method": "system_analysis",
+            "evidence": [
+              {
+                "evidence_id": "ev-cea0be46",
+                "source_id": "src-intake-call",
+                "evidence_type": "client_statement",
+                "summary": "About 40% of standard contracts miss the 3-day SLA"
+              }
+            ]
+          },
+          {
+            "measurement_id": "manual_handoffs",
+            "name": "Manual Handoffs",
+            "metric_type": "complexity",
+            "value": {
+              "kind": "count",
+              "value": 9,
+              "display": "9"
+            },
+            "value_display": "9",
+            "method": "system_analysis",
+            "evidence": [
+              {
+                "evidence_id": "ev-705aca46",
+                "source_id": "src-intake-call",
+                "evidence_type": "client_statement",
+                "summary": "1. Client emails contract (usually PDF or Word doc) to generic firm email 2. Paralegal manually forwards to assigned attorney based on practice area 3. Attorney downloads contract and saves to shared network drive 4. Attorney manually reads entire contract (30-120 pages typical) 5. Attorney creates redline document in Word with tracked changes 6. Attorney fills out internal risk assessment form in Excel 7. Senior partner reviews redlines (another full read-through) 8. Paralegal compiles final documents and emails back to client 9. Time entry done manually in separate billing system"
+              }
+            ]
+          },
+          {
+            "measurement_id": "billing_leakage",
+            "name": "Billing Leakage",
+            "metric_type": "cost",
+            "value": {
+              "kind": "count",
+              "value": 12000,
+              "display": "$12,000"
+            },
+            "value_display": "$12,000",
+            "method": "system_analysis",
+            "evidence": [
+              {
+                "evidence_id": "ev-9fd0b566",
+                "source_id": "src-intake-call",
+                "evidence_type": "client_statement",
+                "summary": "Billing leakage - about $12,000/month in unbilled hours due to poor time tracking."
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "scorecard": {
+    "executive_summary": {
+      "body": "The critical bottleneck in the vendor contract review workflow is the 40% delay rate, resulting in a 6-day response time. The firm is bleeding <strong>$204,000</strong> monthly due to this inefficiency.",
+      "generated_by": "pending_llm"
+    },
+    "rows": [
+      {
+        "row_id": "row-delay_rate",
+        "category": "Delay Rate",
+        "status": "critical",
+        "status_is_critical": true,
+        "has_metrics": true,
+        "finding": {
+          "summary": "The delay rate is critically high at 40%, exceeding the target of less than 5%.",
+          "risk": "Risk: Inefficient contract review process may lead to missed deadlines and lost business opportunities."
+        },
+        "metrics": [
+          {
+            "label": "Your metric",
+            "value_display": "40%",
+            "measurement_id": "delay_rate",
+            "is_benchmark": false
+          },
+          {
+            "label": "Target",
+            "value_display": "< 5%",
+            "is_benchmark": true
+          }
+        ],
+        "measurement_ids": [
+          "delay_rate"
+        ]
+      },
+      {
+        "row_id": "row-manual_handoffs",
+        "category": "Manual Handoffs",
+        "status": "critical",
+        "status_is_critical": true,
+        "has_metrics": true,
+        "finding": {
+          "summary": "There are 9 manual handoffs in the workflow, exceeding the target of less than 5.",
+          "risk": "Risk: Manual handoffs may introduce errors and slow down the review process."
+        },
+        "metrics": [
+          {
+            "label": "Your metric",
+            "value_display": "9",
+            "measurement_id": "manual_handoffs",
+            "is_benchmark": false
+          },
+          {
+            "label": "Target",
+            "value_display": "< 5",
+            "is_benchmark": true
+          }
+        ],
+        "measurement_ids": [
+          "manual_handoffs"
+        ]
+      },
+      {
+        "row_id": "row-billing_leakage",
+        "category": "Billing Leakage",
+        "status": "critical",
+        "status_is_critical": true,
+        "has_metrics": true,
+        "finding": {
+          "summary": "The firm is experiencing billing leakage of <strong>$12,000</strong>, exceeding the target of less than $6,000.",
+          "risk": "Risk: Inefficient billing process may lead to lost revenue and decreased profitability."
+        },
+        "metrics": [
+          {
+            "label": "Your metric",
+            "value_display": "$12,000",
+            "measurement_id": "billing_leakage",
+            "is_benchmark": false
+          },
+          {
+            "label": "Target",
+            "value_display": "< 6000dollars",
+            "is_benchmark": true
+          }
+        ],
+        "measurement_ids": [
+          "billing_leakage"
+        ]
+      },
+      {
+        "row_id": "row-response_time",
+        "category": "Response Time",
+        "status": "warning",
+        "status_is_critical": false,
+        "has_metrics": true,
+        "finding": {
+          "summary": "The response time is critically high at 6 days, exceeding the target of less than 3 days.",
+          "risk": "Risk: Inefficient response time may lead to missed deadlines and lost business opportunities."
+        },
+        "metrics": [
+          {
+            "label": "Your metric",
+            "value_display": "6d",
+            "measurement_id": "response_time",
+            "is_benchmark": false
+          },
+          {
+            "label": "Target",
+            "value_display": "< 3d",
+            "is_benchmark": true
+          }
+        ],
+        "measurement_ids": [
+          "response_time"
+        ]
+      }
+    ],
+    "overall": {
+      "status_distribution": {
+        "critical": 3,
+        "warning": 1,
+        "healthy": 0
+      }
+    }
+  },
+  "bleed": {
+    "currency": "USD",
+    "period": "month",
+    "period_display": "Per Month",
+    "total": {
+      "amount": 204000,
+      "currency": "USD",
+      "display": "$204,000/mo"
+    },
+    "breakdown": [
+      {
+        "item_id": "bleed-primary",
+        "label": "Primary Bleed",
+        "status": "critical",
+        "amount": {
+          "amount": 204000,
+          "currency": "USD",
+          "display": "$204,000/mo"
+        },
+        "driver_measurement_ids": [
+          "delay_rate",
+          "manual_handoffs",
+          "billing_leakage"
+        ]
+      }
+    ],
+    "assumptions": [
+      {
+        "assumption_id": "cost_per_failure",
+        "name": "Cost per Failure",
+        "value": 300,
+        "unit": "$",
+        "source_or_basis": "== COSTS ==",
+        "confidence": "medium"
+      },
+      {
+        "assumption_id": "failure_rate",
+        "name": "Failure Rate",
+        "value": 40,
+        "unit": "%",
+        "source_or_basis": "== PROBLEMS ==",
+        "confidence": "medium"
+      },
+      {
+        "assumption_id": "volume",
+        "name": "Volume",
+        "value": 85,
+        "unit": "",
+        "source_or_basis": "<intake_context>",
+        "confidence": "medium"
+      }
+    ],
+    "calculations": [
+      {
+        "calc_id": "monthly_bleed",
+        "label": "Monthly Bleed",
+        "formula": "volume × failure_rate × cost_per_failure",
+        "inputs": [
+          "failure_rate",
+          "cost_per_failure",
+          "volume"
+        ],
+        "result_amount": {
+          "amount": 204000,
+          "currency": "USD"
+        },
+        "attribution_breakdown_item_id": "bleed-primary"
+      }
+    ],
+    "math_defender_text": "Based on 85 errors × 40% failure rate × $300 cost per failure, the firm is bleeding <strong>$204,000</strong> monthly due to inefficiencies in the vendor contract review workflow."
+  },
+  "fixes": {
+    "quick_win_fix_id": "fix-1",
+    "items": [
+      {
+        "fix_id": "fix-1",
+        "status": "proposed",
+        "severity": "critical",
+        "bleed_period": "month",
+        "problem": "The 40% delay rate is causing inefficiencies in the vendor contract review workflow.",
+        "solution": "Implement process improvements to reduce delay rate to less than 5% and increase efficiency.",
+        "quick_win": true,
+        "impact": {
+          "estimated_recovery": {
+            "amount": 47600,
+            "currency": "USD",
+            "display": "$47,600"
+          },
+          "basis": "This fix will help by streamlining the review process, reducing manual handoffs, and improving overall productivity.",
+          "maps_to_breakdown_item_ids": [
+            "bleed-primary"
+          ],
+          "tier": "high"
+        },
+        "effort": {
+          "tier": "low",
+          "estimated_hours_range": {
+            "min_hours": 8,
+            "most_likely_hours": 16,
+            "max_hours": 24
+          },
+          "skills_required": [
+            "automation",
+            "API"
+          ]
+        },
+        "turnaround": {
+          "label": "7-14 Days",
+          "business_days_min": 7,
+          "business_days_max": 14
+        },
+        "dependencies": [],
+        "acceptance_criteria": [
+          "Delay rate is reduced to less than 5%",
+          "Response time is reduced to less than 3 days"
+        ],
+        "related_measurement_ids": [
+          "delay_rate"
+        ]
+      },
+      {
+        "fix_id": "fix-2",
+        "status": "proposed",
+        "severity": "critical",
+        "bleed_period": "month",
+        "problem": "The 9 manual handoffs are introducing errors and slowing down the review process.",
+        "solution": "Automate manual handoffs to reduce errors and increase efficiency.",
+        "quick_win": false,
+        "impact": {
+          "estimated_recovery": {
+            "amount": 47600,
+            "currency": "USD",
+            "display": "$47,600"
+          },
+          "basis": "This fix will help by reducing manual errors, improving response time, and increasing overall productivity.",
+          "maps_to_breakdown_item_ids": [
+            "bleed-primary"
+          ],
+          "tier": "high"
+        },
+        "effort": {
+          "tier": "medium",
+          "estimated_hours_range": {
+            "min_hours": 16,
+            "most_likely_hours": 24,
+            "max_hours": 40
+          },
+          "skills_required": [
+            "automation",
+            "API"
+          ]
+        },
+        "turnaround": {
+          "label": "14-21 Days",
+          "business_days_min": 14,
+          "business_days_max": 21
+        },
+        "dependencies": [],
+        "acceptance_criteria": [
+          "Manual handoffs are reduced to less than 5",
+          "Response time is reduced to less than 3 days"
+        ],
+        "related_measurement_ids": [
+          "manual_handoffs"
+        ]
+      },
+      {
+        "fix_id": "fix-3",
+        "status": "proposed",
+        "severity": "critical",
+        "bleed_period": "month",
+        "problem": "The <strong>$12,000</strong> billing leakage is causing lost revenue and decreased profitability.",
+        "solution": "Implement process improvements to reduce billing leakage to less than $6,000.",
+        "quick_win": false,
+        "impact": {
+          "estimated_recovery": {
+            "amount": 47600,
+            "currency": "USD",
+            "display": "$47,600"
+          },
+          "basis": "This fix will help by improving the billing process, reducing errors, and increasing overall revenue.",
+          "maps_to_breakdown_item_ids": [
+            "bleed-primary"
+          ],
+          "tier": "high"
+        },
+        "effort": {
+          "tier": "medium",
+          "estimated_hours_range": {
+            "min_hours": 16,
+            "most_likely_hours": 24,
+            "max_hours": 40
+          },
+          "skills_required": [
+            "automation",
+            "API"
+          ]
+        },
+        "turnaround": {
+          "label": "14-21 Days",
+          "business_days_min": 14,
+          "business_days_max": 21
+        },
+        "dependencies": [],
+        "acceptance_criteria": [
+          "Billing leakage is reduced to less than $6,000",
+          "Revenue is increased by at least 2%"
+        ],
+        "related_measurement_ids": [
+          "billing_leakage"
+        ]
+      }
+    ]
+  },
+  "cta": {
+    "phases": [
+      {
+        "phase_id": "phase_1_audit",
+        "label": "Phase 1: Audit",
+        "state": "complete",
+        "is_last": false
+      },
+      {
+        "phase_id": "phase_2_stabilize",
+        "label": "Phase 2: Stabilize",
+        "state": "current",
+        "is_last": false
+      },
+      {
+        "phase_id": "phase_3_scale",
+        "label": "Phase 3: Scale",
+        "state": "upcoming",
+        "is_last": true
+      }
+    ],
+    "current_phase": "phase_2_stabilize",
+    "completed_phase_ids": [
+      "phase_1_audit"
+    ],
+    "headline": "Stop losing <strong>$204,000</strong> monthly due to inefficient vendor contract reviews",
+    "subtext": "Implement process improvements to reduce delay rate, automate manual handoffs, and improve billing efficiency to increase productivity and revenue.",
+    "link": "https://calendly.com/wranngle",
+    "link_display": "calendly.com/wranngle",
+    "call_duration_minutes": 30
+  },
+  "benchmarks": [],
+  "sources": [],
+  "rendering": {
+    "mode": "conversion",
+    "is_conversion_mode": true,
+    "page": {
+      "size": "letter",
+      "margins_in": {
+        "top": 0.35,
+        "right": 0.35,
+        "bottom": 0.45,
+        "left": 0.35
+      }
+    },
+    "layout_guards": {
+      "max_pages": 1
+    }
+  },
+  "offer": {
+    "sku_code": "WR-AI-AUDIT-100",
+    "sku_name": "AI Process Audit (Phase 1)",
+    "display_in_footer": true
+  }
+}

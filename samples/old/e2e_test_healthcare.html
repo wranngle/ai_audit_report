@@ -39,7 +39,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Wranngle — {{document.title}}</title>
+    <title>Wranngle — AI Process Audit: Customer Support Ticket Handling</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@600;700;800&display=swap" rel="stylesheet">
     <style>
         /*
@@ -174,17 +174,18 @@
         .zone { flex-shrink: 0; position: relative; z-index: 1; }
 
         .zone-header {
+            height: 0.7in;
             display: flex;
             justify-content: space-between;
             align-items: flex-start;
-            padding: 0.1rem 0 0.15rem 0;
+            padding: 0 0 0.15rem 0;
             border-bottom: 2px solid var(--border-light);
             margin-bottom: 0.15rem;
         }
 
         .zone-summary { height: 0.7in; margin-bottom: 0.1rem; }
-        .zone-scorecard { margin-top: 0.15rem; margin-bottom: 0; padding-bottom: 0; flex: 1 1 auto; }
-        .zone-bleed { min-height: 1.2in; margin-top: -1px; margin-bottom: 0.1rem; flex-shrink: 0; }
+        .zone-scorecard { margin-top: 0.15rem; margin-bottom: 0; flex: 1 1 auto; }
+        .zone-bleed { min-height: 1.35in; margin-bottom: 0.1rem; flex-shrink: 0; }
         .zone-fixes { margin-top: 0.15rem; margin-bottom: 0.1rem; display: flex; flex-direction: column; flex: 0 0 auto; }
         .zone-cta { min-height: 0.7in; margin-top: auto; margin-bottom: 0; flex-shrink: 0; }
 
@@ -195,16 +196,14 @@
             align-self: flex-start;
             margin: 0;
             padding: 0;
-            flex-shrink: 0;
         }
         .brand-logo {
-            height: 0.5in;
+            height: 0.55in;
             width: auto;
             display: block;
             margin: 0;
             padding: 0;
             vertical-align: top;
-            object-position: top;
         }
 
         .header-right {
@@ -213,7 +212,6 @@
             flex-direction: column;
             align-items: flex-end;
             align-self: flex-start;
-            justify-content: flex-start;
             gap: 0.05rem;
             overflow: visible;
             flex: 1;
@@ -273,9 +271,11 @@
             border-bottom: 1px solid var(--border-light);
             vertical-align: middle;
         }
-        .scorecard tbody tr:last-child td { border-bottom: 2px solid var(--bleed); }
+        .scorecard tbody tr:last-child td { border-bottom: none; }
 
-        .scorecard tbody tr { background: transparent; }
+        .scorecard tbody tr:nth-child(odd) { background: transparent; }
+        .scorecard tbody tr:nth-child(even) { background: rgba(246, 241, 231, 0.5); }
+
         .scorecard tbody tr.row-critical { background: #fff0f5; }
         .scorecard tbody tr.row-critical td:first-child {
             box-shadow: inset 3px 0 0 var(--critical);
@@ -313,10 +313,9 @@
         .bleed-callout {
             background: var(--surface);
             border: 2px solid var(--bleed);
-            border-top: none;
             border-radius: 0 0 14px 14px;
             text-align: center;
-            padding: 0.3in 1rem 0.2in 1rem;
+            padding: 0.35in 1rem 0.25in 1rem;
             height: 100%;
             display: flex;
             flex-direction: column;
@@ -633,7 +632,9 @@
                 margin: 0;
                 page-break-inside: avoid;
                 break-inside: avoid;
-                /* Removed transform scale to match HTML sizing */
+                transform: scale(0.94);
+                transform-origin: top left;
+                width: calc(100% / 0.94);
             }
             .desert-scape { display: none !important; }
         }
@@ -740,7 +741,7 @@ body.theme-conversion .status-dot { box-shadow: none !important; }
 }
     </style>
 </head>
-<body class="{{#rendering.is_conversion_mode}}theme-conversion{{/rendering.is_conversion_mode}}">
+<body class="theme-conversion">
     <div class="page-card">
 
     <div class="desert-scape">
@@ -781,19 +782,19 @@ body.theme-conversion .status-dot { box-shadow: none !important; }
 
     <header class="zone zone-header">
         <div class="header-left">
-            <img src="{{{document.brand.logo_uri}}}" alt="{{document.brand.brand_name}}" class="brand-logo">
+            <img src="https://i.ibb.co/sdfPMCVx/wranngle-color-transparent.png" alt="Wranngle Systems LLC" class="brand-logo">
         </div>
         <div class="header-right">
-            <div class="doc-title">{{document.title}}</div>
-            {{#document.subtitle}}<div class="doc-subtitle">{{document.subtitle}}</div>{{/document.subtitle}}
-            <div class="micro client-line">Prepared for: <span class="micro-semibold">{{prepared_for.account_name}}</span> &nbsp;|&nbsp; {{document.report_date}}</div>
+            <div class="doc-title">AI Process Audit: Customer Support Ticket Handling</div>
+            
+            <div class="micro client-line">Prepared for: <span class="micro-semibold">CloudTech Solutions</span> &nbsp;|&nbsp; December 14, 2025</div>
         </div>
     </header>
 
     <section class="zone zone-summary">
         <div class="summary-card">
             <div class="section-header">Executive Summary</div>
-            <p class="body-text">{{{scorecard.executive_summary.body}}}</p>
+            <p class="body-text">The critical bottleneck in the Customer Support Ticket Handling workflow is the First Response SLA Miss Rate, which is <strong>35%</strong> and far exceeds the target of <strong>5%</strong>. This issue results in a significant bleed of <strong>$1,260</strong> per month, emphasizing the need for prompt action.</p>
         </div>
     </section>
 
@@ -808,112 +809,153 @@ body.theme-conversion .status-dot { box-shadow: none !important; }
                 </tr>
             </thead>
 <tbody>
-{{#scorecard.rows}}
-  <tr class="{{#status_is_critical}}row-critical{{/status_is_critical}}">
-    <td class="category">{{category}}</td>
-    <td class="status-cell"><span class="status-dot {{status}}"></span></td>
+  <tr class="row-critical">
+    <td class="category">Worst Case Delays</td>
+    <td class="status-cell"><span class="status-dot critical"></span></td>
     <td class="finding">
-      {{#has_metrics}}
       <div class="finding-metrics">
-        {{#metrics}}
-        <div class="metric-chip{{#is_benchmark}} standard{{/is_benchmark}}">
-          <div class="chip-label">{{label}}</div>
-          <div class="chip-value">{{value_display}}</div>
+        <div class="metric-chip">
+          <div class="chip-label">Your metric</div>
+          <div class="chip-value">24h</div>
         </div>
-        {{/metrics}}
+        <div class="metric-chip standard">
+          <div class="chip-label">Target</div>
+          <div class="chip-value">&lt; 4h</div>
+        </div>
       </div>
-      {{/has_metrics}}
-      <div class="finding-text">{{{finding.summary}}}</div>
-      {{#finding.risk}}
-      <div class="finding-risk">{{{finding.risk}}}</div>
-      {{/finding.risk}}
-      {{#finding.benchmark_reference_id}}
-      <div class="finding-meta">{{finding.meta}}</div>
-      {{/finding.benchmark_reference_id}}
+      <div class="finding-text">The worst-case delays in the Customer Support Ticket Handling workflow are up to <strong>24 hours</strong>, which is significantly higher than the target and poses a substantial risk.</div>
+      <div class="finding-risk">Risk: Delays in ticket resolution can lead to customer dissatisfaction and loss of business.</div>
     </td>
   </tr>
-{{/scorecard.rows}}
+  <tr class="row-critical">
+    <td class="category">First Response SLA Miss Rate</td>
+    <td class="status-cell"><span class="status-dot critical"></span></td>
+    <td class="finding">
+      <div class="finding-metrics">
+        <div class="metric-chip">
+          <div class="chip-label">Your metric</div>
+          <div class="chip-value">35%</div>
+        </div>
+        <div class="metric-chip standard">
+          <div class="chip-label">Target</div>
+          <div class="chip-value">5%</div>
+        </div>
+      </div>
+      <div class="finding-text">The First Response SLA Miss Rate in the Customer Support Ticket Handling workflow is <strong>35%</strong>, exceeding the target of <strong>5%</strong> and indicating a critical issue.</div>
+      <div class="finding-risk">Risk: Failure to meet the SLA can damage customer relationships and harm the business's reputation.</div>
+    </td>
+  </tr>
+  <tr class="row-critical">
+    <td class="category">Manual Routing Effort</td>
+    <td class="status-cell"><span class="status-dot critical"></span></td>
+    <td class="finding">
+      <div class="finding-metrics">
+        <div class="metric-chip">
+          <div class="chip-label">Your metric</div>
+          <div class="chip-value">6</div>
+        </div>
+        <div class="metric-chip standard">
+          <div class="chip-label">Target</div>
+          <div class="chip-value">2</div>
+        </div>
+      </div>
+      <div class="finding-text">The manual routing effort in the Customer Support Ticket Handling workflow is <strong>6</strong>, which is significantly higher than the target of <strong>2</strong> and indicates inefficiencies.</div>
+      <div class="finding-risk">Risk: Manual routing can lead to delays and errors, negatively impacting customer satisfaction and business outcomes.</div>
+    </td>
+  </tr>
+  <tr class="">
+    <td class="category">Average Time from Ticket Arrival to First Response</td>
+    <td class="status-cell"><span class="status-dot warning"></span></td>
+    <td class="finding">
+      <div class="finding-metrics">
+        <div class="metric-chip">
+          <div class="chip-label">Your metric</div>
+          <div class="chip-value">4.5h</div>
+        </div>
+        <div class="metric-chip standard">
+          <div class="chip-label">Target</div>
+          <div class="chip-value">1h</div>
+        </div>
+      </div>
+      <div class="finding-text">The average time from ticket arrival to first response in the Customer Support Ticket Handling workflow is <strong>4.5 hours</strong>, exceeding the target of <strong>1 hour</strong> and indicating a need for improvement.</div>
+      <div class="finding-risk">Risk: Delays in first response can lead to customer frustration and decreased loyalty.</div>
+    </td>
+  </tr>
 </tbody>
         </table>
     </section>
 
     <section class="zone zone-bleed">
         <div class="bleed-callout">
-            <div class="bleed-title">Revenue Bleed</div>
-            <div class="bleed-amount">{{bleed.total.display}}</div>
-            <div class="bleed-period">{{bleed.period_display}}</div>
+            <div class="bleed-title">Per Month Revenue Bleed</div>
+            <div class="bleed-amount">$1,260&#x2F;mo</div>
+            <div class="bleed-period">Per Month</div>
             <div class="bleed-breakdown">
-                {{#bleed.breakdown}}
-                <span class="bleed-item"><span class="bleed-dot {{status}}"></span>{{label}}: <strong>{{amount.display}}</strong></span>
-                {{/bleed.breakdown}}
+                <span class="bleed-item"><span class="bleed-dot critical"></span>Primary Bleed: <strong>$1,260&#x2F;mo</strong></span>
             </div>
-{{#bleed.math_defender_text}}
-<div class="bleed-assumption">{{{bleed.math_defender_text}}}</div>
-{{/bleed.math_defender_text}}
+<div class="bleed-assumption">Based on <strong>35%</strong> of tickets missing the SLA × <strong>$75</strong> cost per miss × <strong>30 days</strong> in the period, the monthly bleed is calculated as <strong>$1,260</strong>.</div>
         </div>
     </section>
 
     <section class="zone zone-fixes">
         <div class="section-header">Recommended Fixes</div>
         <div class="fix-container">
-            {{#fixes.items}}
             <div class="fix-block">
                 <div class="fix-dot-wrapper">
-                    <span class="fix-dot" style="background: var(--{{severity}});"></span>
+                    <span class="fix-dot" style="background: var(--critical);"></span>
                 </div>
                 <div class="fix-content">
-                    <div class="fix-line"><span class="fix-label">Problem:</span>{{{problem}}}</div>
-                    <div class="fix-line"><span class="fix-label">Fix:</span>{{{solution}}}</div>
-                    <div class="fix-line"><span class="fix-label impact">Impact:</span>Recover ~{{impact.estimated_recovery.display}}/{{bleed_period}}. {{{impact.basis}}}</div>
+                    <div class="fix-line"><span class="fix-label">Problem:</span>Worst-case delays of <strong>24 hours</strong> are negatively impacting the Customer Support Ticket Handling workflow.</div>
+                    <div class="fix-line"><span class="fix-label">Fix:</span>Implement a workflow optimization to reduce worst-case delays to less than <strong>4 hours</strong>, enabling faster ticket resolution and improved customer satisfaction.</div>
+                    <div class="fix-line"><span class="fix-label impact">Impact:</span>Recover ~$588/month. This fix will improve the efficiency of the workflow and enhance the overall customer experience.</div>
                     <div class="fix-pills">
-                      <span class="pill">{{effort.tier}} Effort</span>
-                      {{#impact.tier}}<span class="pill">{{impact.tier}} Impact</span>{{/impact.tier}}
-                      <span class="pill">{{turnaround.label}}</span>
+                      <span class="pill">low Effort</span>
+                      <span class="pill">high Impact</span>
+                      <span class="pill">7-14 Days</span>
                     </div>
                 </div>
             </div>
-            {{/fixes.items}}
+            <div class="fix-block">
+                <div class="fix-dot-wrapper">
+                    <span class="fix-dot" style="background: var(--critical);"></span>
+                </div>
+                <div class="fix-content">
+                    <div class="fix-line"><span class="fix-label">Problem:</span>The manual routing effort of <strong>6</strong> is inefficient and negatively impacting the Customer Support Ticket Handling workflow.</div>
+                    <div class="fix-line"><span class="fix-label">Fix:</span>Automate the routing process to reduce manual effort to <strong>2</strong>, streamlining the workflow and improving productivity.</div>
+                    <div class="fix-line"><span class="fix-label impact">Impact:</span>Recover ~$294/month. This fix will reduce manual errors and improve the overall efficiency of the workflow.</div>
+                    <div class="fix-pills">
+                      <span class="pill">medium Effort</span>
+                      <span class="pill">high Impact</span>
+                      <span class="pill">14-21 Days</span>
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
 
     <section class="zone zone-cta">
 <div class="cta-button">
     <div class="cta-steps">
-      {{#cta.phases}}
-      <span class="cta-step {{state}}">{{label}}</span>
-      {{^is_last}}<span class="cta-sep">›</span>{{/is_last}}
-      {{/cta.phases}}
+      <span class="cta-step complete">Phase 1: Audit</span>
+      <span class="cta-sep">›</span>
+      <span class="cta-step current">Phase 2: Stabilize</span>
+      <span class="cta-sep">›</span>
+      <span class="cta-step upcoming">Phase 3: Scale</span>
+      
     </div>
 
-    {{! Proposal meta: expiration and value (only for proposal mode) }}
-    {{#cta.proposal}}
-    <div class="cta-proposal-meta">
-      {{#expires_display}}<span class="cta-expires">{{expires_display}}</span>{{/expires_display}}
-      {{#total_value}}<span class="cta-value">{{total_value.display}}</span>{{/total_value}}
-    </div>
-    {{/cta.proposal}}
 
-    <div class="cta-headline">{{{cta.headline}}}</div>
-    <div class="cta-subtext">{{{cta.subtext}}}</div>
+    <div class="cta-headline">Stop losing <strong>$1,260</strong> monthly due to inefficient Customer Support Ticket Handling</div>
+    <div class="cta-subtext">Implement the recommended fixes to optimize the workflow, improve customer satisfaction, and reduce costs.</div>
 
-    {{! Dual-action layout when secondary_action is present }}
-    {{#cta.secondary_action}}
-    <div class="cta-actions">
-      <a href="{{{cta.link}}}" class="cta-link cta-primary">{{#cta.link_display}}{{{cta.link_display}}}{{/cta.link_display}}{{^cta.link_display}}View Proposal{{/cta.link_display}}</a>
-      <a href="{{{cta.secondary_action.link}}}" class="cta-link cta-secondary">{{#cta.secondary_action.label}}{{{cta.secondary_action.label}}}{{/cta.secondary_action.label}}{{^cta.secondary_action.label}}Have questions?{{/cta.secondary_action.label}}</a>
-    </div>
-    {{/cta.secondary_action}}
 
-    {{! Single-action layout (default/book_call mode) }}
-    {{^cta.secondary_action}}
-    <a href="{{{cta.link}}}" class="cta-link">{{#cta.link_display}}{{{cta.link_display}}}{{/cta.link_display}}{{^cta.link_display}}{{{cta.link}}}{{/cta.link_display}}</a>
-    {{/cta.secondary_action}}
+    <a href="https://calendly.com/wranngle" class="cta-link">calendly.com/wranngle</a>
 </div>
     </section>
 
     <footer class="footer-contact">
-        <span class="micro">{{#prepared_by.producer_name}}{{prepared_by.producer_name}} &nbsp;•&nbsp; {{/prepared_by.producer_name}}{{prepared_by.producer_email}} &nbsp;•&nbsp; {{document.brand.primary_domain}}{{#offer.sku_code}} &nbsp;•&nbsp; {{offer.sku_code}}{{/offer.sku_code}}</span>
-        <p class="footer-copyright">{{document.brand.brand_name}} &copy; All Rights Reserved {{document.report_year}}</p>
+        <span class="micro">audit@wranngle.com &nbsp;•&nbsp; wranngle.com &nbsp;•&nbsp; WR-AI-AUDIT-100</span>
+        <p class="footer-copyright">Wranngle Systems LLC &copy; All Rights Reserved 2025</p>
     </footer>
 
     </div><!-- .page-card -->

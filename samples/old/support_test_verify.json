@@ -1,0 +1,589 @@
+{
+  "schema_version": "1.0.0",
+  "document": {
+    "document_id": "b8aa7df6-44b8-4b3c-a85d-0b6015899767",
+    "created_at": "2025-12-15T03:10:05.190Z",
+    "report_date": "December 14, 2025",
+    "report_year": "2025",
+    "title": "AI Process Audit: Customer Support Ticket Process",
+    "subtitle": "",
+    "confidentiality": "confidential",
+    "locale": "en-US",
+    "timezone": "America/Indiana/Indianapolis",
+    "brand": {
+      "brand_name": "Wranngle Systems LLC",
+      "logo_uri": "https://i.ibb.co/sdfPMCVx/wranngle-color-transparent.png",
+      "primary_domain": "wranngle.com"
+    }
+  },
+  "prepared_for": {
+    "account_id": "CLIENT-001",
+    "account_name": "CloudTech Solutions",
+    "industry": "Unknown",
+    "primary_contact": {
+      "name": "Unknown",
+      "title": "Unknown",
+      "email": "unknown@example.com",
+      "role_in_decision": "economic_buyer"
+    }
+  },
+  "prepared_by": {
+    "producer_name": "",
+    "producer_email": "audit@wranngle.com",
+    "producer_company": "Wranngle Systems LLC"
+  },
+  "audit": {
+    "audit_id": "audit-2025-5d88f811",
+    "scope": {
+      "scope_statement": "This audit examined the Customer Support Ticket Process at CloudTech Solutions from November 2025 to December 2025, focusing on the workflow triggered by customer support requests via email or web form and utilizing systems such as Zendesk, Email, Slack, Confluence wiki, Google Sheets, and Jira.",
+      "in_scope": [
+        "Customer Support Ticket Process",
+        "Zendesk",
+        "Email",
+        "Slack",
+        "Confluence wiki",
+        "Google Sheets",
+        "Jira"
+      ],
+      "out_of_scope": [
+        "Other business processes",
+        "External systems not used in this workflow"
+      ],
+      "systems_involved": [
+        {
+          "system_name": "Zendesk",
+          "system_type": "ticketing",
+          "environment": "prod"
+        },
+        {
+          "system_name": "Email",
+          "system_type": "email",
+          "environment": "prod"
+        },
+        {
+          "system_name": "Slack",
+          "system_type": "other",
+          "environment": "prod"
+        },
+        {
+          "system_name": "Confluence wiki",
+          "system_type": "other",
+          "environment": "prod"
+        },
+        {
+          "system_name": "Google Sheets",
+          "system_type": "spreadsheet",
+          "environment": "prod"
+        },
+        {
+          "system_name": "Jira",
+          "system_type": "other",
+          "environment": "prod"
+        }
+      ],
+      "time_window": {
+        "start": "2025-11-15T03:10:05.207Z",
+        "end": "2025-12-15T03:10:05.190Z",
+        "timezone": "America/Indiana/Indianapolis"
+      }
+    },
+    "methodology": {
+      "methods": [
+        {
+          "method_type": "stakeholder_interview",
+          "details": "30-minute intake call",
+          "sample_size": 1
+        }
+      ],
+      "data_sources": [
+        {
+          "source_id": "src-intake-call",
+          "source_type": "interview",
+          "source_label": "Intake interview (December 14, 2025)"
+        }
+      ],
+      "limitations": [
+        "Limited data availability for certain metrics",
+        "No target values set for certain metrics"
+      ],
+      "confidence": {
+        "rating": "medium",
+        "rationale": "Client-provided estimates without system log validation"
+      }
+    },
+    "workflows": [
+      {
+        "workflow_id": "wf-86eb2c06",
+        "name": "Customer Support Ticket Process",
+        "trigger": "Customer submits a support request via email or web form",
+        "objective": "Route tickets to the right specialist and provide first response within 2 hours",
+        "primary_kpi": "Average Time from Ticket Arrival to First Response target",
+        "steps": [
+          {
+            "step_id": "step-1",
+            "sequence": 1,
+            "name": "Customer submits a support request via email or web form",
+            "owner_type": "automation"
+          },
+          {
+            "step_id": "step-2",
+            "sequence": 2,
+            "name": "Manual data transfer",
+            "owner_type": "human"
+          },
+          {
+            "step_id": "step-3",
+            "sequence": 3,
+            "name": "Human review/decision",
+            "owner_type": "human"
+          },
+          {
+            "step_id": "step-4",
+            "sequence": 4,
+            "name": "Ticket is resolved and closed",
+            "owner_type": "human"
+          }
+        ],
+        "measurements": [
+          {
+            "measurement_id": "response_time",
+            "name": "Average Time from Ticket Arrival to First Response",
+            "metric_type": "latency",
+            "value": {
+              "kind": "duration",
+              "duration": {
+                "value": 4.5,
+                "unit": "h",
+                "display": "4.5h"
+              }
+            },
+            "value_display": "4.5h",
+            "method": "system_analysis",
+            "evidence": [
+              {
+                "evidence_id": "ev-9da7e2f2",
+                "source_id": "src-intake-call",
+                "evidence_type": "client_statement",
+                "summary": "Average time from ticket arrival to first response: 4.5 hours"
+              }
+            ]
+          },
+          {
+            "measurement_id": "worst_case_delays",
+            "name": "Worst Case Delays",
+            "metric_type": "latency",
+            "value": {
+              "kind": "duration",
+              "duration": {
+                "value": 24,
+                "unit": "h",
+                "display": "24h"
+              }
+            },
+            "value_display": "24h",
+            "method": "system_analysis",
+            "evidence": [
+              {
+                "evidence_id": "ev-34f6a869",
+                "source_id": "src-intake-call",
+                "evidence_type": "client_statement",
+                "summary": "Worst case delays: up to 24 hours when tickets are miscategorized"
+              }
+            ]
+          },
+          {
+            "measurement_id": "missed_sla_rate",
+            "name": "Missed SLA Rate",
+            "metric_type": "error_rate",
+            "value": {
+              "kind": "percentage",
+              "value": 35,
+              "scale": "percent",
+              "display": "35%"
+            },
+            "value_display": "35%",
+            "method": "system_analysis",
+            "evidence": [
+              {
+                "evidence_id": "ev-ebe58ee7",
+                "source_id": "src-intake-call",
+                "evidence_type": "client_statement",
+                "summary": "About 35% of tickets miss the 2-hour first response SLA"
+              }
+            ]
+          },
+          {
+            "measurement_id": "manual_routing_effort",
+            "name": "Manual Routing Effort",
+            "metric_type": "complexity",
+            "value": {
+              "kind": "count",
+              "value": 6,
+              "display": "6"
+            },
+            "value_display": "6",
+            "method": "system_analysis",
+            "evidence": [
+              {
+                "evidence_id": "ev-a7622626",
+                "source_id": "src-intake-call",
+                "evidence_type": "client_statement",
+                "summary": "The process starts when a customer submits a support request via email or web form. The support manager owns triage, specialists own resolution."
+              }
+            ]
+          },
+          {
+            "measurement_id": "misrouted_tickets",
+            "name": "Misrouted Tickets",
+            "metric_type": "error_rate",
+            "value": {
+              "kind": "percentage",
+              "value": 20,
+              "scale": "percent",
+              "display": "20%"
+            },
+            "value_display": "20%",
+            "method": "system_analysis",
+            "evidence": [
+              {
+                "evidence_id": "ev-3061f84d",
+                "source_id": "src-intake-call",
+                "evidence_type": "client_statement",
+                "summary": "Miscategorization happens about 20% of the time - ticket goes to wrong specialist, gets re-routed."
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "scorecard": {
+    "executive_summary": {
+      "body": "The critical bottleneck in this process is the average time from ticket arrival to first response, which is 4.5 hours, exceeding the target of < 4 hours. This inefficiency results in a total bleed of <strong>$3,060</strong> per month, underscoring the need for immediate attention to optimize this process and prevent further financial losses.",
+      "generated_by": "pending_llm"
+    },
+    "rows": [
+      {
+        "row_id": "row-worst_case_delays",
+        "category": "Worst Case Delays",
+        "status": "critical",
+        "status_is_critical": true,
+        "has_metrics": true,
+        "finding": {
+          "summary": "Delays of up to <strong>24 hours</strong> in responding to critical customer issues can lead to lost customers, damage to the company's reputation, and compliance risks due to delayed issue resolution.",
+          "risk": "Risk: Lost customers, compliance risk, and damage to the company's reputation"
+        },
+        "metrics": [
+          {
+            "label": "Your metric",
+            "value_display": "24h",
+            "measurement_id": "worst_case_delays",
+            "is_benchmark": false
+          },
+          {
+            "label": "Target",
+            "value_display": "< 4h",
+            "is_benchmark": true
+          }
+        ],
+        "measurement_ids": [
+          "worst_case_delays"
+        ]
+      },
+      {
+        "row_id": "row-missed_sla_rate",
+        "category": "Missed SLA Rate",
+        "status": "critical",
+        "status_is_critical": true,
+        "has_metrics": true,
+        "finding": {
+          "summary": "A <strong>35%</strong> missed SLA rate indicates that nearly one-third of customer issues are not resolved within the expected timeframe, potentially resulting in customer dissatisfaction, negative reviews, and decreased loyalty.",
+          "risk": "Risk: Customer dissatisfaction, negative reviews, and decreased loyalty"
+        },
+        "metrics": [
+          {
+            "label": "Your metric",
+            "value_display": "35%",
+            "measurement_id": "missed_sla_rate",
+            "is_benchmark": false
+          },
+          {
+            "label": "Target",
+            "value_display": "< 5%",
+            "is_benchmark": true
+          }
+        ],
+        "measurement_ids": [
+          "missed_sla_rate"
+        ]
+      },
+      {
+        "row_id": "row-response_time",
+        "category": "Average Time from Ticket Arrival to First Response",
+        "status": "warning",
+        "status_is_critical": false,
+        "has_metrics": true,
+        "finding": {
+          "summary": "An average response time of <strong>4.5 hours</strong> is significantly higher than the target of < 4 hours, leading to delayed issue resolution, increased customer frustration, and potential revenue losses.",
+          "risk": "Risk: Delayed issue resolution, increased customer frustration, and potential revenue losses"
+        },
+        "metrics": [
+          {
+            "label": "Your metric",
+            "value_display": "4.5h",
+            "measurement_id": "response_time",
+            "is_benchmark": false
+          },
+          {
+            "label": "Target",
+            "value_display": "< 4h",
+            "is_benchmark": true
+          }
+        ],
+        "measurement_ids": [
+          "response_time"
+        ]
+      },
+      {
+        "row_id": "row-manual_routing_effort",
+        "category": "Manual Routing Effort",
+        "status": "warning",
+        "status_is_critical": false,
+        "has_metrics": true,
+        "finding": {
+          "summary": "A manual routing effort of <strong>6</strong> indicates that the process relies heavily on human intervention, which can lead to inefficiencies, errors, and increased workload for support staff.",
+          "risk": "Risk: Inefficiencies, errors, and increased workload for support staff"
+        },
+        "metrics": [
+          {
+            "label": "Your metric",
+            "value_display": "6",
+            "measurement_id": "manual_routing_effort",
+            "is_benchmark": false
+          },
+          {
+            "label": "Target",
+            "value_display": "< 3",
+            "is_benchmark": true
+          }
+        ],
+        "measurement_ids": [
+          "manual_routing_effort"
+        ]
+      }
+    ],
+    "overall": {
+      "status_distribution": {
+        "critical": 2,
+        "warning": 2,
+        "healthy": 0
+      }
+    }
+  },
+  "bleed": {
+    "currency": "USD",
+    "period": "month",
+    "period_display": "Per Month",
+    "total": {
+      "amount": 3060,
+      "currency": "USD",
+      "display": "$3,060/mo"
+    },
+    "breakdown": [
+      {
+        "item_id": "bleed-primary",
+        "label": "Primary Bleed",
+        "status": "critical",
+        "amount": {
+          "amount": 3060,
+          "currency": "USD",
+          "display": "$3,060/mo"
+        },
+        "driver_measurement_ids": [
+          "worst_case_delays",
+          "missed_sla_rate"
+        ]
+      }
+    ],
+    "assumptions": [
+      {
+        "assumption_id": "cost_per_sla_miss",
+        "name": "Cost per SLA Miss",
+        "value": 75,
+        "unit": "$",
+        "source_or_basis": "COSTS section",
+        "confidence": "medium"
+      },
+      {
+        "assumption_id": "misrouted_ticket_effort",
+        "name": "Effort per Misrouted Ticket",
+        "value": 30,
+        "unit": "minutes",
+        "source_or_basis": "COSTS section",
+        "confidence": "medium"
+      },
+      {
+        "assumption_id": "cost_per_duplicate_work",
+        "name": "Cost per Duplicate Work",
+        "value": 0,
+        "unit": "$",
+        "source_or_basis": "COSTS section - No data available",
+        "confidence": "medium"
+      }
+    ],
+    "calculations": [
+      {
+        "calc_id": "monthly_sla_miss_cost",
+        "label": "Monthly SLA Miss Cost",
+        "formula": "volume × missed_sla_rate × cost_per_sla_miss",
+        "inputs": [
+          "volume",
+          "missed_sla_rate",
+          "cost_per_sla_miss"
+        ],
+        "result_amount": {
+          "amount": 2700,
+          "currency": "USD"
+        },
+        "attribution_breakdown_item_id": "bleed-primary"
+      },
+      {
+        "calc_id": "monthly_misrouted_ticket_cost",
+        "label": "Monthly Misrouted Ticket Cost",
+        "formula": "volume × misrouted_ticket_rate × misrouted_ticket_effort",
+        "inputs": [
+          "volume",
+          "misrouted_ticket_rate",
+          "misrouted_ticket_effort"
+        ],
+        "result_amount": {
+          "amount": 360,
+          "currency": "USD"
+        },
+        "attribution_breakdown_item_id": "bleed-primary"
+      },
+      {
+        "calc_id": "monthly_duplicate_work_cost",
+        "label": "Monthly Duplicate Work Cost",
+        "formula": "volume × duplicate_work_rate × cost_per_duplicate_work",
+        "inputs": [
+          "volume",
+          "duplicate_work_rate",
+          "cost_per_duplicate_work"
+        ],
+        "result_amount": {
+          "amount": 0,
+          "currency": "USD"
+        },
+        "attribution_breakdown_item_id": "bleed-primary"
+      }
+    ],
+    "math_defender_text": "Based on 160 tickets/month × 35% missed SLA rate × $75 cost per failure = <strong>$2,700</strong> monthly bleed due to missed SLAs, and 160 tickets/month × 20% misrouted ticket rate × $30 effort per misrouted ticket = <strong>$360</strong> monthly bleed due to misrouted tickets, totaling a <strong>$3,060</strong> monthly bleed."
+  },
+  "fixes": {
+    "quick_win_fix_id": "fix-1",
+    "items": [
+      {
+        "fix_id": "fix-1",
+        "status": "proposed",
+        "severity": "critical",
+        "bleed_period": "month",
+        "problem": "The worst-case delays of up to 24 hours in responding to critical customer issues.",
+        "solution": "Implement a quick-win fix by streamlining the routing process, leveraging automation tools, and providing clear guidelines for support staff to reduce delays and improve issue resolution.",
+        "quick_win": true,
+        "impact": {
+          "estimated_recovery": {
+            "amount": 2142,
+            "currency": "USD",
+            "display": "$2,142"
+          },
+          "basis": "This fix will reduce delays by automating routing and providing clear guidelines for support staff, enabling them to focus on resolving issues efficiently and effectively.",
+          "maps_to_breakdown_item_ids": [
+            "bleed-primary"
+          ],
+          "tier": "high"
+        },
+        "effort": {
+          "tier": "low",
+          "estimated_hours_range": {
+            "min_hours": 8,
+            "most_likely_hours": 16,
+            "max_hours": 24
+          },
+          "skills_required": [
+            "automation",
+            "API"
+          ]
+        },
+        "turnaround": {
+          "label": "7-14 Days",
+          "business_days_min": 7,
+          "business_days_max": 14
+        },
+        "dependencies": [],
+        "acceptance_criteria": [
+          "Average response time < 4 hours",
+          "Reduced manual routing effort"
+        ],
+        "related_measurement_ids": [
+          "worst_case_delays",
+          "missed_sla_rate"
+        ]
+      }
+    ]
+  },
+  "cta": {
+    "phases": [
+      {
+        "phase_id": "phase_1_audit",
+        "label": "Phase 1: Audit",
+        "state": "complete",
+        "is_last": false
+      },
+      {
+        "phase_id": "phase_2_stabilize",
+        "label": "Phase 2: Stabilize",
+        "state": "current",
+        "is_last": false
+      },
+      {
+        "phase_id": "phase_3_scale",
+        "label": "Phase 3: Scale",
+        "state": "upcoming",
+        "is_last": true
+      }
+    ],
+    "current_phase": "phase_2_stabilize",
+    "completed_phase_ids": [
+      "phase_1_audit"
+    ],
+    "headline": "Stop losing <strong>$3,060</strong> monthly due to inefficient customer support processes",
+    "subtext": "Implement the recommended fixes to optimize your customer support process, reduce delays, and prevent further financial losses. Act now to improve customer satisfaction and loyalty.",
+    "link": "https://calendly.com/wranngle",
+    "link_display": "calendly.com/wranngle",
+    "call_duration_minutes": 30
+  },
+  "benchmarks": [],
+  "sources": [],
+  "rendering": {
+    "mode": "conversion",
+    "is_conversion_mode": true,
+    "page": {
+      "size": "letter",
+      "margins_in": {
+        "top": 0.35,
+        "right": 0.35,
+        "bottom": 0.45,
+        "left": 0.35
+      }
+    },
+    "layout_guards": {
+      "max_pages": 1
+    }
+  },
+  "offer": {
+    "sku_code": "WR-AI-AUDIT-100",
+    "sku_name": "AI Process Audit (Phase 1)",
+    "display_in_footer": true
+  }
+}

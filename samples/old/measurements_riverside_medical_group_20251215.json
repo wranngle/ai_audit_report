@@ -1,0 +1,181 @@
+{
+  "measurements": [
+    {
+      "id": "response_time",
+      "name": "Average Time from Initial Call to Scheduled Appointment",
+      "metric_type": "latency",
+      "value": 72,
+      "unit": "hours",
+      "value_display": "72h",
+      "source": "TIMING",
+      "evidence": [
+        {
+          "type": "client_statement",
+          "summary": "Average time from initial call to scheduled appointment: 72 hours"
+        }
+      ],
+      "threshold": {
+        "target": null,
+        "target_display": null,
+        "healthy_max": 1,
+        "warning_max": 4,
+        "direction": "lower_is_better"
+      },
+      "status": "critical",
+      "status_reason": "Exceeds healthy threshold"
+    },
+    {
+      "id": "insurance_verification_time",
+      "name": "Average Time Spent on Insurance Verification",
+      "metric_type": "latency",
+      "value": 45,
+      "unit": "minutes",
+      "value_display": "45m",
+      "source": "PROBLEMS",
+      "evidence": [
+        {
+          "type": "client_statement",
+          "summary": "Insurance verification takes 45 minutes per patient on average"
+        }
+      ],
+      "threshold": {
+        "target": null,
+        "target_display": null,
+        "healthy_max": 30,
+        "warning_max": 60,
+        "direction": "lower_is_better"
+      },
+      "status": "critical",
+      "status_reason": "Exceeds healthy threshold"
+    },
+    {
+      "id": "no_show_rate",
+      "name": "No-Show Rate for First Appointment",
+      "metric_type": "error_rate",
+      "value": 30,
+      "unit": "percent",
+      "value_display": "30%",
+      "source": "PROBLEMS",
+      "evidence": [
+        {
+          "type": "client_statement",
+          "summary": "Patients don't return intake forms - about 30% no-show on first appointment due to incomplete paperwork."
+        }
+      ],
+      "threshold": {
+        "target": null,
+        "target_display": null,
+        "healthy_max": 5,
+        "warning_max": 10,
+        "direction": "lower_is_better"
+      },
+      "status": "critical",
+      "status_reason": "Exceeds healthy threshold"
+    },
+    {
+      "id": "data_entry_error_rate",
+      "name": "Data Entry Error Rate",
+      "metric_type": "error_rate",
+      "value": 15,
+      "unit": "percent",
+      "value_display": "15%",
+      "source": "PROBLEMS",
+      "evidence": [
+        {
+          "type": "client_statement",
+          "summary": "Data entry errors when transcribing from paper to EHR - about 15% error rate on allergies and medications."
+        }
+      ],
+      "threshold": {
+        "target": null,
+        "target_display": null,
+        "healthy_max": 5,
+        "warning_max": 10,
+        "direction": "lower_is_better"
+      },
+      "status": "critical",
+      "status_reason": "Exceeds healthy threshold"
+    },
+    {
+      "id": "manual_handoffs",
+      "name": "Number of Manual Handoffs",
+      "metric_type": "complexity",
+      "value": 7,
+      "unit": "count",
+      "value_display": "7",
+      "source": "CURRENT_PROCESS",
+      "evidence": [
+        {
+          "type": "client_statement",
+          "summary": "The process starts when a patient calls to schedule their first appointment."
+        }
+      ],
+      "threshold": {
+        "target": null,
+        "target_display": null,
+        "healthy_max": 2,
+        "warning_max": 4,
+        "direction": "lower_is_better"
+      },
+      "status": "critical",
+      "status_reason": "Exceeds healthy threshold"
+    }
+  ],
+  "bleed_assumptions": [
+    {
+      "id": "cost_per_no_show",
+      "label": "Cost per No-Show",
+      "value": 200,
+      "value_display": "$200",
+      "currency": "USD",
+      "source": "COSTS"
+    },
+    {
+      "id": "staff_time_per_patient",
+      "label": "Staff Time per Patient",
+      "value": 2,
+      "value_display": "2 hours",
+      "currency": "USD",
+      "source": "COSTS"
+    },
+    {
+      "id": "cost_per_insurance_verification",
+      "label": "Cost per Insurance Verification",
+      "value": 25,
+      "value_display": "$25",
+      "currency": "USD",
+      "source": "COSTS"
+    }
+  ],
+  "bleed_calculations": [
+    {
+      "id": "monthly_no_show_bleed",
+      "label": "Monthly No-Show Bleed",
+      "formula": "volume × no_show_rate × cost_per_no_show",
+      "inputs": [
+        "volume",
+        "no_show_rate",
+        "cost_per_no_show"
+      ],
+      "result": 13500,
+      "result_display": "$13,500"
+    },
+    {
+      "id": "monthly_staff_time_bleed",
+      "label": "Monthly Staff Time Bleed",
+      "formula": "volume × staff_time_per_patient",
+      "inputs": [
+        "volume",
+        "staff_time_per_patient"
+      ],
+      "result": 900,
+      "result_display": "$900"
+    }
+  ],
+  "bleed_total": {
+    "value": 14400,
+    "currency": "USD",
+    "period": "month",
+    "display": "$14,400/mo"
+  }
+}

@@ -39,7 +39,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Wranngle — {{document.title}}</title>
+    <title>Wranngle — AI Workflow Audit: Maintenance Request Handling</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@600;700;800&display=swap" rel="stylesheet">
     <style>
         /*
@@ -123,9 +123,8 @@
             font-size: 1.35rem;
             font-weight: 700;
             color: var(--ink-primary);
-            line-height: 1;
-            margin: 0 0 0.1rem 0;
-            padding: 0;
+            line-height: 1.1;
+            margin-bottom: 0.1rem;
             word-wrap: break-word;
             overflow-wrap: break-word;
         }
@@ -174,37 +173,27 @@
         .zone { flex-shrink: 0; position: relative; z-index: 1; }
 
         .zone-header {
+            height: 0.7in;
             display: flex;
             justify-content: space-between;
             align-items: flex-start;
-            padding: 0.1rem 0 0.15rem 0;
+            padding-bottom: 0.15rem;
             border-bottom: 2px solid var(--border-light);
             margin-bottom: 0.15rem;
         }
 
         .zone-summary { height: 0.7in; margin-bottom: 0.1rem; }
-        .zone-scorecard { margin-top: 0.15rem; margin-bottom: 0; padding-bottom: 0; flex: 1 1 auto; }
-        .zone-bleed { min-height: 1.2in; margin-top: -1px; margin-bottom: 0.1rem; flex-shrink: 0; }
+        .zone-scorecard { margin-top: 0.15rem; margin-bottom: 0; flex: 1 1 auto; }
+        .zone-bleed { height: 1.1in; margin-bottom: 0.05rem; flex-shrink: 0; }
         .zone-fixes { margin-top: 0.15rem; margin-bottom: 0.1rem; display: flex; flex-direction: column; flex: 0 0 auto; }
         .zone-cta { min-height: 0.7in; margin-top: auto; margin-bottom: 0; flex-shrink: 0; }
 
         /* 5. COMPONENT: WRANNGLE HEADER */
-        .header-left {
-            display: flex;
-            align-items: flex-start;
-            align-self: flex-start;
-            margin: 0;
-            padding: 0;
-            flex-shrink: 0;
-        }
+        .header-left { display: flex; align-items: flex-start; }
         .brand-logo {
-            height: 0.5in;
+            height: 0.65in;
             width: auto;
             display: block;
-            margin: 0;
-            padding: 0;
-            vertical-align: top;
-            object-position: top;
         }
 
         .header-right {
@@ -212,14 +201,11 @@
             display: flex;
             flex-direction: column;
             align-items: flex-end;
-            align-self: flex-start;
             justify-content: flex-start;
-            gap: 0.05rem;
+            gap: 0.1rem;
             overflow: visible;
             flex: 1;
             max-width: 75%;
-            margin: 0;
-            padding: 0;
         }
         .doc-subtitle {
             font-family: 'Inter', sans-serif;
@@ -273,9 +259,11 @@
             border-bottom: 1px solid var(--border-light);
             vertical-align: middle;
         }
-        .scorecard tbody tr:last-child td { border-bottom: 2px solid var(--bleed); }
+        .scorecard tbody tr:last-child td { border-bottom: none; }
 
-        .scorecard tbody tr { background: transparent; }
+        .scorecard tbody tr:nth-child(odd) { background: transparent; }
+        .scorecard tbody tr:nth-child(even) { background: rgba(246, 241, 231, 0.5); }
+
         .scorecard tbody tr.row-critical { background: #fff0f5; }
         .scorecard tbody tr.row-critical td:first-child {
             box-shadow: inset 3px 0 0 var(--critical);
@@ -313,16 +301,14 @@
         .bleed-callout {
             background: var(--surface);
             border: 2px solid var(--bleed);
-            border-top: none;
             border-radius: 0 0 14px 14px;
             text-align: center;
-            padding: 0.3in 1rem 0.2in 1rem;
+            padding: 0.5rem 1rem;
             height: 100%;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            gap: 0.1rem;
             box-shadow: 0 4px 12px rgba(151, 33, 68, 0.05);
         }
         .bleed-title {
@@ -332,7 +318,7 @@
             color: var(--bleed);
             text-transform: uppercase;
             letter-spacing: 0.08em;
-            margin-bottom: 0.15rem;
+            margin-bottom: 0.125rem;
         }
         .bleed-amount {
             font-family: 'Outfit', sans-serif;
@@ -340,7 +326,7 @@
             font-weight: 800;
             color: var(--bleed);
             line-height: 1;
-            margin: 0.15rem 0;
+            margin: 0.1rem 0;
         }
         .bleed-period {
             font-family: 'Outfit', sans-serif;
@@ -349,7 +335,7 @@
             color: var(--ink-header);
             text-transform: uppercase;
             letter-spacing: 0.1em;
-            margin-bottom: 0.25rem;
+            margin-bottom: 0.2rem;
         }
 
         /* Bleed Breakdown with CSS dots */
@@ -360,7 +346,6 @@
             font-family: 'Inter', sans-serif;
             font-size: 0.625rem;
             color: var(--ink-primary);
-            margin-top: 0.1rem;
         }
         .bleed-breakdown strong {
             font-weight: 600;
@@ -383,8 +368,6 @@
 
         .bleed-assumption {
             margin-top: 0.375rem;
-            margin-bottom: 0.25rem;
-            padding-bottom: 0.15rem;
             font-size: 0.5rem;
             color: var(--ink-micro);
             font-style: normal;
@@ -633,7 +616,9 @@
                 margin: 0;
                 page-break-inside: avoid;
                 break-inside: avoid;
-                /* Removed transform scale to match HTML sizing */
+                transform: scale(0.94);
+                transform-origin: top left;
+                width: calc(100% / 0.94);
             }
             .desert-scape { display: none !important; }
         }
@@ -740,7 +725,7 @@ body.theme-conversion .status-dot { box-shadow: none !important; }
 }
     </style>
 </head>
-<body class="{{#rendering.is_conversion_mode}}theme-conversion{{/rendering.is_conversion_mode}}">
+<body class="theme-conversion">
     <div class="page-card">
 
     <div class="desert-scape">
@@ -781,19 +766,19 @@ body.theme-conversion .status-dot { box-shadow: none !important; }
 
     <header class="zone zone-header">
         <div class="header-left">
-            <img src="{{{document.brand.logo_uri}}}" alt="{{document.brand.brand_name}}" class="brand-logo">
+            <img src="https://i.ibb.co/sdfPMCVx/wranngle-color-transparent.png" alt="Wranngle Systems LLC" class="brand-logo">
         </div>
         <div class="header-right">
-            <div class="doc-title">{{document.title}}</div>
-            {{#document.subtitle}}<div class="doc-subtitle">{{document.subtitle}}</div>{{/document.subtitle}}
-            <div class="micro client-line">Prepared for: <span class="micro-semibold">{{prepared_for.account_name}}</span> &nbsp;|&nbsp; {{document.report_date}}</div>
+            <div class="doc-title">AI Workflow Audit: Maintenance Request Handling</div>
+            
+            <div class="micro client-line">Prepared for: <span class="micro-semibold">Greenfield Property Management</span> &nbsp;|&nbsp; December 14, 2025</div>
         </div>
     </header>
 
     <section class="zone zone-summary">
         <div class="summary-card">
             <div class="section-header">Executive Summary</div>
-            <p class="body-text">{{{scorecard.executive_summary.body}}}</p>
+            <p class="body-text">The current workflow has a critical bottleneck with an average time from request to confirmed appointment of 26 hours, exceeding the target of less than 24 hours. This inefficiency results in a monthly bleed of <strong>$4,050</strong>, emphasizing the urgency for immediate process improvements.</p>
         </div>
     </section>
 
@@ -808,112 +793,168 @@ body.theme-conversion .status-dot { box-shadow: none !important; }
                 </tr>
             </thead>
 <tbody>
-{{#scorecard.rows}}
-  <tr class="{{#status_is_critical}}row-critical{{/status_is_critical}}">
-    <td class="category">{{category}}</td>
-    <td class="status-cell"><span class="status-dot {{status}}"></span></td>
+  <tr class="row-critical">
+    <td class="category">Average time from request to confirmed appointment</td>
+    <td class="status-cell"><span class="status-dot critical"></span></td>
     <td class="finding">
-      {{#has_metrics}}
       <div class="finding-metrics">
-        {{#metrics}}
-        <div class="metric-chip{{#is_benchmark}} standard{{/is_benchmark}}">
-          <div class="chip-label">{{label}}</div>
-          <div class="chip-value">{{value_display}}</div>
+        <div class="metric-chip">
+          <div class="chip-label">Your metric</div>
+          <div class="chip-value">26h</div>
         </div>
-        {{/metrics}}
+        <div class="metric-chip standard">
+          <div class="chip-label">Target</div>
+          <div class="chip-value">&lt; 24h</div>
+        </div>
       </div>
-      {{/has_metrics}}
-      <div class="finding-text">{{{finding.summary}}}</div>
-      {{#finding.risk}}
-      <div class="finding-risk">{{{finding.risk}}}</div>
-      {{/finding.risk}}
-      {{#finding.benchmark_reference_id}}
-      <div class="finding-meta">{{finding.meta}}</div>
-      {{/finding.benchmark_reference_id}}
+      <div class="finding-text">The average time from request to confirmed appointment is 26 hours, which exceeds the target of less than 24 hours.</div>
+      <div class="finding-risk">Risk: Failure to address this issue may lead to decreased tenant satisfaction and increased costs due to prolonged maintenance request processing times.</div>
     </td>
   </tr>
-{{/scorecard.rows}}
+  <tr class="row-critical">
+    <td class="category">Worst case appointment delays</td>
+    <td class="status-cell"><span class="status-dot critical"></span></td>
+    <td class="finding">
+      <div class="finding-metrics">
+        <div class="metric-chip">
+          <div class="chip-label">Your metric</div>
+          <div class="chip-value">4 days</div>
+        </div>
+        <div class="metric-chip standard">
+          <div class="chip-label">Target</div>
+          <div class="chip-value">&lt; 3d</div>
+        </div>
+      </div>
+      <div class="finding-text">The worst-case appointment delays are 4 days, which is significantly higher than the target of less than 3 days.</div>
+      <div class="finding-risk">Risk: Such extensive delays can severely impact tenant trust and potentially lead to financial losses due to unresolved maintenance issues.</div>
+    </td>
+  </tr>
+  <tr class="row-critical">
+    <td class="category">Percentage of requests missing 24-hour SLA for routine maintenance</td>
+    <td class="status-cell"><span class="status-dot critical"></span></td>
+    <td class="finding">
+      <div class="finding-metrics">
+        <div class="metric-chip">
+          <div class="chip-label">Your metric</div>
+          <div class="chip-value">15%</div>
+        </div>
+        <div class="metric-chip standard">
+          <div class="chip-label">Target</div>
+          <div class="chip-value">&lt; 5%</div>
+        </div>
+      </div>
+      <div class="finding-text">15% of requests are missing the 24-hour SLA for routine maintenance, which is higher than the target of less than 5%.</div>
+      <div class="finding-risk">Risk: Missing SLAs can result in tenant dissatisfaction, potential legal issues, and financial penalties.</div>
+    </td>
+  </tr>
+  <tr class="row-critical">
+    <td class="category">Monthly maintenance requests</td>
+    <td class="status-cell"><span class="status-dot critical"></span></td>
+    <td class="finding">
+      <div class="finding-metrics">
+        <div class="metric-chip">
+          <div class="chip-label">Your metric</div>
+          <div class="chip-value">180</div>
+        </div>
+        <div class="metric-chip standard">
+          <div class="chip-label">Target</div>
+          <div class="chip-value">&lt; 90count</div>
+        </div>
+      </div>
+      <div class="finding-text">The workflow handles 180 monthly maintenance requests.</div>
+      <div class="finding-risk">Risk: High volumes of requests can overwhelm the system, leading to inefficiencies and increased costs if not managed properly.</div>
+    </td>
+  </tr>
 </tbody>
         </table>
     </section>
 
     <section class="zone zone-bleed">
         <div class="bleed-callout">
-            <div class="bleed-title">Revenue Bleed</div>
-            <div class="bleed-amount">{{bleed.total.display}}</div>
-            <div class="bleed-period">{{bleed.period_display}}</div>
+            <div class="bleed-title">Per Month Revenue Bleed</div>
+            <div class="bleed-amount">$4,050&#x2F;mo</div>
+            <div class="bleed-period">Per Month</div>
             <div class="bleed-breakdown">
-                {{#bleed.breakdown}}
-                <span class="bleed-item"><span class="bleed-dot {{status}}"></span>{{label}}: <strong>{{amount.display}}</strong></span>
-                {{/bleed.breakdown}}
+                <span class="bleed-item"><span class="bleed-dot critical"></span>Primary Bleed: <strong>$4,050&#x2F;mo</strong></span>
             </div>
-{{#bleed.math_defender_text}}
-<div class="bleed-assumption">{{{bleed.math_defender_text}}}</div>
-{{/bleed.math_defender_text}}
+<div class="bleed-assumption">Based on 180 monthly maintenance requests × 15% failure rate × $150 cost per failure, the total monthly bleed is <strong>$4,050</strong>.</div>
         </div>
     </section>
 
     <section class="zone zone-fixes">
         <div class="section-header">Recommended Fixes</div>
         <div class="fix-container">
-            {{#fixes.items}}
             <div class="fix-block">
                 <div class="fix-dot-wrapper">
-                    <span class="fix-dot" style="background: var(--{{severity}});"></span>
+                    <span class="fix-dot" style="background: var(--critical);"></span>
                 </div>
                 <div class="fix-content">
-                    <div class="fix-line"><span class="fix-label">Problem:</span>{{{problem}}}</div>
-                    <div class="fix-line"><span class="fix-label">Fix:</span>{{{solution}}}</div>
-                    <div class="fix-line"><span class="fix-label impact">Impact:</span>Recover ~{{impact.estimated_recovery.display}}/{{bleed_period}}. {{{impact.basis}}}</div>
+                    <div class="fix-line"><span class="fix-label">Problem:</span>Prolonged average time from request to confirmed appointment</div>
+                    <div class="fix-line"><span class="fix-label">Fix:</span>Streamline the appointment scheduling process within the technician calendar to reduce confirmation times.</div>
+                    <div class="fix-line"><span class="fix-label impact">Impact:</span>Recover ~$1,701/month. This fix recovers the estimated amount by reducing the number of missed SLAs and associated costs.</div>
                     <div class="fix-pills">
-                      <span class="pill">{{effort.tier}} Effort</span>
-                      {{#impact.tier}}<span class="pill">{{impact.tier}} Impact</span>{{/impact.tier}}
-                      <span class="pill">{{turnaround.label}}</span>
+                      <span class="pill">low Effort</span>
+                      <span class="pill">high Impact</span>
+                      <span class="pill">7-14 Days</span>
                     </div>
                 </div>
             </div>
-            {{/fixes.items}}
+            <div class="fix-block">
+                <div class="fix-dot-wrapper">
+                    <span class="fix-dot" style="background: var(--critical);"></span>
+                </div>
+                <div class="fix-content">
+                    <div class="fix-line"><span class="fix-label">Problem:</span>Complexity due to multiple systems used in the process</div>
+                    <div class="fix-line"><span class="fix-label">Fix:</span>Implement an integrated system that consolidates the tenant portal, email inbox, technician calendar, work order spreadsheet, and phone calls to simplify the workflow.</div>
+                    <div class="fix-line"><span class="fix-label impact">Impact:</span>Recover ~$567/month. This fix recovers the estimated amount by increasing efficiency and reducing errors caused by manual data transfer between systems.</div>
+                    <div class="fix-pills">
+                      <span class="pill">medium Effort</span>
+                      <span class="pill">medium Impact</span>
+                      <span class="pill">14-21 Days</span>
+                    </div>
+                </div>
+            </div>
+            <div class="fix-block">
+                <div class="fix-dot-wrapper">
+                    <span class="fix-dot" style="background: var(--critical);"></span>
+                </div>
+                <div class="fix-content">
+                    <div class="fix-line"><span class="fix-label">Problem:</span>High volume of monthly maintenance requests</div>
+                    <div class="fix-line"><span class="fix-label">Fix:</span>Implement a preventive maintenance program to reduce the number of requests and prioritize urgent issues.</div>
+                    <div class="fix-line"><span class="fix-label impact">Impact:</span>Recover ~$567/month. This fix recovers the estimated amount by decreasing the overall volume of requests and associated costs.</div>
+                    <div class="fix-pills">
+                      <span class="pill">medium Effort</span>
+                      <span class="pill">medium Impact</span>
+                      <span class="pill">14-21 Days</span>
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
 
     <section class="zone zone-cta">
 <div class="cta-button">
     <div class="cta-steps">
-      {{#cta.phases}}
-      <span class="cta-step {{state}}">{{label}}</span>
-      {{^is_last}}<span class="cta-sep">›</span>{{/is_last}}
-      {{/cta.phases}}
+      <span class="cta-step complete">Phase 1: Audit</span>
+      <span class="cta-sep">›</span>
+      <span class="cta-step current">Phase 2: Stabilize</span>
+      <span class="cta-sep">›</span>
+      <span class="cta-step upcoming">Phase 3: Scale</span>
+      
     </div>
 
-    {{! Proposal meta: expiration and value (only for proposal mode) }}
-    {{#cta.proposal}}
-    <div class="cta-proposal-meta">
-      {{#expires_display}}<span class="cta-expires">{{expires_display}}</span>{{/expires_display}}
-      {{#total_value}}<span class="cta-value">{{total_value.display}}</span>{{/total_value}}
-    </div>
-    {{/cta.proposal}}
 
-    <div class="cta-headline">{{{cta.headline}}}</div>
-    <div class="cta-subtext">{{{cta.subtext}}}</div>
+    <div class="cta-headline">Stop losing <strong>$4,050</strong> monthly</div>
+    <div class="cta-subtext">Implement these fixes to improve workflow efficiency and reduce financial losses immediately</div>
 
-    {{! Dual-action layout when secondary_action is present }}
-    {{#cta.secondary_action}}
-    <div class="cta-actions">
-      <a href="{{{cta.link}}}" class="cta-link cta-primary">{{#cta.link_display}}{{{cta.link_display}}}{{/cta.link_display}}{{^cta.link_display}}View Proposal{{/cta.link_display}}</a>
-      <a href="{{{cta.secondary_action.link}}}" class="cta-link cta-secondary">{{#cta.secondary_action.label}}{{{cta.secondary_action.label}}}{{/cta.secondary_action.label}}{{^cta.secondary_action.label}}Have questions?{{/cta.secondary_action.label}}</a>
-    </div>
-    {{/cta.secondary_action}}
 
-    {{! Single-action layout (default/book_call mode) }}
-    {{^cta.secondary_action}}
-    <a href="{{{cta.link}}}" class="cta-link">{{#cta.link_display}}{{{cta.link_display}}}{{/cta.link_display}}{{^cta.link_display}}{{{cta.link}}}{{/cta.link_display}}</a>
-    {{/cta.secondary_action}}
+    <a href="https://calendly.com/wranngle-systems" class="cta-link">calendly.com/wranngle-systems</a>
 </div>
     </section>
 
     <footer class="footer-contact">
-        <span class="micro">{{#prepared_by.producer_name}}{{prepared_by.producer_name}} &nbsp;•&nbsp; {{/prepared_by.producer_name}}{{prepared_by.producer_email}} &nbsp;•&nbsp; {{document.brand.primary_domain}}{{#offer.sku_code}} &nbsp;•&nbsp; {{offer.sku_code}}{{/offer.sku_code}}</span>
-        <p class="footer-copyright">{{document.brand.brand_name}} &copy; All Rights Reserved {{document.report_year}}</p>
+        <span class="micro">audit@wranngle.com &nbsp;•&nbsp; wranngle.com &nbsp;•&nbsp; WR-AI-AUDIT-100</span>
+        <p class="footer-copyright">Wranngle Systems LLC &copy; All Rights Reserved 2025</p>
     </footer>
 
     </div><!-- .page-card -->

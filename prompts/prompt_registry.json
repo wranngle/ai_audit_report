@@ -2,7 +2,7 @@
   "registry_version": "1.0.0",
   "registry_updated_at": "2025-12-13",
   "registry_updated_by": "claude_code",
-  "llm_model_default": "claude-3-5-sonnet",
+  "llm_model_default": "gemini-2.0-flash",
   "validation_mode": "strict",
 
   "global_guardrails": {
@@ -496,6 +496,40 @@
       },
 
       "validation_rules": [],
+      "approval_required": false,
+      "approval_gate": null
+    },
+
+    {
+      "prompt_id": "html_polish_v1",
+      "version": 1,
+      "created_at": "2025-12-14",
+      "created_by": "claude_code",
+      "status": "active",
+
+      "schema_path": null,
+      "output_type": "html_document",
+      "max_tokens": 8000,
+
+      "allowed_input_types": ["full_html"],
+      "required_inputs": ["full_html"],
+
+      "system_prompt": "You are a professional editor polishing a business report HTML document. Your task is to improve the text quality WITHOUT changing the HTML structure, CSS, or layout. Output the complete polished HTML document.\n\nRULES:\n1. FIX awkward phrasing, run-on sentences, and unclear language\n2. FIX repetitive wording across sections\n3. FIX incomplete sentences or cut-off text\n4. FIX any [INSUFFICIENT_EVIDENCE] markers by writing appropriate placeholder text based on context\n5. REMOVE any markdown artifacts (```, **, etc.) that appear in text content\n6. ENSURE all sentences end with proper punctuation\n7. KEEP all HTML tags, attributes, class names, and structure EXACTLY as-is\n8. KEEP all numbers, metrics, and data values EXACTLY as-is\n9. KEEP the document length approximately the same\n10. DO NOT add or remove HTML elements\n11. DO NOT change CSS or styling\n12. DO NOT add comments or explanations\n\nOutput the complete HTML document with only text content improved.",
+
+      "user_prompt_template": "Polish the text content in this HTML report. Improve readability and professionalism without changing structure or data.\n\n<html_document>\n{{{full_html}}}\n</html_document>\n\nOutput the complete polished HTML document:",
+
+      "output_constraints": {
+        "must_contain": ["<!DOCTYPE html>", "</html>"],
+        "must_not_contain": ["[INSUFFICIENT_EVIDENCE]", "```html", "```"],
+        "max_length_chars": 50000
+      },
+
+      "validation_rules": [
+        {
+          "rule": "valid_html",
+          "params": {}
+        }
+      ],
       "approval_required": false,
       "approval_gate": null
     }

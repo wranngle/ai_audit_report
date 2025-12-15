@@ -39,7 +39,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Wranngle — {{document.title}}</title>
+    <title>Wranngle — AI Workflow Audit: Order Fulfillment</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@600;700;800&display=swap" rel="stylesheet">
     <style>
         /*
@@ -92,12 +92,12 @@
             color: var(--ink-primary);
             width: 8.5in;
             min-height: 11in;
-            height: 11in;
+            max-height: 11in;
             padding: 0.35in 0.4in;
             display: flex;
             flex-direction: column;
             position: relative;
-            overflow: visible;
+            overflow: auto;
             background-image: linear-gradient(to bottom, #fcfaf5 0%, #f6f1e7 70%, #f9dce5 90%, #e8b4c4 100%);
             margin: 0 auto;
             box-sizing: border-box;
@@ -108,12 +108,12 @@
             border: 1px solid var(--border-light);
             border-radius: 16px;
             background: var(--surface);
-            padding: 0.2in 0.3in;
+            padding: 0.25in 0.3in;
             flex: 1;
             display: flex;
             flex-direction: column;
             position: relative;
-            overflow: visible;
+            overflow: hidden;
             box-shadow: 0 2px 12px rgba(45, 9, 20, 0.04);
         }
 
@@ -123,9 +123,8 @@
             font-size: 1.35rem;
             font-weight: 700;
             color: var(--ink-primary);
-            line-height: 1;
-            margin: 0 0 0.1rem 0;
-            padding: 0;
+            line-height: 1.1;
+            margin-bottom: 0.1rem;
             word-wrap: break-word;
             overflow-wrap: break-word;
         }
@@ -170,41 +169,31 @@
         }
         .micro-semibold { font-weight: 600; color: var(--cta-bg); }
 
-        /* 4. ZONE LAYOUT — Optimized for single-page print */
+        /* 4. ZONE LAYOUT — Recalculated for 10.2in content area */
         .zone { flex-shrink: 0; position: relative; z-index: 1; }
 
         .zone-header {
+            height: 0.75in;
             display: flex;
             justify-content: space-between;
             align-items: flex-start;
-            padding: 0.1rem 0 0.15rem 0;
+            padding-bottom: 0.2rem;
             border-bottom: 2px solid var(--border-light);
-            margin-bottom: 0.15rem;
+            margin-bottom: 0.2rem;
         }
 
-        .zone-summary { height: 0.7in; margin-bottom: 0.1rem; }
-        .zone-scorecard { margin-top: 0.15rem; margin-bottom: 0; padding-bottom: 0; flex: 1 1 auto; }
-        .zone-bleed { min-height: 1.2in; margin-top: -1px; margin-bottom: 0.1rem; flex-shrink: 0; }
-        .zone-fixes { margin-top: 0.15rem; margin-bottom: 0.1rem; display: flex; flex-direction: column; flex: 0 0 auto; }
-        .zone-cta { min-height: 0.7in; margin-top: auto; margin-bottom: 0; flex-shrink: 0; }
+        .zone-summary { height: 0.75in; margin-bottom: 0.12rem; }
+        .zone-scorecard { margin-top: 0.2rem; margin-bottom: 0; }
+        .zone-bleed { height: 1.2in; margin-bottom: 0.05rem; }
+        .zone-fixes { margin-top: 0.2rem; margin-bottom: 0.15rem; display: flex; flex-direction: column; }
+        .zone-cta { height: 0.75in; margin-top: auto; margin-bottom: 0; }
 
         /* 5. COMPONENT: WRANNGLE HEADER */
-        .header-left {
-            display: flex;
-            align-items: flex-start;
-            align-self: flex-start;
-            margin: 0;
-            padding: 0;
-            flex-shrink: 0;
-        }
+        .header-left { display: flex; align-items: flex-start; }
         .brand-logo {
-            height: 0.5in;
+            height: 0.65in;
             width: auto;
             display: block;
-            margin: 0;
-            padding: 0;
-            vertical-align: top;
-            object-position: top;
         }
 
         .header-right {
@@ -212,14 +201,7 @@
             display: flex;
             flex-direction: column;
             align-items: flex-end;
-            align-self: flex-start;
-            justify-content: flex-start;
-            gap: 0.05rem;
-            overflow: visible;
-            flex: 1;
-            max-width: 75%;
-            margin: 0;
-            padding: 0;
+            gap: 0;
         }
         .doc-subtitle {
             font-family: 'Inter', sans-serif;
@@ -269,13 +251,15 @@
         .scorecard thead th:nth-child(3) { width: 65%; }
 
         .scorecard tbody td {
-            padding: 0.3rem 0.4rem;
+            padding: 0.4rem 0.45rem;
             border-bottom: 1px solid var(--border-light);
             vertical-align: middle;
         }
-        .scorecard tbody tr:last-child td { border-bottom: 2px solid var(--bleed); }
+        .scorecard tbody tr:last-child td { border-bottom: none; }
 
-        .scorecard tbody tr { background: transparent; }
+        .scorecard tbody tr:nth-child(odd) { background: transparent; }
+        .scorecard tbody tr:nth-child(even) { background: rgba(246, 241, 231, 0.5); }
+
         .scorecard tbody tr.row-critical { background: #fff0f5; }
         .scorecard tbody tr.row-critical td:first-child {
             box-shadow: inset 3px 0 0 var(--critical);
@@ -284,16 +268,15 @@
         .scorecard .category {
             font-family: 'Outfit', sans-serif;
             font-weight: 700;
-            font-size: 0.625rem;
+            font-size: 0.6875rem;
             color: var(--ink-header);
-            line-height: 1.25;
         }
         .scorecard .finding {
             font-family: 'Inter', sans-serif;
-            font-size: 0.5625rem;
+            font-size: 0.625rem;
             font-weight: 400;
             color: var(--ink-primary);
-            line-height: 1.35;
+            line-height: 1.4;
         }
 
         /* 8. COMPONENT: STATUS DOT */
@@ -313,16 +296,14 @@
         .bleed-callout {
             background: var(--surface);
             border: 2px solid var(--bleed);
-            border-top: none;
-            border-radius: 0 0 14px 14px;
+            border-radius: 14px;
             text-align: center;
-            padding: 0.3in 1rem 0.2in 1rem;
+            padding: 0.5rem 1rem;
             height: 100%;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            gap: 0.1rem;
             box-shadow: 0 4px 12px rgba(151, 33, 68, 0.05);
         }
         .bleed-title {
@@ -332,7 +313,7 @@
             color: var(--bleed);
             text-transform: uppercase;
             letter-spacing: 0.08em;
-            margin-bottom: 0.15rem;
+            margin-bottom: 0.125rem;
         }
         .bleed-amount {
             font-family: 'Outfit', sans-serif;
@@ -340,7 +321,7 @@
             font-weight: 800;
             color: var(--bleed);
             line-height: 1;
-            margin: 0.15rem 0;
+            margin: 0.1rem 0;
         }
         .bleed-period {
             font-family: 'Outfit', sans-serif;
@@ -349,7 +330,7 @@
             color: var(--ink-header);
             text-transform: uppercase;
             letter-spacing: 0.1em;
-            margin-bottom: 0.25rem;
+            margin-bottom: 0.2rem;
         }
 
         /* Bleed Breakdown with CSS dots */
@@ -360,7 +341,6 @@
             font-family: 'Inter', sans-serif;
             font-size: 0.625rem;
             color: var(--ink-primary);
-            margin-top: 0.1rem;
         }
         .bleed-breakdown strong {
             font-weight: 600;
@@ -383,8 +363,6 @@
 
         .bleed-assumption {
             margin-top: 0.375rem;
-            margin-bottom: 0.25rem;
-            padding-bottom: 0.15rem;
             font-size: 0.5rem;
             color: var(--ink-micro);
             font-style: normal;
@@ -403,26 +381,26 @@
         .fix-container {
             display: flex;
             flex-direction: column;
-            gap: 0.35rem;
+            gap: 0.4rem;
             flex: 1;
             justify-content: flex-start;
         }
         .fix-block {
             display: flex;
-            gap: 0.5rem;
-            padding: 0.4rem 0.7rem;
+            gap: 0.6rem;
+            padding: 0.5rem 0.85rem;
             background: var(--surface);
             border: 1px solid var(--border-light);
             border-radius: 10px;
             align-items: flex-start;
         }
         .fix-dot-wrapper {
-            padding-top: 0.1rem;
+            padding-top: 0.125rem;
             flex-shrink: 0;
         }
         .fix-dot {
-            width: 0.2in;
-            height: 0.2in;
+            width: 0.22in;
+            height: 0.22in;
             border-radius: 50%;
             display: block;
         }
@@ -430,25 +408,21 @@
             flex: 1;
             display: flex;
             flex-direction: column;
-            gap: 0.15rem;
-            min-width: 0; /* Enable text truncation */
+            gap: 0.2rem;
         }
         .fix-line {
             font-family: 'Inter', sans-serif;
-            font-size: 0.625rem;
+            font-size: 0.6875rem;
             color: var(--ink-primary);
-            line-height: 1.35;
-            overflow: visible;
-            word-wrap: break-word;
+            line-height: 1.45;
         }
         .fix-label {
             font-weight: 700;
-            font-size: 0.625rem;
+            font-size: 0.6875rem;
             color: var(--ink-header);
             text-transform: uppercase;
             letter-spacing: 0.03em;
-            margin-right: 0.2rem;
-            flex-shrink: 0;
+            margin-right: 0.25rem;
         }
         .fix-label.impact { color: var(--cta-bg); }
 
@@ -477,8 +451,8 @@
             color: var(--cta-text);
             border-radius: 10px;
             text-align: center;
-            padding: 0.4rem 1rem;
-            min-height: 0.7in;
+            padding: 0.5rem 1rem;
+            height: 100%;
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -488,22 +462,19 @@
         }
         .cta-headline {
             font-family: 'Outfit', sans-serif;
-            font-size: 0.875rem;
+            font-size: 0.9375rem;
             font-weight: 700;
-            margin-bottom: 0.1rem;
-            line-height: 1.2;
+            margin-bottom: 0.125rem;
         }
         .cta-subtext {
-            font-size: 0.5625rem;
+            font-size: 0.625rem;
             opacity: 0.95;
-            margin-bottom: 0.2rem;
+            margin-bottom: 0.25rem;
             font-weight: 500;
-            line-height: 1.3;
-            max-width: 90%;
         }
         .cta-link {
             font-family: 'Outfit', sans-serif;
-            font-size: 0.625rem;
+            font-size: 0.6875rem;
             font-weight: 700;
             color: white;
             text-decoration: none;
@@ -633,7 +604,9 @@
                 margin: 0;
                 page-break-inside: avoid;
                 break-inside: avoid;
-                /* Removed transform scale to match HTML sizing */
+                transform: scale(0.94);
+                transform-origin: top left;
+                width: calc(100% / 0.94);
             }
             .desert-scape { display: none !important; }
         }
@@ -686,30 +659,30 @@ body.theme-conversion .status-dot { box-shadow: none !important; }
  */
 .finding-metrics {
   display: flex;
-  gap: 0.25rem;
+  gap: 0.35rem;
   flex-wrap: wrap;
-  margin-bottom: 0.15rem;
+  margin-bottom: 0.25rem;
 }
 .metric-chip {
   display: inline-flex;
   flex-direction: column;
-  gap: 0.02rem;
-  padding: 0.15rem 0.3rem;
+  gap: 0.05rem;
+  padding: 0.25rem 0.4rem;
   border: 1px solid var(--border-light);
-  border-radius: 6px;
+  border-radius: 8px;
   background: rgba(255,255,255,0.85);
 }
 .metric-chip .chip-label {
-  font-size: 0.45rem;
+  font-size: 0.5rem;
   font-weight: 600;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
   color: var(--ink-micro);
   line-height: 1.1;
 }
 .metric-chip .chip-value {
   font-family: 'Outfit', sans-serif;
-  font-size: 0.7rem;
+  font-size: 0.8rem;
   font-weight: 800;
   color: var(--ink-primary);
   line-height: 1;
@@ -718,29 +691,21 @@ body.theme-conversion .status-dot { box-shadow: none !important; }
   background: rgba(242,240,243,0.85);
 }
 
-.finding-text {
-  font-size: 0.5625rem;
-  line-height: 1.35;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-}
+.finding-text { font-size: 0.625rem; line-height: 1.4; }
 .finding-risk {
-  margin-top: 0.1rem;
-  font-size: 0.5rem;
+  margin-top: 0.125rem;
+  font-size: 0.5625rem;
   font-weight: 700;
   color: var(--bleed);
 }
 .finding-meta {
-  margin-top: 0.1rem;
-  font-size: 0.45rem;
+  margin-top: 0.125rem;
+  font-size: 0.5rem;
   color: var(--ink-micro);
 }
     </style>
 </head>
-<body class="{{#rendering.is_conversion_mode}}theme-conversion{{/rendering.is_conversion_mode}}">
+<body class="theme-conversion">
     <div class="page-card">
 
     <div class="desert-scape">
@@ -781,19 +746,21 @@ body.theme-conversion .status-dot { box-shadow: none !important; }
 
     <header class="zone zone-header">
         <div class="header-left">
-            <img src="{{{document.brand.logo_uri}}}" alt="{{document.brand.brand_name}}" class="brand-logo">
+            <svg class="brand-logo" viewBox="0 0 140 32" xmlns="http://www.w3.org/2000/svg">
+                <text x="0" y="24" font-family="Outfit, sans-serif" font-weight="700" font-size="24" fill="#ff5f00">Wranngle</text>
+            </svg>
         </div>
         <div class="header-right">
-            <div class="doc-title">{{document.title}}</div>
-            {{#document.subtitle}}<div class="doc-subtitle">{{document.subtitle}}</div>{{/document.subtitle}}
-            <div class="micro client-line">Prepared for: <span class="micro-semibold">{{prepared_for.account_name}}</span> &nbsp;|&nbsp; {{document.report_date}}</div>
+            <div class="doc-title">AI Workflow Audit: Order Fulfillment</div>
+            <div class="doc-subtitle">Traffic Light Report</div>
+            <div class="micro client-line">Prepared for: <span class="micro-semibold">HomeGoods Express</span> &nbsp;|&nbsp; December 14, 2025</div>
         </div>
     </header>
 
     <section class="zone zone-summary">
         <div class="summary-card">
             <div class="section-header">Executive Summary</div>
-            <p class="body-text">{{{scorecard.executive_summary.body}}}</p>
+            <p class="body-text">The critical bottleneck in the Order Fulfillment workflow is the Order Response Time, which is currently at 38h, exceeding the threshold of 24h. To mitigate this issue, it is imperative that we address this bottleneck with urgency, as the current workflow is resulting in a total monthly bleed of <strong>$2,562/mo</strong>.</p>
         </div>
     </section>
 
@@ -808,112 +775,156 @@ body.theme-conversion .status-dot { box-shadow: none !important; }
                 </tr>
             </thead>
 <tbody>
-{{#scorecard.rows}}
-  <tr class="{{#status_is_critical}}row-critical{{/status_is_critical}}">
-    <td class="category">{{category}}</td>
-    <td class="status-cell"><span class="status-dot {{status}}"></span></td>
+  <tr class="row-critical">
+    <td class="category">Order Response Time</td>
+    <td class="status-cell"><span class="status-dot critical"></span></td>
     <td class="finding">
-      {{#has_metrics}}
       <div class="finding-metrics">
-        {{#metrics}}
-        <div class="metric-chip{{#is_benchmark}} standard{{/is_benchmark}}">
-          <div class="chip-label">{{label}}</div>
-          <div class="chip-value">{{value_display}}</div>
+        <div class="metric-chip">
+          <div class="chip-label">Your metric</div>
+          <div class="chip-value">38h</div>
         </div>
-        {{/metrics}}
+        <div class="metric-chip standard">
+          <div class="chip-label">Target</div>
+          <div class="chip-value">24h</div>
+        </div>
       </div>
-      {{/has_metrics}}
-      <div class="finding-text">{{{finding.summary}}}</div>
-      {{#finding.risk}}
-      <div class="finding-risk">{{{finding.risk}}}</div>
-      {{/finding.risk}}
-      {{#finding.benchmark_reference_id}}
-      <div class="finding-meta">{{finding.meta}}</div>
-      {{/finding.benchmark_reference_id}}
+      <div class="finding-text">Order response time at 38h, indicating a critical delay exceeding the 24-hour threshold.</div>
+      <div class="finding-risk">Risk: Prolonged delays impacting sales.</div>
     </td>
   </tr>
-{{/scorecard.rows}}
+  <tr class="row-critical">
+    <td class="category">Order Error Rate</td>
+    <td class="status-cell"><span class="status-dot critical"></span></td>
+    <td class="finding">
+      <div class="finding-metrics">
+        <div class="metric-chip">
+          <div class="chip-label">Your metric</div>
+          <div class="chip-value">25%</div>
+        </div>
+      </div>
+      <div class="finding-text">Order error rate at 25%, indicating a critical level of inaccuracy that requires immediate attention.</div>
+      <div class="finding-risk">Risk: Ongoing revenue loss.</div>
+    </td>
+  </tr>
+  <tr class="row-critical">
+    <td class="category">Manual Handoffs</td>
+    <td class="status-cell"><span class="status-dot critical"></span></td>
+    <td class="finding">
+      <div class="finding-metrics">
+        <div class="metric-chip">
+          <div class="chip-label">Your metric</div>
+          <div class="chip-value">9</div>
+        </div>
+      </div>
+      <div class="finding-text">Manual handoffs occurred 9 times, indicating a critical issue requiring immediate attention due to the high frequency of manual interventions.</div>
+      <div class="finding-risk">Risk: Ongoing revenue loss.</div>
+    </td>
+  </tr>
+  <tr class="">
+    <td class="category">Overselling Error Rate</td>
+    <td class="status-cell"><span class="status-dot warning"></span></td>
+    <td class="finding">
+      <div class="finding-metrics">
+        <div class="metric-chip">
+          <div class="chip-label">Your metric</div>
+          <div class="chip-value">8%</div>
+        </div>
+      </div>
+      <div class="finding-text">Overselling error rate at 8%, indicating a potential issue that warrants attention as it has triggered a warning status.</div>
+      <div class="finding-risk">Risk: Revenue loss.</div>
+    </td>
+  </tr>
 </tbody>
         </table>
     </section>
 
     <section class="zone zone-bleed">
         <div class="bleed-callout">
-            <div class="bleed-title">Revenue Bleed</div>
-            <div class="bleed-amount">{{bleed.total.display}}</div>
-            <div class="bleed-period">{{bleed.period_display}}</div>
+            <div class="bleed-title">Per Month Revenue Bleed</div>
+            <div class="bleed-amount">$2,562/mo</div>
+            <div class="bleed-period">Per Month</div>
             <div class="bleed-breakdown">
-                {{#bleed.breakdown}}
-                <span class="bleed-item"><span class="bleed-dot {{status}}"></span>{{label}}: <strong>{{amount.display}}</strong></span>
-                {{/bleed.breakdown}}
+                <span class="bleed-item"><span class="bleed-dot critical"></span>Primary Bleed: <strong>$2,562/mo</strong></span>
             </div>
-{{#bleed.math_defender_text}}
-<div class="bleed-assumption">{{{bleed.math_defender_text}}}</div>
-{{/bleed.math_defender_text}}
+<div class="bleed-assumption">To calculate the total bleed, we need to consider the individual bleeds, however, the provided assumptions do not include specific values for volume, failure_rate, and cost_per_failure. Given the lack of explicit values for these variables, we cannot perform the calculations for Monthly Delayed Order Bleed, Monthly Oversold Order Bleed, and Monthly Lost Sales Bleed. The total bleed is reported as <strong>$2,562</strong> per month, but without the necessary assumptions, we cannot verify this figure, thus we have [INSUFFICIENT_EVIDENCE] to show the math transparently.</div>
         </div>
     </section>
 
     <section class="zone zone-fixes">
         <div class="section-header">Recommended Fixes</div>
         <div class="fix-container">
-            {{#fixes.items}}
             <div class="fix-block">
                 <div class="fix-dot-wrapper">
-                    <span class="fix-dot" style="background: var(--{{severity}});"></span>
+                    <span class="fix-dot" style="background: var(--critical);"></span>
                 </div>
                 <div class="fix-content">
-                    <div class="fix-line"><span class="fix-label">Problem:</span>{{{problem}}}</div>
-                    <div class="fix-line"><span class="fix-label">Fix:</span>{{{solution}}}</div>
-                    <div class="fix-line"><span class="fix-label impact">Impact:</span>Recover ~{{impact.estimated_recovery.display}}/{{bleed_period}}. {{{impact.basis}}}</div>
+                    <div class="fix-line"><span class="fix-label">Problem:</span>Prolonged Order Response Time (38h)</div>
+                    <div class="fix-line"><span class="fix-label">Fix:</span>Implement automated order processing from the Shopify store to the USPS Click-N-Ship system through the email inbox to reduce order response time to under 2 hours.</div>
+                    <div class="fix-line"><span class="fix-label impact">Impact:</span>Recover ~$598/month in Reduces order response time by automating processing from the Shopify store to the USPS Click-N-Ship system, recovering 100% of the $2562 monthly bleed..</div>
                     <div class="fix-pills">
-                      <span class="pill">{{effort.tier}} Effort</span>
-                      {{#impact.tier}}<span class="pill">{{impact.tier}} Impact</span>{{/impact.tier}}
-                      <span class="pill">{{turnaround.label}}</span>
+                      <span class="pill">low Effort</span>
+                      <span class="pill">high Impact</span>
+                      <span class="pill">7-14 Days</span>
                     </div>
                 </div>
             </div>
-            {{/fixes.items}}
+            <div class="fix-block">
+                <div class="fix-dot-wrapper">
+                    <span class="fix-dot" style="background: var(--critical);"></span>
+                </div>
+                <div class="fix-content">
+                    <div class="fix-line"><span class="fix-label">Problem:</span>Manual Handoffs (9 occurrences)</div>
+                    <div class="fix-line"><span class="fix-label">Fix:</span>Implement automated order fulfillment integration between the Shopify store and USPS Click-N-Ship where orders are synced in real time to eliminate manual handoffs and reduce errors.</div>
+                    <div class="fix-line"><span class="fix-label impact">Impact:</span>Recover ~$598/month in Reduces manual order fulfillment errors by automating the integration between the Shopify store and USPS Click-N-Ship, recovering 100% of the $2,562 monthly bleed..</div>
+                    <div class="fix-pills">
+                      <span class="pill">medium Effort</span>
+                      <span class="pill">high Impact</span>
+                      <span class="pill">14-21 Days</span>
+                    </div>
+                </div>
+            </div>
+            <div class="fix-block">
+                <div class="fix-dot-wrapper">
+                    <span class="fix-dot" style="background: var(--critical);"></span>
+                </div>
+                <div class="fix-content">
+                    <div class="fix-line"><span class="fix-label">Problem:</span>High Order Error Rate (25%)</div>
+                    <div class="fix-line"><span class="fix-label">Fix:</span>Implement automated order tracking and shipping confirmation from the Shopify store to the Excel spreadsheet and USPS Click-N-Ship to reduce the high order error rate.</div>
+                    <div class="fix-line"><span class="fix-label impact">Impact:</span>Recover ~$598/month in Reduces order errors by automating order tracking and shipping confirmation, recovering 25% of monthly bleed..</div>
+                    <div class="fix-pills">
+                      <span class="pill">medium Effort</span>
+                      <span class="pill">high Impact</span>
+                      <span class="pill">14-21 Days</span>
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
 
     <section class="zone zone-cta">
 <div class="cta-button">
     <div class="cta-steps">
-      {{#cta.phases}}
-      <span class="cta-step {{state}}">{{label}}</span>
-      {{^is_last}}<span class="cta-sep">›</span>{{/is_last}}
-      {{/cta.phases}}
+      <span class="cta-step complete">Phase 1: Audit</span>
+      <span class="cta-sep">›</span>
+      <span class="cta-step current">Phase 2: Stabilize</span>
+      <span class="cta-sep">›</span>
+      <span class="cta-step upcoming">Phase 3: Scale</span>
+      
     </div>
 
-    {{! Proposal meta: expiration and value (only for proposal mode) }}
-    {{#cta.proposal}}
-    <div class="cta-proposal-meta">
-      {{#expires_display}}<span class="cta-expires">{{expires_display}}</span>{{/expires_display}}
-      {{#total_value}}<span class="cta-value">{{total_value.display}}</span>{{/total_value}}
-    </div>
-    {{/cta.proposal}}
 
-    <div class="cta-headline">{{{cta.headline}}}</div>
-    <div class="cta-subtext">{{{cta.subtext}}}</div>
+    <div class="cta-headline">Stop losing $2,562 monthly</div>
+    <div class="cta-subtext">Discover actionable fixes for one workflow with our AI Process Audit.</div>
 
-    {{! Dual-action layout when secondary_action is present }}
-    {{#cta.secondary_action}}
-    <div class="cta-actions">
-      <a href="{{{cta.link}}}" class="cta-link cta-primary">{{#cta.link_display}}{{{cta.link_display}}}{{/cta.link_display}}{{^cta.link_display}}View Proposal{{/cta.link_display}}</a>
-      <a href="{{{cta.secondary_action.link}}}" class="cta-link cta-secondary">{{#cta.secondary_action.label}}{{{cta.secondary_action.label}}}{{/cta.secondary_action.label}}{{^cta.secondary_action.label}}Have questions?{{/cta.secondary_action.label}}</a>
-    </div>
-    {{/cta.secondary_action}}
 
-    {{! Single-action layout (default/book_call mode) }}
-    {{^cta.secondary_action}}
-    <a href="{{{cta.link}}}" class="cta-link">{{#cta.link_display}}{{{cta.link_display}}}{{/cta.link_display}}{{^cta.link_display}}{{{cta.link}}}{{/cta.link_display}}</a>
-    {{/cta.secondary_action}}
+    <a href="https://calendly.com/wranngle-systems" class="cta-link">calendly.com/wranngle-systems</a>
 </div>
     </section>
 
     <footer class="footer-contact">
-        <span class="micro">{{#prepared_by.producer_name}}{{prepared_by.producer_name}} &nbsp;•&nbsp; {{/prepared_by.producer_name}}{{prepared_by.producer_email}} &nbsp;•&nbsp; {{document.brand.primary_domain}}{{#offer.sku_code}} &nbsp;•&nbsp; {{offer.sku_code}}{{/offer.sku_code}}</span>
-        <p class="footer-copyright">{{document.brand.brand_name}} &copy; All Rights Reserved {{document.report_year}}</p>
+        <span class="micro">audit@wranngle.com &nbsp;•&nbsp; wranngle.com &nbsp;•&nbsp; WR-AI-AUDIT-100</span>
+        <p class="footer-copyright">Wranngle Systems LLC &copy; All Rights Reserved 2025</p>
     </footer>
 
     </div><!-- .page-card -->

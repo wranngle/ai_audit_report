@@ -1,0 +1,194 @@
+{
+  "measurements": [
+    {
+      "id": "order_response_time",
+      "name": "Order Response Time",
+      "metric_type": "latency",
+      "value": 38,
+      "unit": "hours",
+      "value_display": "38h",
+      "source": "TIMING section",
+      "evidence": [
+        {
+          "type": "client_statement",
+          "summary": "Average time from order to shipment: 38 hours"
+        }
+      ],
+      "threshold": {
+        "target": 1,
+        "target_display": "1h",
+        "healthy_max": 4,
+        "warning_max": 24,
+        "direction": "lower_is_better"
+      },
+      "status": "warning",
+      "status_reason": "Response time is above healthy threshold"
+    },
+    {
+      "id": "overselling_rate",
+      "name": "Overselling Rate",
+      "metric_type": "error_rate",
+      "value": 8,
+      "unit": "percent",
+      "value_display": "8%",
+      "source": "COSTS section",
+      "evidence": [
+        {
+          "type": "client_statement",
+          "summary": "Overselling causes refunds and customer complaints - about 8% of orders are oversold."
+        }
+      ],
+      "threshold": {
+        "target": null,
+        "target_display": null,
+        "healthy_max": 5,
+        "warning_max": 10,
+        "direction": "lower_is_better"
+      },
+      "status": "critical",
+      "status_reason": "Overselling rate is above critical threshold"
+    },
+    {
+      "id": "manual_inventory_counts",
+      "name": "Manual Inventory Counts",
+      "metric_type": "complexity",
+      "value": 1,
+      "unit": "count",
+      "value_display": "1",
+      "source": "SYSTEMS USED section",
+      "evidence": [
+        {
+          "type": "client_statement",
+          "summary": "Manual inventory counts - weekly cycle counts"
+        }
+      ],
+      "threshold": {
+        "target": 2,
+        "target_display": "2",
+        "healthy_max": 2,
+        "warning_max": 4,
+        "direction": "lower_is_better"
+      },
+      "status": "healthy",
+      "status_reason": "Manual inventory counts is within healthy threshold"
+    },
+    {
+      "id": "customer_service_time",
+      "name": "Customer Service Time",
+      "metric_type": "cost",
+      "value": 15,
+      "unit": "dollars",
+      "value_display": "$15",
+      "source": "COSTS section",
+      "evidence": [
+        {
+          "type": "client_statement",
+          "summary": "Each delayed order costs approximately $15 in customer service time and rush shipping to make up for delays."
+        }
+      ],
+      "threshold": {
+        "target": null,
+        "target_display": null,
+        "healthy_max": null,
+        "warning_max": null,
+        "direction": "lower_is_better"
+      },
+      "status": "warning",
+      "status_reason": "Customer service cost per delayed order is elevated"
+    },
+    {
+      "id": "lost_sales_rate",
+      "name": "Lost Sales Rate",
+      "metric_type": "error_rate",
+      "value": 12,
+      "unit": "percent",
+      "value_display": "12%",
+      "source": "COSTS section",
+      "evidence": [
+        {
+          "type": "client_statement",
+          "summary": "Customer acquisition cost is $45, and delayed shipping causes 12% of first-time buyers not to return."
+        }
+      ],
+      "threshold": {
+        "target": null,
+        "target_display": null,
+        "healthy_max": 5,
+        "warning_max": 10,
+        "direction": "lower_is_better"
+      },
+      "status": "critical",
+      "status_reason": "Lost sales rate is above critical threshold"
+    }
+  ],
+  "bleed_assumptions": [
+    {
+      "id": "cost_per_delayed_order",
+      "label": "Cost per Delayed Order",
+      "value": 15,
+      "value_display": "$15",
+      "currency": "USD",
+      "source": "COSTS section"
+    },
+    {
+      "id": "overselling_rate",
+      "label": "Overselling Rate",
+      "value": 8,
+      "value_display": "8%",
+      "currency": "USD",
+      "source": "COSTS section"
+    },
+    {
+      "id": "lost_sales_rate",
+      "label": "Lost Sales Rate",
+      "value": 12,
+      "value_display": "12%",
+      "currency": "USD",
+      "source": "COSTS section"
+    }
+  ],
+  "bleed_calculations": [
+    {
+      "id": "monthly_delayed_orders",
+      "label": "Monthly Delayed Orders",
+      "formula": "volume × (1 - (1 - overselling_rate))",
+      "inputs": [
+        "volume",
+        "overselling_rate"
+      ],
+      "result": 224,
+      "result_display": "224"
+    },
+    {
+      "id": "monthly_lost_sales",
+      "label": "Monthly Lost Sales",
+      "formula": "volume × lost_sales_rate",
+      "inputs": [
+        "volume",
+        "lost_sales_rate"
+      ],
+      "result": 312,
+      "result_display": "312"
+    },
+    {
+      "id": "monthly_bleed",
+      "label": "Monthly Bleed",
+      "formula": "volume × (1 - (1 - overselling_rate)) × cost_per_delayed_order + volume × lost_sales_rate × cost_per_order",
+      "inputs": [
+        "volume",
+        "overselling_rate",
+        "cost_per_delayed_order",
+        "lost_sales_rate",
+        "cost_per_order"
+      ],
+      "result": 4050,
+      "result_display": "$4,050"
+    }
+  ],
+  "bleed_total": {
+    "value": 4050,
+    "currency": "USD",
+    "period": "month",
+    "display": "$4,050/mo"
+  }
+}
