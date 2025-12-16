@@ -1,0 +1,7 @@
+quickbooks + excel + email
+invoice processing
+greenfield consulting
+~100 invoices/mo
+takes too long (4hrs should be 1hr)
+errors 20%
+costs us maybe 5k/month in late fees and corrections

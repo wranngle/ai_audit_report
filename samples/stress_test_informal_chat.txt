@@ -1,0 +1,15 @@
+hey so basically we're a small marketing agency called BrightSpark Creative and our client onboarding is a mess lol
+
+like when someone signs up we get an email from the sales guy (usually tom) and then sarah has to manually create folders in dropbox and add them to asana and send the welcome packet via docusign
+
+takes forever tbh... probably 3-4 hours per client? we do maybe 15 new clients a month
+
+the worst part is stuff falls through the cracks ALL THE TIME. like 40% of the time we forget to set up their slack channel or the billing doesn't get entered into quickbooks until like a week later
+
+clients get annoyed when they don't get their welcome call scheduled... that's supposed to happen within 48hrs but realistically it's more like 5 days
+
+oh and we lose about $500 per missed deadline because we have to give discounts to keep them happy
+
+honestly if we could just automate the folder creation and slack channel stuff that would save SO much time
+
+tools we use: gmail, dropbox, asana, slack, docusign, quickbooks, calendly

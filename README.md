@@ -51,7 +51,7 @@ The AI Audit Report Generator is an intelligent document pipeline designed to ac
 - **Node.js** 18 or higher
 - **npm** (included with Node.js)
 - **API Keys:**
-  - `GEMINI_API_KEY` for extraction and narratives (required, can use `--skip-llm` to skip narrative generation)
+  - `GEMINI_API_KEY` for extraction and narrative generation (required)
 
 ### Installation
 
@@ -191,8 +191,9 @@ node cli.js generate <input.txt> <output.html> [options]
 ```
 
 **Options:**
-- `--skip-llm` - Skip narrative generation (keeps placeholders)
 - `--save-json` - Save intermediate JSON files
+- `--skip-pdf` - Skip PDF generation (HTML only)
+- `--use-groq` - Use Groq API instead of Gemini (fallback for rate limits)
 
 **Examples:**
 ```bash
@@ -202,8 +203,8 @@ node cli.js generate interview_notes.txt client_report.html
 # Save intermediate files for debugging
 node cli.js generate notes.txt report.html --save-json
 
-# Skip LLM (for testing or when API unavailable)
-node cli.js generate notes.txt report.html --skip-llm
+# Use Groq when Gemini quota is exhausted
+node cli.js generate notes.txt report.html --use-groq
 ```
 
 #### Extract Only
@@ -258,8 +259,8 @@ node cli.js full <intake.json> <measurements.json> <output.html> [options]
 ```
 
 **Options:**
-- `--skip-llm` - Skip narrative generation
 - `--save-json` - Save intermediate JSON
+- `--skip-pdf` - Skip PDF generation
 
 **Example:**
 ```bash
@@ -459,7 +460,7 @@ TEST 1: Validate Intake Packet       ✓
 TEST 2: Validate Measurements        ✓
 TEST 3: Transform Pipeline           ✓
 TEST 4: Validate Hand-Crafted Report ✓
-TEST 5: Full Pipeline (skip LLM)     ✓
+TEST 5: Full Pipeline                ✓
 
 RESULTS: 5 passed, 0 failed
 ```
@@ -506,24 +507,25 @@ ai_audit_report/
 **Q: What file formats does the pipeline accept as input?**
 **A:** The pipeline accepts plain text files (`.txt`) for the `generate` and `extract` commands. For advanced workflows, you can provide structured JSON files (intake + measurements) directly to the `full` command. The output is always HTML, which can be printed to PDF from any browser.
 
-**Q: Do I need both API keys to run the pipeline?**
-**A:** Yes. `GEMINI_API_KEY` is required for both extraction (converting unstructured text to JSON) and narrative generation. If not provided, you can use the `--skip-llm` flag to generate reports with placeholder text instead of AI-generated narratives. This is useful for testing or when API quotas are exceeded.
+**Q: Do I need the API key to run the pipeline?**
+**A:** Yes. `GEMINI_API_KEY` is required for both extraction (converting unstructured text to JSON) and narrative generation. When API quotas are exceeded, the system automatically falls back to alternative models or you can use the `--use-groq` flag for Groq API fallback.
 
 **Q: What happens when I hit API rate limits?**
 **A:** The pipeline includes automatic model fallback to handle rate limits gracefully. When the primary model hits quota limits, it automatically switches to alternative models in this order:
-1. `gemini-2.5-flash` (premium quality, 5 RPM free tier)
-2. `gemini-2.5-flash-lite` (lite version, 10 RPM free tier)
-3. `gemma-3-27b` (large open model, 19 RPM free tier)
-4. `gemma-3-12b` → `gemma-3-4b` → `gemma-3-2b` → `gemma-3-1b` (progressively smaller models, 30 RPM)
+1. `gemini-2.5-pro` (primary, highest quality, 2 RPM free tier)
+2. `gemini-2.5-flash` (fast quality, 5 RPM free tier)
+3. `gemini-2.5-flash-lite` (lite version, 10 RPM free tier)
+4. `gemini-2.0-flash` (previous generation, 15 RPM free tier)
+5. `gemini-2.0-flash-lite` (lite, 15 RPM free tier)
 
-Each model has different rate limits (RPM = requests per minute). The system automatically adjusts delays between requests based on the current model's limits. If all models are rate-limited, it waits for the retry-after period specified by the API.
+Each model has different rate limits (RPM = requests per minute). The system automatically adjusts delays between requests based on the current model's limits. If all Gemini models are rate-limited, use `--use-groq` for Groq API fallback.
 
 **Q: How much does it cost to generate a report?**
 **A:** Costs depend on API usage. A typical report uses:
 - **Gemini (extraction):** ~5,000-10,000 tokens (~$0.01-0.02 at current rates)
 - **Gemini (narratives):** ~8,000-12,000 tokens (~$0.02-0.03 at current rates)
 
-Total cost per report: **$0.03-0.05**. Use `--skip-llm` for free (no narrative generation).
+Total cost per report: **$0.03-0.05**.
 
 **Q: Can I run this on a server or integrate it into another application?**
 **A:** Yes. The CLI is designed for automation. You can call it from scripts, CI/CD pipelines, or wrap it in an API. All commands support non-interactive execution and return proper exit codes (0 for success, 1 for failure).
@@ -551,13 +553,19 @@ Total cost per report: **$0.03-0.05**. Use `--skip-llm` for free (no narrative g
 Use `generate` for interview notes. Use `full` when you already have structured data (e.g., from a form or API).
 
 **Q: Can I customize which LLM is used for narrative generation?**
-**A:** Yes. The LLM executor (`lib/llm_executor.js`) uses Gemini by default (model: `gemini-2.0-flash-exp`). You can change this in the constructor:
+**A:** Yes. The LLM executor uses Gemini 2.5 Pro by default for highest quality narratives. The fallback order is configured in `lib/model_config.js`:
 
 ```javascript
-this.model = options.model || 'gemini-2.0-flash-exp';
+export const MODEL_FALLBACK_ORDER = [
+  'gemini-2.5-pro',
+  'gemini-2.5-flash',
+  'gemini-2.5-flash-lite',
+  'gemini-2.0-flash',
+  'gemini-2.0-flash-lite'
+];
 ```
 
-Or pass it as an option when instantiating `LLMExecutor`.
+You can also use `--use-groq` to skip Gemini entirely and use Groq's Llama models.
 
 **Q: How do I debug schema validation errors?**
 **A:** Run:
@@ -626,8 +634,9 @@ Each report processes independently. Be mindful of API rate limits when batch-pr
 
 **"LLM placeholders remain"**
 - **Cause:** API key not configured or LLM stage failed
-- **Fix:** Set `GEMINI_API_KEY` environment variable or use `--skip-llm` flag
+- **Fix:** Set `GEMINI_API_KEY` environment variable
 - **Alternative:** Check API key validity at [Google AI Studio](https://aistudio.google.com/app/apikey)
+- **Fallback:** Use `--use-groq` flag with `GROQ_API_KEY` set
 
 **"Gemini API key not configured"**
 - **Cause:** Environment variable not set
@@ -643,7 +652,7 @@ Each report processes independently. Be mindful of API rate limits when batch-pr
 **"Gemini API quota exceeded" (429 error)**
 - **Cause:** Free tier rate limits hit
 - **Fix:** Wait for cooldown period (shown in error) or upgrade Gemini API plan
-- **Workaround:** Use `--skip-llm` for testing without API calls
+- **Workaround:** Use `--use-groq` for Groq API fallback
 
 **"Schema validation errors"**
 - **Cause:** Report JSON doesn't match schema requirements

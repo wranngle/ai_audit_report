@@ -1,0 +1,27 @@
+INTERVIEW TRANSCRIPT
+Company: Sunrise Senior Care
+Interviewee: Director of Operations, Patricia Nguyen
+
+Q: What process are we looking at today?
+A: Resident admission and intake. It's a nightmare honestly.
+
+Q: Walk me through what happens when you get a new resident.
+A: Okay so family contacts us, usually by phone. Front desk takes their info on paper - yes, actual paper in 2024. Then that gets entered into our EHR, PointClickCare. Then we have to verify insurance through a separate portal, coordinate with the hospital if it's a transfer, schedule assessments with nursing staff, prepare the room, all that.
+
+Q: How many admissions per month?
+A: Varies. Average maybe 25-30. Peak times like after flu season we might hit 40.
+
+Q: What's your target timeframe?
+A: We want 72 hours from first contact to move-in for planned admissions. Reality is more like 5-7 days.
+
+Q: Where do things break down?
+A: Insurance verification is brutal - takes 45 minutes per resident and we often have to redo it when info is wrong. The paper-to-digital transfer loses information, I'd say 25% of resident files have errors we catch later. And scheduling is chaos - we use a whiteboard and people forget to update it.
+
+Q: What's the cost when this goes wrong?
+A: Empty bed costs us $400/day. If admission is delayed 3 days, that's $1,200. We probably have 5-6 delayed admissions per month. Plus the rework time, compliance risk from documentation errors...
+
+Q: What systems do you use?
+A: PointClickCare for clinical, QuickBooks for billing, Outlook calendar but also a physical whiteboard, paper intake forms, insurance portals vary by payer - probably deal with 8-10 different ones.
+
+Q: If you could fix one thing?
+A: Get rid of the paper. Everything should go straight into PointClickCare from day one.

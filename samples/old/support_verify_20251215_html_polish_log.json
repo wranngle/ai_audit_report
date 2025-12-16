@@ -1,5 +1,0 @@
-[
-  {
-    "reason": "Polish failed: Groq API call failed: Groq API error 400: The model `gemma2-9b-it` has been decommissioned and is no longer supported. Please refer to https://console.groq.com/docs/deprecations for a recommendation on which model to use instead."
-  }
-]

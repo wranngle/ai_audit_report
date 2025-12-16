@@ -1,0 +1,11 @@
+Company: DataVault Analytics
+Process: Monthly reporting
+
+- 200 reports/month
+- Takes 45min each (should be 15min)
+- Error rate: 8%
+- Systems: Tableau, Salesforce, Excel, email
+- Cost per error: ~$150 rework
+- 3 analysts doing this manually
+- Deadline misses: 20%
+- Client complaints increasing

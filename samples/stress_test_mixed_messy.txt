@@ -1,0 +1,37 @@
+CALL NOTES - TechStart Recruiting
+Date: Dec 2024
+Contact: Amanda (HR Director)
+
+=== CURRENT STATE ===
+
+They do technical recruiting for startups. About 50 placements/month. Big problem is their candidate pipeline tracking.
+
+SYSTEMS:
+* LinkedIn Recruiter
+* Greenhouse (ATS)
+* Google Sheets (???)
+* Slack
+* Zoom
+* Gmail
+
+So here's the thing... Amanda says the recruiters spend like 2hrs/day just updating spreadsheets. That's 5 recruiters x 2hrs x 22 days = 220 hours/month of DATA ENTRY. At $35/hr that's almost $8k/month in wasted labor!!!
+
+--- metrics she mentioned ---
+time-to-fill: 45 days (target: 30)
+candidate drop-off: 35% (yikes)
+double-entry errors: "happens constantly" - maybe 10-12%?
+interview no-shows: 18%
+
+One recruiter (Jason) built a bunch of Zapier automations but they break all the time and nobody else understands them
+
+$$$$ COSTS:
+- each unfilled position costs client ~$5000/month in lost productivity
+- they comp clients $2000 for placements that fall through (happens ~8% of time)
+- about 6-8 placements fail per month... so $12-16k
+
+PAIN POINTS (verbatim):
+"I just want Greenhouse to actually sync with LinkedIn"
+"We lose candidates because we're too slow to respond"
+"The spreadsheet is a nightmare, there are like 15 tabs"
+
+priority fix >>> better automation, less manual tracking

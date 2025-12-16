@@ -1,0 +1,41 @@
+From: jennifer.martinez@acmesupply.com
+To: ops-team@acmesupply.com
+Subject: RE: RE: RE: Inventory issues AGAIN
+
+Team,
+
+I'm at my wit's end here. We had ANOTHER stockout on SKU-4521 yesterday. That's the third time this month.
+
+Mike - can you pull the numbers on how often this is happening? I need to bring this to leadership.
+
+---
+
+From: mike.chen@acmesupply.com
+To: ops-team@acmesupply.com
+
+Jen,
+
+Ran the numbers. Here's what I found:
+- We manage about 2,500 SKUs
+- Stockout rate is around 12% (industry standard is 3%)
+- Each stockout costs us roughly $800 in lost sales + expedited shipping
+- We're doing inventory counts manually in Excel - takes warehouse team about 20hrs/week
+- The data from our POS (Square) doesn't sync to our inventory spreadsheet automatically
+
+The root cause is we're reactive not proactive. By the time we notice something's low, it's too late.
+
+---
+
+From: sarah.wong@acmesupply.com
+
+Adding to Mike's email - I spend at least 2 hours a day reconciling orders between Square, our shipping software (ShipStation), and the Excel inventory tracker. It's mind-numbing and I still make mistakes. Probably 5% error rate on my data entry honestly.
+
+We really need a proper inventory management system that talks to everything.
+
+---
+
+From: jennifer.martinez@acmesupply.com
+
+Thanks both. We're losing probably $30-40K/month on this if I add up the stockouts + labor + errors.
+
+Acme Supply Co has been doing this the same way for 10 years. Time for a change.
