@@ -60,7 +60,7 @@ npm install
 **Environment variables required:**
 ```bash
 # Create .env file or set in shell
-GEMINI_API_KEY=your-key-here      # Used by extract stage and LLM fill stage (Gemini 2.0 Flash)
+GEMINI_API_KEY=your-key-here      # Used by extract stage and LLM fill stage (Gemini 3 Pro)
 ```
 
 **Primary workflows:**
@@ -74,7 +74,7 @@ node cli.js extract notes.txt --output-dir ./extracted/
 # Full pipeline from structured JSON
 node cli.js full intake.json measurements.json report.html
 
-# Transform only (no LLM, keeps placeholders)
+# Transform only (deterministic, generates report JSON with placeholders)
 node cli.js transform intake.json measurements.json output.json
 
 # Validate report JSON
@@ -94,10 +94,10 @@ node cli.js generate samples/healthcare_intake.txt samples/test.html --use-groq
 ```
 
 **Flags:**
-- `--skip-llm` - Skip LLM narrative generation (keeps placeholders)
 - `--save-json` - Save intermediate JSON alongside HTML output
 - `--output-dir <dir>` - Specify output directory for extract command
 - `--use-groq` - Use Groq API instead of Gemini (fallback for rate limits)
+- `--skip-pdf` - Skip PDF generation (HTML only)
 
 ## Architecture
 

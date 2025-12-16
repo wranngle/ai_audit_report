@@ -1,6 +1,6 @@
 import 'dotenv/config';
 
-const apiKey = 'process.env.GROQ_API_KEY';
+const apiKey = process.env.GROQ_API_KEY;
 const url = 'https://api.groq.com/openai/v1/chat/completions';
 
 const body = {
