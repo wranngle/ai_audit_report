@@ -900,20 +900,20 @@ body.theme-conversion .status-dot { box-shadow: none !important; }
     {{! Dual-action layout when secondary_action is present }}
     {{#cta.secondary_action}}
     <div class="cta-actions">
-      <a href="{{{cta.link}}}" class="cta-link cta-primary">{{#cta.link_display}}{{{cta.link_display}}}{{/cta.link_display}}{{^cta.link_display}}View Proposal{{/cta.link_display}}</a>
-      <a href="{{{cta.secondary_action.link}}}" class="cta-link cta-secondary">{{#cta.secondary_action.label}}{{{cta.secondary_action.label}}}{{/cta.secondary_action.label}}{{^cta.secondary_action.label}}Have questions?{{/cta.secondary_action.label}}</a>
+      {{#cta.link}}<a href="{{{cta.link}}}" class="cta-link cta-primary">{{#cta.link_display}}{{{cta.link_display}}}{{/cta.link_display}}{{^cta.link_display}}View Proposal{{/cta.link_display}}</a>{{/cta.link}}
+      {{#cta.secondary_action.link}}<a href="{{{cta.secondary_action.link}}}" class="cta-link cta-secondary">{{#cta.secondary_action.label}}{{{cta.secondary_action.label}}}{{/cta.secondary_action.label}}{{^cta.secondary_action.label}}Have questions?{{/cta.secondary_action.label}}</a>{{/cta.secondary_action.link}}
     </div>
     {{/cta.secondary_action}}
 
     {{! Single-action layout (default/book_call mode) }}
     {{^cta.secondary_action}}
-    <a href="{{{cta.link}}}" class="cta-link">{{#cta.link_display}}{{{cta.link_display}}}{{/cta.link_display}}{{^cta.link_display}}{{{cta.link}}}{{/cta.link_display}}</a>
+    {{#cta.link}}<a href="{{{cta.link}}}" class="cta-link">{{#cta.link_display}}{{{cta.link_display}}}{{/cta.link_display}}{{^cta.link_display}}{{{cta.link}}}{{/cta.link_display}}</a>{{/cta.link}}
     {{/cta.secondary_action}}
 </div>
     </section>
 
     <footer class="footer-contact">
-        <span class="micro">{{#prepared_by.producer_name}}{{prepared_by.producer_name}} &nbsp;•&nbsp; {{/prepared_by.producer_name}}{{prepared_by.producer_email}} &nbsp;•&nbsp; {{document.brand.primary_domain}}{{#offer.sku_code}} &nbsp;•&nbsp; {{offer.sku_code}}{{/offer.sku_code}}</span>
+        <span class="micro">{{#prepared_by.producer_name}}{{prepared_by.producer_name}}{{#offer.sku_code}} &nbsp;•&nbsp; {{/offer.sku_code}}{{/prepared_by.producer_name}}{{#offer.sku_code}}{{offer.sku_code}}{{/offer.sku_code}}</span>
         <p class="footer-copyright">{{document.brand.brand_name}} &copy; All Rights Reserved {{document.report_year}}</p>
     </footer>
 

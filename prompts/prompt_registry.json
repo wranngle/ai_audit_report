@@ -2,16 +2,23 @@
   "registry_version": "1.0.0",
   "registry_updated_at": "2025-12-13",
   "registry_updated_by": "claude_code",
-  "llm_model_default": "gemini-2.0-flash",
+  "llm_model_default": "gemini-3-pro",
   "validation_mode": "strict",
-
   "global_guardrails": {
-    "forbidden_phrases": ["I think", "might be", "could be", "approximately", "around", "roughly", "I believe", "probably"],
+    "forbidden_phrases": [
+      "I think",
+      "might be",
+      "could be",
+      "approximately",
+      "around",
+      "roughly",
+      "I believe",
+      "probably"
+    ],
     "insufficient_evidence_token": "[INSUFFICIENT_EVIDENCE]",
     "max_retry_on_validation_fail": 2,
     "require_exact_value_quotes": true
   },
-
   "prompts": [
     {
       "prompt_id": "document_title_v1",
@@ -19,87 +26,96 @@
       "created_at": "2025-12-13",
       "created_by": "claude_code",
       "status": "active",
-
       "schema_path": "document.title",
       "output_type": "string",
       "max_tokens": 20,
-
-      "allowed_input_types": ["workflow_name", "client_name"],
-      "required_inputs": ["workflow_name"],
-
-      "system_prompt": "You are a technical writer creating document titles. Output exactly one title line. No explanation.",
-
-      "user_prompt_template": "<context>\nWorkflow: {{workflow_name}}\nClient: {{client_name}}\n</context>\n\n<instructions>\nGenerate a professional document title for an AI workflow audit report.\nFormat: \"AI Workflow Audit: [Workflow Name]\"\nIf workflow name is missing, output [INSUFFICIENT_EVIDENCE]\n</instructions>",
-
+      "allowed_input_types": [
+        "workflow_name",
+        "client_name"
+      ],
+      "required_inputs": [
+        "workflow_name"
+      ],
+      "system_prompt": "<role>\nYou are a technical writer specializing in professional audit report titles.\n</role>\n<constraints>\nOutput exactly one title line.\nNo explanation or conversational filler.\nNo markdown formatting.\n</constraints>",
+      "user_prompt_template": "<context>\nWorkflow Name: {{workflow_name}}\nClient Name: {{client_name}}\n</context>\n<instructions>\nGenerate a professional document title for an AI workflow audit report.\nRequired Format: \"AI Workflow Audit: [Workflow Name]\"\nIf the workflow name is missing or empty, output [INSUFFICIENT_EVIDENCE] exactly.\n</instructions>",
       "output_constraints": {
         "must_contain": [],
-        "must_not_contain": ["I think", "might be"],
+        "must_not_contain": [
+          "I think",
+          "might be"
+        ],
         "max_length_chars": 80
       },
-
       "validation_rules": [],
       "approval_required": false,
       "approval_gate": null
     },
-
     {
       "prompt_id": "scope_statement_v1",
       "version": 1,
       "created_at": "2025-12-13",
       "created_by": "claude_code",
       "status": "active",
-
       "schema_path": "audit.scope.scope_statement",
       "output_type": "string",
       "max_tokens": 100,
-
-      "allowed_input_types": ["workflow_name", "trigger", "objective", "time_window", "systems_involved"],
-      "required_inputs": ["workflow_name", "trigger"],
-
-      "system_prompt": "You are an auditor writing scope statements. Be precise and factual. One paragraph maximum. Output only the scope statement text.",
-
-      "user_prompt_template": "<context>\nWorkflow: {{workflow_name}}\nTrigger: {{trigger}}\nObjective: {{objective}}\nTime Window: {{time_window}}\nSystems: {{#systems_involved}}{{.}}, {{/systems_involved}}\n</context>\n\n<instructions>\nWrite a scope statement that:\n* States the workflow being audited\n* Names the trigger event\n* Lists systems in scope\n* States the time window analyzed\nFormat: Single paragraph, 2 to 3 sentences.\nIf trigger is missing, output [INSUFFICIENT_EVIDENCE]\n</instructions>",
-
+      "allowed_input_types": [
+        "workflow_name",
+        "trigger",
+        "objective",
+        "time_window",
+        "systems_involved"
+      ],
+      "required_inputs": [
+        "workflow_name",
+        "trigger"
+      ],
+      "system_prompt": "<role>\nYou are an auditor writing precise scope statements.\n</role>\n<guidelines>\nBe precise and factual.\nLimit output to one paragraph maximum.\nOutput only the scope statement text.\n</guidelines>",
+      "user_prompt_template": "<context>\nWorkflow: {{workflow_name}}\nTrigger Event: {{trigger}}\nObjective: {{objective}}\nTime Window: {{time_window}}\nSystems Involved: {{#systems_involved}}{{.}}, {{/systems_involved}}\n</context>\n<instructions>\nWrite a scope statement that explicitly covers:\n1. The workflow being audited\n2. The trigger event\n3. Systems in scope\n4. The time window analyzed\nFormat: Single paragraph, 2 to 3 sentences.\nIf the trigger is missing, output [INSUFFICIENT_EVIDENCE].\n</instructions>",
       "output_constraints": {
         "must_contain": [],
-        "must_not_contain": ["I think", "might be", "could be"],
+        "must_not_contain": [
+          "I think",
+          "might be",
+          "could be"
+        ],
         "max_length_chars": 400
       },
-
       "validation_rules": [
         {
           "rule": "contains_exact_value",
-          "params": {"field": "workflow_name"}
+          "params": {
+            "field": "workflow_name"
+          }
         }
       ],
       "approval_required": false,
       "approval_gate": null
     },
-
     {
       "prompt_id": "scope_items_v1",
       "version": 1,
       "created_at": "2025-12-13",
       "created_by": "claude_code",
       "status": "active",
-
       "schema_path": "audit.scope.in_scope",
       "output_type": "array_of_strings",
       "max_tokens": 150,
-
-      "allowed_input_types": ["workflow_name", "systems_involved", "steps"],
-      "required_inputs": ["systems_involved"],
-
-      "system_prompt": "You are an auditor listing scope items. Output a raw JSON array of strings. NO markdown, NO ```json wrapper, NO explanation. Just the array.",
-
-      "user_prompt_template": "<context>\nWorkflow: {{workflow_name}}\nSystems: {{#systems_involved}}{{.}}, {{/systems_involved}}\nSteps: {{#steps}}{{name}}, {{/steps}}\n</context>\n\n<instructions>\nOutput a JSON array of 3 to 5 in scope items.\nEach item should be one system, process, or handoff from the provided context.\nFormat: [\"item 1\", \"item 2\", \"item 3\"]\nDo not invent systems not listed above.\n</instructions>",
-
+      "allowed_input_types": [
+        "workflow_name",
+        "systems_involved",
+        "steps"
+      ],
+      "required_inputs": [
+        "systems_involved"
+      ],
+      "system_prompt": "<role>\nYou are an auditor listing in scope items.\n</role>\n<output_format>\nRaw JSON array of strings.\nNO markdown formatting.\nNO code block wrappers.\nNO explanation.\n</output_format>",
+      "user_prompt_template": "<context>\nWorkflow: {{workflow_name}}\nSystems: {{#systems_involved}}{{.}}, {{/systems_involved}}\nSteps: {{#steps}}{{name}}, {{/steps}}\n</context>\n<instructions>\nOutput a JSON array of 3 to 5 in scope items.\nDerive items strictly from the systems, processes, or handoffs provided in the context.\nFormat: [\"item 1\", \"item 2\", \"item 3\"]\nDo not invent systems not listed above.\n</instructions>",
       "output_constraints": {
         "must_contain": [],
         "must_not_contain": [],
         "max_length_chars": 500
       },
-
       "validation_rules": [
         {
           "rule": "valid_json_array",
@@ -109,31 +125,27 @@
       "approval_required": false,
       "approval_gate": null
     },
-
     {
       "prompt_id": "out_of_scope_v1",
       "version": 1,
       "created_at": "2025-12-13",
       "created_by": "claude_code",
       "status": "active",
-
       "schema_path": "audit.scope.out_of_scope",
       "output_type": "array_of_strings",
       "max_tokens": 100,
-
-      "allowed_input_types": ["workflow_name", "systems_involved"],
+      "allowed_input_types": [
+        "workflow_name",
+        "systems_involved"
+      ],
       "required_inputs": [],
-
-      "system_prompt": "You are an auditor documenting scope exclusions. Output a raw JSON array of strings. NO markdown, NO ```json wrapper. Just the array.",
-
-      "user_prompt_template": "<context>\nWorkflow: {{workflow_name}}\nSystems in scope: {{#systems_involved}}{{.}}, {{/systems_involved}}\n</context>\n\n<instructions>\nOutput a JSON array of standard out of scope items for a single workflow audit.\nTypical exclusions:\n* Infrastructure security review\n* Full business process mapping\n* Adjacent workflows not named\n* Historical data analysis beyond stated time window\nFormat: [\"item 1\", \"item 2\", \"item 3\"]\n</instructions>",
-
+      "system_prompt": "<role>\nYou are an auditor documenting scope exclusions.\n</role>\n<output_format>\nRaw JSON array of strings.\nNO markdown formatting.\nNO code block wrappers.\n</output_format>",
+      "user_prompt_template": "<context>\nWorkflow: {{workflow_name}}\nSystems In Scope: {{#systems_involved}}{{.}}, {{/systems_involved}}\n</context>\n<instructions>\nOutput a JSON array of standard out of scope items for a single workflow audit.\nSelect relevant exclusions such as:\n1. Infrastructure security review\n2. Full business process mapping\n3. Adjacent workflows not named\n4. Historical data analysis beyond stated time window\nFormat: [\"item 1\", \"item 2\", \"item 3\"]\n</instructions>",
       "output_constraints": {
         "must_contain": [],
         "must_not_contain": [],
         "max_length_chars": 400
       },
-
       "validation_rules": [
         {
           "rule": "valid_json_array",
@@ -143,31 +155,31 @@
       "approval_required": false,
       "approval_gate": null
     },
-
     {
       "prompt_id": "limitations_v1",
       "version": 1,
       "created_at": "2025-12-13",
       "created_by": "claude_code",
       "status": "active",
-
       "schema_path": "audit.methodology.limitations",
       "output_type": "array_of_strings",
       "max_tokens": 150,
-
-      "allowed_input_types": ["data_sources_used", "time_window", "missing_data_flags"],
+      "allowed_input_types": [
+        "data_sources_used",
+        "time_window",
+        "missing_data_flags"
+      ],
       "required_inputs": [],
-
-      "system_prompt": "You are an auditor documenting methodology limitations. Output a raw JSON array of strings. NO markdown, NO ```json wrapper. Be specific about actual data gaps, not templates.",
-
-      "user_prompt_template": "<context>\nData sources: {{#data_sources_used}}{{.}}, {{/data_sources_used}}\nTime window: {{time_window}}\nMissing data flags: {{#missing_data_flags}}{{.}}, {{/missing_data_flags}}\n</context>\n\n<instructions>\nOutput a JSON array of 2 to 4 methodology limitations.\nInclude:\n* Data source limitations (if client provided estimates vs actuals)\n* Time window constraints\n* Any missing data noted\nFormat: [\"limitation 1\", \"limitation 2\"]\nBe factual, not defensive.\n</instructions>",
-
+      "system_prompt": "<role>\nYou are an auditor documenting methodology limitations.\n</role>\n<guidelines>\nBe specific about actual data gaps, not generic templates.\nBe factual, not defensive.\n</guidelines>\n<output_format>\nRaw JSON array of strings.\nNO markdown formatting.\nNO code block wrappers.\n</output_format>",
+      "user_prompt_template": "<context>\nData Sources: {{#data_sources_used}}{{.}}, {{/data_sources_used}}\nTime Window: {{time_window}}\nMissing Data Flags: {{#missing_data_flags}}{{.}}, {{/missing_data_flags}}\n</context>\n<instructions>\nOutput a JSON array of 2 to 4 methodology limitations.\nConsider including:\n1. Data source limitations (e.g., client provided estimates vs actuals)\n2. Time window constraints\n3. Any missing data noted in the flags\nFormat: [\"limitation 1\", \"limitation 2\"]\n</instructions>",
       "output_constraints": {
         "must_contain": [],
-        "must_not_contain": ["I think", "might be"],
+        "must_not_contain": [
+          "I think",
+          "might be"
+        ],
         "max_length_chars": 500
       },
-
       "validation_rules": [
         {
           "rule": "valid_json_array",
@@ -177,261 +189,312 @@
       "approval_required": false,
       "approval_gate": null
     },
-
     {
       "prompt_id": "executive_summary_v1",
       "version": 1,
       "created_at": "2025-12-13",
       "created_by": "claude_code",
       "status": "active",
-
       "schema_path": "scorecard.executive_summary.body",
       "output_type": "html_fragment",
       "max_tokens": 150,
-
-      "allowed_input_types": ["measurements", "bleed_total_display", "workflow_name", "critical_finding"],
-      "required_inputs": ["measurements", "bleed_total_display"],
-
-      "system_prompt": "You are a business process auditor writing executive summaries. Be direct, specific, actionable. Use exact numbers provided. Use <strong> tags for money values. Output raw HTML only - NO markdown code blocks, NO ```html wrappers.",
-
-      "user_prompt_template": "<context>\nWorkflow: {{workflow_name}}\n\nKey measurements:\n{{#measurements}}\n* {{name}}: {{value_display}} (threshold: {{threshold_display}})\n{{/measurements}}\n\nTotal monthly bleed: {{bleed_total_display}}\nCritical finding: {{critical_finding}}\n</context>\n\n<instructions>\nWrite an executive summary that:\n* Is exactly 2 sentences\n* First sentence: State the critical bottleneck with the exact measured value from above\n* Second sentence: State the bleed amount ({{bleed_total_display}}) and fix urgency\n* Wrap money values in <strong> tags\n* Quote only numbers provided above, no fabrication\n* If measurements are missing, output [INSUFFICIENT_EVIDENCE]\n</instructions>",
-
+      "allowed_input_types": [
+        "measurements",
+        "bleed_total_display",
+        "workflow_name",
+        "critical_finding"
+      ],
+      "required_inputs": [
+        "measurements",
+        "bleed_total_display"
+      ],
+      "system_prompt": "<role>\nYou are a business process auditor writing executive summaries.\n</role>\n<guidelines>\nBe direct, specific, and actionable.\nUse exact numbers provided in context.\nUse <strong> tags for all money values.\n</guidelines>\n<output_format>\nRaw HTML only.\nNO markdown code blocks.\nNO code block wrappers.\n</output_format>",
+      "user_prompt_template": "<context>\nWorkflow: {{workflow_name}}\nKey Measurements:\n{{#measurements}}\n* {{name}}: {{value_display}} (threshold: {{threshold_display}})\n{{/measurements}}\nTotal Monthly Bleed: {{bleed_total_display}}\nCritical Finding: {{critical_finding}}\n</context>\n<instructions>\nWrite an executive summary that is exactly 2 sentences long.\nSentence 1: State the critical bottleneck with the exact measured value from context.\nSentence 2: State the bleed amount {{bleed_total_display}} and the urgency of the fix.\nWrap money values in <strong> tags.\nQuote only numbers provided above; do not fabricate data.\nIf measurements are missing, output [INSUFFICIENT_EVIDENCE].\n</instructions>",
       "output_constraints": {
         "must_contain": [],
-        "must_not_contain": ["I think", "might be", "could be", "approximately"],
+        "must_not_contain": [
+          "I think",
+          "might be",
+          "could be",
+          "approximately"
+        ],
         "max_length_chars": 500
       },
-
       "validation_rules": [
         {
           "rule": "contains_exact_value",
-          "params": {"field": "bleed_total_display"}
+          "params": {
+            "field": "bleed_total_display"
+          }
         },
         {
           "rule": "no_fabricated_numbers",
-          "params": {"allowed_sources": ["measurements.*.value_display", "bleed_total_display"]}
+          "params": {
+            "allowed_sources": [
+              "measurements.*.value_display",
+              "bleed_total_display"
+            ]
+          }
         },
         {
           "rule": "html_balanced_tags",
-          "params": {"allowed_tags": ["strong", "em"]}
+          "params": {
+            "allowed_tags": [
+              "strong",
+              "em"
+            ]
+          }
         }
       ],
       "approval_required": true,
       "approval_gate": "human_review"
     },
-
     {
       "prompt_id": "finding_summary_v1",
       "version": 1,
       "created_at": "2025-12-13",
       "created_by": "claude_code",
       "status": "active",
-
       "schema_path": "scorecard.rows[].finding.summary",
       "output_type": "string",
       "max_tokens": 80,
-
-      "allowed_input_types": ["category", "measurement_value", "measurement_unit", "threshold", "status"],
-      "required_inputs": ["category", "measurement_value"],
-
-      "system_prompt": "You are an auditor writing finding summaries. One sentence only. State the fact, then the implication. Use the exact number provided.",
-
-      "user_prompt_template": "<context>\nCategory: {{category}}\nMeasured value: {{measurement_value}} {{measurement_unit}}\nThreshold: {{threshold}}\nStatus: {{status}}\n</context>\n\n<instructions>\nWrite one sentence summarizing this finding.\nFormat: \"[What was measured] at [exact value], [implication based on status].\"\nExamples:\n* \"First response averaging 4.2 hours, exceeding the 1 hour target by 4x.\"\n* \"Duplicate rate at 12%, indicating systemic data entry issues.\"\nUse the exact value {{measurement_value}} from context.\n</instructions>",
-
+      "allowed_input_types": [
+        "category",
+        "measurement_value",
+        "measurement_unit",
+        "threshold",
+        "status"
+      ],
+      "required_inputs": [
+        "category",
+        "measurement_value"
+      ],
+      "system_prompt": "<role>\nYou are an auditor writing finding summaries.\n</role>\n<constraints>\nWrite exactly one sentence.\nState the fact, then the implication.\nUse the exact number provided.\n</constraints>",
+      "user_prompt_template": "<context>\nCategory: {{category}}\nMeasured Value: {{measurement_value}} {{measurement_unit}}\nThreshold: {{threshold}}\nStatus: {{status}}\n</context>\n<instructions>\nWrite one sentence summarizing this finding.\nFormat: \"[What was measured] at [exact value], [implication based on status].\"\nUse the exact value {{measurement_value}} from context.\n</instructions>",
       "output_constraints": {
         "must_contain": [],
-        "must_not_contain": ["I think", "might be", "approximately"],
+        "must_not_contain": [
+          "I think",
+          "might be",
+          "approximately"
+        ],
         "max_length_chars": 200
       },
-
       "validation_rules": [
         {
           "rule": "contains_exact_value",
-          "params": {"field": "measurement_value"}
+          "params": {
+            "field": "measurement_value"
+          }
         }
       ],
       "approval_required": false,
       "approval_gate": "spot_check"
     },
-
     {
       "prompt_id": "finding_risk_v1",
       "version": 1,
       "created_at": "2025-12-13",
       "created_by": "claude_code",
       "status": "active",
-
       "schema_path": "scorecard.rows[].finding.risk",
       "output_type": "string",
       "max_tokens": 60,
-
-      "allowed_input_types": ["category", "status", "cost_signal"],
-      "required_inputs": ["category", "status"],
-
-      "system_prompt": "You are an auditor writing risk statements. One sentence only. State the business risk if unaddressed.",
-
-      "user_prompt_template": "<context>\nCategory: {{category}}\nStatus: {{status}}\nCost signal: {{cost_signal}}\n</context>\n\n<instructions>\nWrite one sentence stating the business risk if this issue is not addressed.\nFormat: \"Risk: [consequence] if unaddressed.\"\nExamples:\n* \"Risk: Continued revenue loss from missed lead windows.\"\n* \"Risk: Compounding data quality issues affecting downstream reporting.\"\nKeep under 100 characters.\n</instructions>",
-
+      "allowed_input_types": [
+        "category",
+        "status",
+        "cost_signal"
+      ],
+      "required_inputs": [
+        "category",
+        "status"
+      ],
+      "system_prompt": "<role>\nYou are an auditor writing risk statements.\n</role>\n<constraints>\nWrite exactly one sentence.\nKeep under 100 characters.\n</constraints>",
+      "user_prompt_template": "<context>\nCategory: {{category}}\nStatus: {{status}}\nCost Signal: {{cost_signal}}\n</context>\n<instructions>\nWrite one sentence stating the business risk if this issue is not addressed.\nFormat: \"Risk: [consequence] if unaddressed.\"\n</instructions>",
       "output_constraints": {
-        "must_contain": ["Risk:"],
-        "must_not_contain": ["I think", "might"],
+        "must_contain": [
+          "Risk:"
+        ],
+        "must_not_contain": [
+          "I think",
+          "might"
+        ],
         "max_length_chars": 150
       },
-
       "validation_rules": [],
       "approval_required": false,
       "approval_gate": "spot_check"
     },
-
     {
       "prompt_id": "math_defender_v1",
       "version": 1,
       "created_at": "2025-12-13",
       "created_by": "claude_code",
       "status": "active",
-
       "schema_path": "bleed.math_defender_text",
       "output_type": "html_fragment",
       "max_tokens": 200,
-
-      "allowed_input_types": ["assumptions", "calculations", "bleed_total_display", "period"],
-      "required_inputs": ["assumptions", "calculations", "bleed_total_display"],
-
-      "system_prompt": "You are a financial analyst writing calculation explanations. Show exact math. Use only the numbers provided. Wrap formulas in clear prose. Output raw HTML only - NO markdown code blocks, NO ```html wrappers.",
-
-      "user_prompt_template": "<context>\nAssumptions:\n{{#assumptions}}\n* {{id}}: {{label}} = {{value_display}}\n{{/assumptions}}\n\nCalculations:\n{{#calculations}}\n* {{label}}: {{formula}} = {{result_display}}\n{{/calculations}}\n\nTotal bleed: {{bleed_total_display}} per {{period}}\n</context>\n\n<instructions>\nWrite a 2 to 3 sentence explanation that:\n* Shows the math transparently\n* Uses <strong> for money values\n* References the exact assumption values provided\n* Concludes with the total bleed figure\n* No invented numbers\nIf any required assumption is missing, output [INSUFFICIENT_EVIDENCE]\n</instructions>",
-
+      "allowed_input_types": [
+        "assumptions",
+        "calculations",
+        "bleed_total_display",
+        "period"
+      ],
+      "required_inputs": [
+        "assumptions",
+        "calculations",
+        "bleed_total_display"
+      ],
+      "system_prompt": "<role>\nYou are a financial analyst writing calculation explanations.\n</role>\n<guidelines>\nShow exact math transparently.\nUse only the numbers provided.\nWrap formulas in clear prose.\n</guidelines>\n<output_format>\nRaw HTML only.\nNO markdown code blocks.\nNO code block wrappers.\n</output_format>",
+      "user_prompt_template": "<context>\nAssumptions:\n{{#assumptions}}\n* {{id}}: {{label}} = {{value_display}}\n{{/assumptions}}\nCalculations:\n{{#calculations}}\n* {{label}}: {{formula}} = {{result_display}}\n{{/calculations}}\nTotal Bleed: {{bleed_total_display}} per {{period}}\n</context>\n<instructions>\nWrite a 2 to 3 sentence explanation that:\n1. Shows the math transparently\n2. Uses <strong> tags for money values\n3. References the exact assumption values provided\n4. Concludes with the total bleed figure\nDo not invent numbers.\nIf any required assumption is missing, output [INSUFFICIENT_EVIDENCE].\n</instructions>",
       "output_constraints": {
         "must_contain": [],
-        "must_not_contain": ["I think", "might be", "approximately", "around"],
+        "must_not_contain": [
+          "I think",
+          "might be",
+          "approximately",
+          "around"
+        ],
         "max_length_chars": 600
       },
-
       "validation_rules": [
         {
           "rule": "contains_exact_value",
-          "params": {"field": "bleed_total_display"}
+          "params": {
+            "field": "bleed_total_display"
+          }
         },
         {
           "rule": "no_fabricated_numbers",
-          "params": {"allowed_sources": ["assumptions.*.value_display", "calculations.*.result_display", "bleed_total_display"]}
+          "params": {
+            "allowed_sources": [
+              "assumptions.*.value_display",
+              "calculations.*.result_display",
+              "bleed_total_display"
+            ]
+          }
         }
       ],
       "approval_required": true,
       "approval_gate": "human_review"
     },
-
     {
       "prompt_id": "fix_problem_v1",
       "version": 1,
       "created_at": "2025-12-13",
       "created_by": "claude_code",
       "status": "active",
-
       "schema_path": "fixes.items[].problem",
       "output_type": "string",
       "max_tokens": 50,
-
-      "allowed_input_types": ["category", "finding_summary", "measurement_value"],
-      "required_inputs": ["category"],
-
-      "system_prompt": "You are an auditor writing problem statements for fix recommendations. One phrase, noun form, stating what is broken.",
-
-      "user_prompt_template": "<context>\nCategory: {{category}}\nFinding: {{finding_summary}}\nMeasured value: {{measurement_value}}\n</context>\n\n<instructions>\nWrite a concise problem statement (noun phrase).\nFormat: \"[Thing] [issue]\"\nExamples:\n* \"Slow first response (4.2h avg)\"\n* \"Manual data re entry between systems\"\n* \"No SLA monitoring in place\"\nInclude the measured value if available.\n</instructions>",
-
+      "allowed_input_types": [
+        "category",
+        "finding_summary",
+        "measurement_value"
+      ],
+      "required_inputs": [
+        "category"
+      ],
+      "system_prompt": "<role>\nYou are an auditor writing problem statements for fix recommendations.\n</role>\n<constraints>\nOutput one phrase in noun form stating what is broken.\nNo complete sentences.\n</constraints>",
+      "user_prompt_template": "<context>\nCategory: {{category}}\nFinding: {{finding_summary}}\nMeasured Value: {{measurement_value}}\n</context>\n<instructions>\nWrite a concise problem statement (noun phrase).\nFormat: \"[Thing] [issue]\"\nInclude the measured value if available.\n</instructions>",
       "output_constraints": {
         "must_contain": [],
         "must_not_contain": [],
         "max_length_chars": 100
       },
-
       "validation_rules": [],
       "approval_required": false,
       "approval_gate": "spot_check"
     },
-
     {
       "prompt_id": "fix_solution_v1",
       "version": 1,
       "created_at": "2025-12-13",
       "created_by": "claude_code",
       "status": "active",
-
       "schema_path": "fixes.items[].solution",
       "output_type": "string",
       "max_tokens": 80,
-
-      "allowed_input_types": ["problem", "systems_involved", "quick_win_flag"],
-      "required_inputs": ["problem"],
-
-      "system_prompt": "You are an auditor writing solution statements. One complete sentence, verb form, stating the fix action. No markdown. No bullet points. Plain text only.",
-
-      "user_prompt_template": "<context>\nProblem: {{problem}}\nSystems involved: {{#systems_involved}}{{.}}, {{/systems_involved}}\nQuick win: {{quick_win_flag}}\n</context>\n\n<instructions>\nWrite ONE complete solution sentence.\nFormat: \"[Action verb] [what] [where/how] to [outcome].\"\nExamples:\n* \"Automate lead routing from CRM to assignment queue to reduce response time.\"\n* \"Implement webhook sync between intake and fulfillment to eliminate manual handoffs.\"\n* \"Add SLA alerting at 30 minute threshold to prevent deadline misses.\"\nOUTPUT PLAIN TEXT ONLY. No markdown, no bullet points, no code blocks.\n</instructions>",
-
+      "allowed_input_types": [
+        "problem",
+        "systems_involved",
+        "quick_win_flag"
+      ],
+      "required_inputs": [
+        "problem"
+      ],
+      "system_prompt": "<role>\nYou are an auditor writing solution statements.\n</role>\n<constraints>\nOutput exactly one complete sentence.\nUse verb form stating the fix action.\nPlain text only.\nNO markdown.\nNO bullet points.\n</constraints>",
+      "user_prompt_template": "<context>\nProblem: {{problem}}\nSystems Involved: {{#systems_involved}}{{.}}, {{/systems_involved}}\nQuick Win: {{quick_win_flag}}\n</context>\n<instructions>\nWrite ONE complete solution sentence.\nFormat: \"[Action verb] [what] [where/how] to [outcome].\"\nOUTPUT PLAIN TEXT ONLY.\n</instructions>",
       "output_constraints": {
         "must_contain": [],
-        "must_not_contain": ["```", "* ", "- "],
+        "must_not_contain": [
+          "```",
+          "* ",
+          "- "
+        ],
         "max_length_chars": 200
       },
-
       "validation_rules": [],
       "approval_required": false,
       "approval_gate": "spot_check"
     },
-
     {
       "prompt_id": "impact_basis_v1",
       "version": 1,
       "created_at": "2025-12-14",
       "created_by": "claude_code",
       "status": "active",
-
       "schema_path": "fixes.items[].impact.basis",
       "output_type": "string",
       "max_tokens": 60,
-
-      "allowed_input_types": ["solution", "bleed_total_display", "measurement_value"],
-      "required_inputs": ["solution"],
-
-      "system_prompt": "You are an auditor writing impact justifications. One sentence explaining why this fix recovers the estimated amount. Plain text only, no markdown.",
-
-      "user_prompt_template": "<context>\nSolution: {{solution}}\nTotal bleed: {{bleed_total_display}}\nCurrent metric: {{measurement_value}}\n</context>\n\n<instructions>\nWrite ONE sentence explaining the impact basis.\nFormat: \"Reduces [problem] by [mechanism], recovering [X]% of monthly bleed.\"\nExamples:\n* \"Eliminates 3 hours of manual work per onboarding, recovering labor costs.\"\n* \"Reduces SLA misses by automating notifications, preventing churn-related revenue loss.\"\nOUTPUT PLAIN TEXT ONLY. No markdown, no bullet points.\n</instructions>",
-
+      "allowed_input_types": [
+        "solution",
+        "bleed_total_display",
+        "measurement_value"
+      ],
+      "required_inputs": [
+        "solution"
+      ],
+      "system_prompt": "<role>\nYou are an auditor writing impact justifications.\n</role>\n<constraints>\nOutput exactly one sentence explaining why the fix recovers the estimated amount.\nPlain text only.\nNO markdown.\n</constraints>",
+      "user_prompt_template": "<context>\nSolution: {{solution}}\nTotal Bleed: {{bleed_total_display}}\nCurrent Metric: {{measurement_value}}\n</context>\n<instructions>\nWrite ONE sentence explaining the impact basis.\nFormat: \"Reduces [problem] by [mechanism], recovering [X] percent of monthly bleed.\"\nOUTPUT PLAIN TEXT ONLY.\n</instructions>",
       "output_constraints": {
         "must_contain": [],
-        "must_not_contain": ["```", "* ", "- "],
+        "must_not_contain": [
+          "```",
+          "* ",
+          "- "
+        ],
         "max_length_chars": 200
       },
-
       "validation_rules": [],
       "approval_required": false,
       "approval_gate": null
     },
-
     {
       "prompt_id": "acceptance_criteria_v1",
       "version": 1,
       "created_at": "2025-12-13",
       "created_by": "claude_code",
       "status": "active",
-
       "schema_path": "fixes.items[].acceptance_criteria",
       "output_type": "array_of_strings",
       "max_tokens": 150,
-
-      "allowed_input_types": ["solution", "measurement_name", "threshold", "measurement_unit"],
-      "required_inputs": ["solution"],
-
-      "system_prompt": "You are an auditor writing testable acceptance criteria. Each criterion must be measurable. Output a raw JSON array of strings. NO markdown, NO ```json wrapper.",
-
-      "user_prompt_template": "<context>\nSolution: {{solution}}\nMetric name: {{measurement_name}}\nTarget threshold: {{threshold}} {{measurement_unit}}\n</context>\n\n<instructions>\nOutput a JSON array of 2 to 4 acceptance criteria.\nEach criterion must be:\n* Testable (yes/no answer possible)\n* Measurable (includes a number or threshold)\n* Time bound when relevant\nExamples:\n* \"p95 first response time under 15 minutes for 14 consecutive days\"\n* \"Automation runs without manual intervention for 50 consecutive executions\"\n* \"Error rate below 2% for 7 days post deployment\"\nFormat: [\"criterion 1\", \"criterion 2\"]\n</instructions>",
-
+      "allowed_input_types": [
+        "solution",
+        "measurement_name",
+        "threshold",
+        "measurement_unit"
+      ],
+      "required_inputs": [
+        "solution"
+      ],
+      "system_prompt": "<role>\nYou are an auditor writing testable acceptance criteria.\n</role>\n<constraints>\nEach criterion must be measurable.\n</constraints>\n<output_format>\nRaw JSON array of strings.\nNO markdown formatting.\nNO code block wrappers.\n</output_format>",
+      "user_prompt_template": "<context>\nSolution: {{solution}}\nMetric Name: {{measurement_name}}\nTarget Threshold: {{threshold}} {{measurement_unit}}\n</context>\n<instructions>\nOutput a JSON array of 2 to 4 acceptance criteria.\nEach criterion must be:\n1. Testable (yes or no answer possible)\n2. Measurable (includes a number or threshold)\n3. Time bound when relevant\nFormat: [\"criterion 1\", \"criterion 2\"]\n</instructions>",
       "output_constraints": {
         "must_contain": [],
         "must_not_contain": [],
         "max_length_chars": 500
       },
-
       "validation_rules": [
         {
           "rule": "valid_json_array",
@@ -441,89 +504,93 @@
       "approval_required": false,
       "approval_gate": null
     },
-
     {
       "prompt_id": "cta_headline_v1",
       "version": 1,
       "created_at": "2025-12-13",
       "created_by": "claude_code",
       "status": "active",
-
       "schema_path": "cta.headline",
       "output_type": "string",
       "max_tokens": 20,
-
-      "allowed_input_types": ["offer_sku_name", "bleed_total_display"],
+      "allowed_input_types": [
+        "offer_sku_name",
+        "bleed_total_display"
+      ],
       "required_inputs": [],
-
-      "system_prompt": "You are a copywriter writing CTA headlines. Short, action oriented, urgency without hype. One line.",
-
-      "user_prompt_template": "<context>\nOffer: {{offer_sku_name}}\nBleed amount: {{bleed_total_display}}\n</context>\n\n<instructions>\nWrite a CTA headline for the audit report.\nFormat: Short phrase, 3 to 8 words.\nTone: Professional urgency, not salesy.\nExamples:\n* \"Ready to stop the bleed?\"\n* \"Let's fix this together.\"\n* \"Your quick win is waiting.\"\nOutput only the headline text.\n</instructions>",
-
+      "system_prompt": "<role>\nYou are a copywriter writing CTA headlines.\n</role>\n<guidelines>\nBe short and action oriented.\nConvey urgency without hype.\nLimit to one line.\n</guidelines>",
+      "user_prompt_template": "<context>\nOffer: {{offer_sku_name}}\nBleed Amount: {{bleed_total_display}}\n</context>\n<instructions>\nWrite a CTA headline for the audit report.\nFormat: Short phrase, 3 to 8 words.\nTone: Professional urgency, not salesy.\nDo NOT use exclamation points.\nOutput only the headline text.\n</instructions>",
       "output_constraints": {
         "must_contain": [],
-        "must_not_contain": ["!!!", "Act now", "Limited time"],
+        "must_not_contain": [
+          "!!!",
+          "Act now",
+          "Limited time"
+        ],
         "max_length_chars": 60
       },
-
       "validation_rules": [],
       "approval_required": false,
       "approval_gate": null
     },
-
     {
       "prompt_id": "cta_subtext_v1",
       "version": 1,
       "created_at": "2025-12-13",
       "created_by": "claude_code",
       "status": "active",
-
       "schema_path": "cta.subtext",
       "output_type": "string",
       "max_tokens": 40,
-
-      "allowed_input_types": ["offer_sku_name", "offer_promise", "booking_cta_text"],
+      "allowed_input_types": [
+        "offer_sku_name",
+        "offer_promise",
+        "booking_cta_text"
+      ],
       "required_inputs": [],
-
-      "system_prompt": "You are a copywriter writing CTA subtext. One sentence supporting the headline. Include the offer promise if provided.",
-
-      "user_prompt_template": "<context>\nOffer: {{offer_sku_name}}\nPromise: {{offer_promise}}\nButton text: {{booking_cta_text}}\n</context>\n\n<instructions>\nWrite one sentence of supporting text for the CTA section.\nFormat: 10 to 20 words.\nInclude the offer promise or next step.\nTone: Helpful, not pushy.\nExamples:\n* \"Book a 30 minute call to scope your first automation.\"\n* \"We can have your quick win running in 72 hours.\"\nOutput only the subtext.\n</instructions>",
-
+      "system_prompt": "<role>\nYou are a copywriter writing CTA subtext.\n</role>\n<instructions>\nWrite one sentence supporting the headline.\nInclude the offer promise if provided.\n</instructions>",
+      "user_prompt_template": "<context>\nOffer: {{offer_sku_name}}\nPromise: {{offer_promise}}\nButton Text: {{booking_cta_text}}\n</context>\n<instructions>\nWrite one sentence of supporting text for the CTA section.\nLength: 10 to 20 words.\nInclude the offer promise or next step.\nTone: Helpful, not pushy.\nOutput only the subtext.\n</instructions>",
       "output_constraints": {
         "must_contain": [],
-        "must_not_contain": ["!!!", "Act now"],
+        "must_not_contain": [
+          "!!!",
+          "Act now"
+        ],
         "max_length_chars": 150
       },
-
       "validation_rules": [],
       "approval_required": false,
       "approval_gate": null
     },
-
     {
       "prompt_id": "html_polish_v1",
       "version": 1,
       "created_at": "2025-12-14",
       "created_by": "claude_code",
       "status": "active",
-
       "schema_path": null,
       "output_type": "html_document",
       "max_tokens": 8000,
-
-      "allowed_input_types": ["full_html"],
-      "required_inputs": ["full_html"],
-
-      "system_prompt": "You are a professional editor polishing a business report HTML document. Your task is to improve the text quality WITHOUT changing the HTML structure, CSS, or layout. Output the complete polished HTML document.\n\nRULES:\n1. FIX awkward phrasing, run-on sentences, and unclear language\n2. FIX repetitive wording across sections\n3. FIX incomplete sentences or cut-off text\n4. FIX any [INSUFFICIENT_EVIDENCE] markers by writing appropriate placeholder text based on context\n5. REMOVE any markdown artifacts (```, **, etc.) that appear in text content\n6. ENSURE all sentences end with proper punctuation\n7. KEEP all HTML tags, attributes, class names, and structure EXACTLY as-is\n8. KEEP all numbers, metrics, and data values EXACTLY as-is\n9. KEEP the document length approximately the same\n10. DO NOT add or remove HTML elements\n11. DO NOT change CSS or styling\n12. DO NOT add comments or explanations\n\nOutput the complete HTML document with only text content improved.",
-
-      "user_prompt_template": "Polish the text content in this HTML report. Improve readability and professionalism without changing structure or data.\n\n<html_document>\n{{{full_html}}}\n</html_document>\n\nOutput the complete polished HTML document:",
-
+      "allowed_input_types": [
+        "full_html"
+      ],
+      "required_inputs": [
+        "full_html"
+      ],
+      "system_prompt": "<role>\nYou are a professional editor polishing a business report HTML document.\n</role>\n<task>\nImprove the text quality WITHOUT changing the HTML structure, CSS, or layout.\n</task>\n<constraints>\n1. FIX awkward phrasing, run on sentences, and unclear language.\n2. FIX repetitive wording.\n3. FIX incomplete sentences.\n4. FIX [INSUFFICIENT_EVIDENCE] markers by writing appropriate placeholder text contextually.\n5. REMOVE markdown artifacts (like ``` or **) from text.\n6. ENSURE proper punctuation.\n7. KEEP all HTML tags, attributes, classes, and structure EXACTLY as is.\n8. KEEP all numbers, metrics, and data values EXACTLY as is.\n9. DO NOT add or remove HTML elements.\n10. DO NOT change CSS or styling.\n</constraints>\n<output_format>\nComplete polished HTML document.\n</output_format>",
+      "user_prompt_template": "<instructions>\nPolish the text content in this HTML report.\nImprove readability and professionalism without changing structure or data.\n</instructions>\n<html_document>\n{{{full_html}}}\n</html_document>\n<instructions>\nOutput the complete polished HTML document.\n</instructions>",
       "output_constraints": {
-        "must_contain": ["<!DOCTYPE html>", "</html>"],
-        "must_not_contain": ["[INSUFFICIENT_EVIDENCE]", "```html", "```"],
+        "must_contain": [
+          "<!DOCTYPE html>",
+          "</html>"
+        ],
+        "must_not_contain": [
+          "[INSUFFICIENT_EVIDENCE]",
+          "```html",
+          "```"
+        ],
         "max_length_chars": 50000
       },
-
       "validation_rules": [
         {
           "rule": "valid_html",
