@@ -155,6 +155,52 @@
         }
       }
     },
+    "project_identity": {
+      "type": "object",
+      "description": "Unified project identity for cross-pipeline consistency.",
+      "additionalProperties": false,
+      "properties": {
+        "client_name": {
+          "type": "string"
+        },
+        "client_slug": {
+          "type": "string"
+        },
+        "project_name": {
+          "type": "string"
+        },
+        "project_slug": {
+          "type": "string"
+        },
+        "process_name": {
+          "type": "string"
+        },
+        "document_slug": {
+          "type": "string"
+        },
+        "friendly_name": {
+          "type": "string"
+        },
+        "process_date": {
+          "type": "string"
+        },
+        "process_date_display": {
+          "type": "string"
+        },
+        "valid_until": {
+          "type": "string"
+        },
+        "valid_until_display": {
+          "type": "string"
+        },
+        "validity_days": {
+          "type": "integer"
+        },
+        "year": {
+          "type": "integer"
+        }
+      }
+    },
     "audit": {
       "type": "object",
       "description": "Audit scope, methodology, and raw measurements.",
