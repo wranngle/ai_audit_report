@@ -130,14 +130,13 @@
             overflow-wrap: break-word;
         }
 
-        /* Style 2: Section Header */
+        /* Style 2: Section Header - Sentence case per brand guidelines */
         .section-header {
             font-family: 'Outfit', sans-serif;
-            font-size: 0.8125rem;
+            font-size: 0.875rem;
             font-weight: 700;
             color: var(--ink-header);
-            text-transform: uppercase;
-            letter-spacing: 0.06em;
+            /* Sentence case - no text-transform (uppercase reserved for micro-labels) */
             line-height: 1.2;
             margin-top: 0.35rem;
             margin-bottom: 0.2rem;
@@ -440,11 +439,10 @@
         }
         .bleed-title {
             font-family: 'Outfit', sans-serif;
-            font-size: 0.75rem;
+            font-size: 0.875rem;
             font-weight: 700;
             color: var(--bleed);
-            text-transform: uppercase;
-            letter-spacing: 0.08em;
+            /* Sentence case - section heading */
             margin-bottom: 0.15rem;
         }
         .bleed-amount {
