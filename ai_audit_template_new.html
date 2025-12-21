@@ -43,7 +43,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@600;700;800&display=swap" rel="stylesheet">
     <style>
         /*
-           WRANNGLE SYSTEMS LLC — TRAFFIC LIGHT REPORT
+           WRANNGLE SYSTEMS LLC — AI PROCESS AUDIT
            Theme: Sunset/Desert Tech (Tan, Sunset Orange, Violet, Night)
            Philosophy: Irresistible B2B aesthetic, subtle "cowboy" warmth
          */
@@ -178,7 +178,7 @@
             justify-content: space-between;
             align-items: flex-start;
             padding: 0.1rem 0 0.15rem 0;
-            border-bottom: 2px solid var(--border-light);
+            border-bottom: 2px solid var(--cta-bg);
             margin-bottom: 0.15rem;
         }
 
@@ -188,23 +188,28 @@
         .zone-fixes { margin-top: 0.15rem; margin-bottom: 0.1rem; display: flex; flex-direction: column; flex: 1 1 auto; }
         .zone-cta { min-height: 0.7in; margin-top: 0.15rem; margin-bottom: 0; flex-shrink: 0; }
 
-        /* 5. COMPONENT: WRANNGLE HEADER */
+        /* 5. COMPONENT: UNIFIED HEADER - Client left, Logo right */
         .header-left {
             display: flex;
+            flex-direction: column;
             align-items: flex-start;
             align-self: flex-start;
             margin: 0;
             padding: 0;
             flex-shrink: 0;
         }
-        .brand-logo {
-            height: 0.5in;
-            width: auto;
-            display: block;
-            margin: 0;
-            padding: 0;
-            vertical-align: top;
-            object-position: top;
+        .client-name {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--ink-primary);
+            line-height: 1.2;
+        }
+        .project-friendly {
+            font-size: 0.75rem;
+            color: var(--ink-secondary);
+            font-style: italic;
+            margin-top: 0.05rem;
         }
 
         .header-right {
@@ -216,10 +221,42 @@
             justify-content: flex-start;
             gap: 0.05rem;
             overflow: visible;
-            flex: 1;
+            flex-shrink: 0;
+        }
+        .brand-logo {
+            height: 0.4in;
+            width: auto;
+            display: block;
+            margin: 0;
+            padding: 0;
+            vertical-align: top;
+            object-position: top;
+        }
+        .project-slug {
+            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+            font-size: 0.5rem;
+            color: var(--ink-micro);
+            background: var(--row-alt);
+            padding: 0.05rem 0.25rem;
+            border-radius: 3px;
+            margin-top: 0.1rem;
+        }
+        .header-date {
+            font-size: 0.5rem;
+            color: var(--ink-micro);
+            margin-top: 0.05rem;
             max-width: 75%;
             margin: 0;
             padding: 0;
+        }
+        .doc-type {
+            font-family: 'Outfit', sans-serif;
+            font-size: 0.5rem;
+            font-weight: 600;
+            color: var(--cta-bg);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-top: 0.05rem;
         }
         .doc-subtitle {
             font-family: 'Inter', sans-serif;
@@ -597,22 +634,29 @@
             display: block;
         }
 
-        /* 13. FOOTER */
-        .footer-contact {
-            text-align: center;
+        /* 13. FOOTER - Unified layout across all deliverables */
+        .footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             padding-top: 0.25rem;
             padding-bottom: 0.2rem;
+            margin-top: auto;
             position: relative;
             z-index: 2;
-        }
-@media print { .footer-contact { padding-bottom: 0.35rem; } }
-        .footer-copyright {
-            font-family: 'Inter', sans-serif;
+            border-top: 1px solid var(--border-light);
             font-size: 0.5rem;
             color: var(--ink-micro);
-            margin-top: 0.25rem;
-            letter-spacing: 0.02em;
         }
+        .footer-slug {
+            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+        }
+        .footer-copy {
+            font-family: 'Inter', sans-serif;
+            letter-spacing: 0.02em;
+            text-align: right;
+        }
+        @media print { .footer { padding-bottom: 0.35rem; } }
 
         /* 14. PRINT OPTIMIZATION */
         @media print {
@@ -695,10 +739,12 @@ body.theme-conversion .status-dot { box-shadow: none !important; }
   display: inline-flex;
   flex-direction: column;
   gap: 0.02rem;
-  padding: 0.15rem 0.3rem;
+  padding: 0.2rem 0.4rem;
   border: 1px solid var(--border-light);
-  border-radius: 6px;
-  background: rgba(255,255,255,0.85);
+  border-radius: 8px;
+  background: linear-gradient(135deg, var(--surface) 0%, #fffbf7 100%);
+  box-shadow: 0 1px 3px rgba(45, 9, 20, 0.04);
+  min-width: 2.5rem;
 }
 .metric-chip .chip-label {
   font-size: 0.45rem;
@@ -716,17 +762,14 @@ body.theme-conversion .status-dot { box-shadow: none !important; }
   line-height: 1;
 }
 .metric-chip.standard {
-  background: rgba(242,240,243,0.85);
+  background: linear-gradient(135deg, #f5f0e6 0%, #ebe5db 100%);
 }
 
 .finding-text {
   font-size: 0.5625rem;
   line-height: 1.35;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
 }
 .finding-risk {
   margin-top: 0.1rem;
@@ -782,12 +825,14 @@ body.theme-conversion .status-dot { box-shadow: none !important; }
 
     <header class="zone zone-header">
         <div class="header-left">
-            <img src="{{{document.brand.logo_uri}}}" alt="{{document.brand.brand_name}}" class="brand-logo">
+            <div class="client-name">{{#project_identity}}{{project_identity.client_name}}{{/project_identity}}{{^project_identity}}{{prepared_for.account_name}}{{/project_identity}}</div>
+            <div class="project-friendly">{{#project_identity}}{{project_identity.friendly_name}}{{/project_identity}}{{^project_identity}}{{document.title}}{{/project_identity}}</div>
         </div>
         <div class="header-right">
-            <div class="doc-title">{{document.title}}</div>
-            {{#document.subtitle}}<div class="doc-subtitle">{{document.subtitle}}</div>{{/document.subtitle}}
-            <div class="micro client-line">Prepared for: <span class="micro-semibold">{{prepared_for.account_name}}</span> &nbsp;|&nbsp; {{document.report_date}}</div>
+            <img src="{{{document.brand.logo_uri}}}" alt="{{document.brand.brand_name}}" class="brand-logo">
+            <div class="doc-type">AI Process Audit</div>
+            <div class="project-slug">{{#project_identity}}{{project_identity.project_slug}}{{/project_identity}}{{^project_identity}}{{document.document_id}}{{/project_identity}}</div>
+            <div class="header-date">{{#project_identity}}{{project_identity.process_date}}{{/project_identity}}{{^project_identity}}{{document.report_date}}{{/project_identity}}</div>
         </div>
     </header>
 
@@ -840,7 +885,7 @@ body.theme-conversion .status-dot { box-shadow: none !important; }
 
     <section class="zone zone-bleed">
         <div class="bleed-callout">
-            <div class="bleed-title">Revenue Bleed</div>
+            <div class="bleed-title">Revenue Bleed <span style="font-size: 0.625rem; font-weight: 500; color: var(--healthy); margin-left: 0.5rem; text-transform: none; letter-spacing: normal;">= Hard Savings Opportunity</span></div>
             <div class="bleed-amount">{{bleed.total.display}}</div>
             <div class="bleed-period">{{bleed.period_display}}</div>
             <div class="bleed-breakdown">
@@ -851,6 +896,7 @@ body.theme-conversion .status-dot { box-shadow: none !important; }
 {{#bleed.math_defender_text}}
 <div class="bleed-assumption">{{{bleed.math_defender_text}}}</div>
 {{/bleed.math_defender_text}}
+            <div style="font-size: 0.5625rem; color: var(--healthy); margin-top: 0.375rem; text-align: center; font-style: italic;">This bleed becomes guaranteed annual savings of {{bleed.total.display}} × 12 = <strong style="color: var(--healthy);">{{bleed.annual_display}}</strong> in Phase 2 proposal</div>
         </div>
     </section>
 
@@ -912,9 +958,9 @@ body.theme-conversion .status-dot { box-shadow: none !important; }
 </div>
     </section>
 
-    <footer class="footer-contact">
-        <span class="micro">{{#prepared_by.producer_name}}{{prepared_by.producer_name}}{{#offer.sku_code}} &nbsp;•&nbsp; {{/offer.sku_code}}{{/prepared_by.producer_name}}{{#offer.sku_code}}{{offer.sku_code}}{{/offer.sku_code}}</span>
-        <p class="footer-copyright">{{document.brand.brand_name}} &copy; All Rights Reserved {{document.report_year}}</p>
+    <footer class="footer">
+        <div class="footer-slug">{{#project_identity}}{{project_identity.project_slug}}{{/project_identity}}{{^project_identity}}{{document.document_id}}{{/project_identity}}</div>
+        <div class="footer-copy">{{document.brand.brand_name}} &copy; {{document.report_year}}</div>
     </footer>
 
     </div><!-- .page-card -->

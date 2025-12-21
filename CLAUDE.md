@@ -86,11 +86,11 @@ node cli.js render report.json output.html
 
 **Testing:**
 ```bash
-# Generate a report from sample scenarios
-node cli.js generate samples/support_ticket_routing.txt samples/test_output.html --save-json
+# Generate a report from sample input files
+node cli.js generate input/support_ticket_routing.txt output/ --save-json
 
 # Use Groq API when Gemini quota is exhausted
-node cli.js generate samples/healthcare_intake.txt samples/test.html --use-groq
+node cli.js generate input/healthcare_intake.txt output/ --use-groq
 ```
 
 **Flags:**
@@ -151,11 +151,43 @@ These are replaced during the LLM fill stage using prompts mapped in `lib/llm_ex
 - `intake_packet_template.json` - Empty intake template
 - `design_philosophy.txt` - Complete brand guidelines and color tokens
 
-**Sample Scenarios:**
-- `samples/support_ticket_routing.txt` - Customer support workflow example
-- `samples/healthcare_intake.txt` - Healthcare claims processing example
-- `samples/ecommerce_fulfillment.txt` - E-commerce fulfillment example
-- `samples/legal_contract_review.txt` - Legal contract review example
+**Input Files:**
+- `input/support_ticket_routing.txt` - Customer support workflow example
+- `input/healthcare_intake.txt` - Healthcare claims processing example
+- `input/ecommerce_fulfillment.txt` - E-commerce fulfillment example
+- `input/legal_contract_review.txt` - Legal contract review example
+
+## Folder Structure
+
+All output is organized by company (and optionally project) for easy navigation:
+
+```
+ai_audit_report/
+├── input/                    # Input files (text files, intake data)
+│   ├── healthcare_intake.txt
+│   ├── ecommerce_fulfillment.txt
+│   └── ...
+├── output/                   # Generated reports (organized by company/project)
+│   ├── {company_slug}/
+│   │   ├── {project_slug}/   # Optional project subfolder
+│   │   │   ├── audit_{company}_{project}_{timestamp}.html
+│   │   │   ├── audit_{company}_{project}_{timestamp}.json
+│   │   │   └── audit_{company}_{project}_{timestamp}.pdf
+│   │   └── ...
+│   └── ...
+├── old/                      # Archived/historical files
+│   └── ...
+└── lib/                      # Core processing modules
+    ├── file_utils.js         # Shared file naming utilities
+    └── ...
+```
+
+**File Naming Convention:**
+- Format: `{type}_{company_slug}_{project_slug}_{YYYYMMDD_HHmmss}.{ext}`
+- Example: `audit_riverside_medical_billing_workflow_20251220_143025.html`
+
+**Utilities:**
+- `lib/file_utils.js` - Shared utilities for slugification, timestamps, and output path generation
 
 ## AI Audit Report Structure
 

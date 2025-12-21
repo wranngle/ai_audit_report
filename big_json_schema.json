@@ -807,8 +807,7 @@
         },
         "link": {
           "type": "string",
-          "format": "uri",
-          "description": "Primary action URL (Calendly for book_call, proposal viewer for view_proposal)."
+          "description": "Primary action URL. Set via environment config - no hardcoded external links."
         },
         "link_display": {
           "type": "string"
@@ -864,8 +863,7 @@
               "type": "string"
             },
             "link": {
-              "type": "string",
-              "format": "uri"
+              "type": "string"
             },
             "link_display": {
               "type": "string"

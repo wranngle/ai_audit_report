@@ -618,6 +618,66 @@ Each report processes independently. Be mindful of API rate limits when batch-pr
 
 ---
 
+## Related Repositories
+
+This audit report generator is part of the Wranngle sales/proposal ecosystem:
+
+| Repository | Purpose | Data Flow |
+|------------|---------|-----------|
+| **wranngle-proposal-generator** | 2-page proposal generation | **Consumes** audit findings |
+| **ai_sales_engineering** | Project plan generation | Scope analysis, research enrichment |
+| **n8n_workflow_development** | Technical research & n8n workflows | Provides integration research library |
+
+### Sales Pipeline Flow
+
+```
+Client Intake Call
+        │
+        ▼
+┌─────────────────────────────────┐
+│       ai_audit_report           │
+│   (This Repository)             │
+│   ├─ Traffic Light Report       │
+│   ├─ Revenue bleed calculation  │
+│   └─ Fix recommendations        │
+└────────────────┬────────────────┘
+                 │ audit findings
+                 ▼
+┌─────────────────────────────────┐
+│   wranngle-proposal-generator   │
+│   ├─ Dynamic pricing            │
+│   ├─ Milestone structure        │
+│   └─ 2-page PDF proposals       │
+└─────────────────────────────────┘
+                 │
+                 ▼
+          Client Delivery
+```
+
+### Integration Points
+
+The audit report JSON output (`audit_findings.json`) contains:
+- Client and workflow identification
+- Scorecard with status indicators
+- Revenue bleed calculations
+- Recommended fixes with complexity tiers
+
+This data feeds directly into `wranngle-proposal-generator` for:
+- Pricing calculation based on fix complexity
+- Milestone allocation (Design/Build/Test/Deploy)
+- ROI projections from revenue bleed
+
+### Shared Patterns
+
+All Wranngle repositories share:
+- Same CSS/branding (Wranngle colors, Outfit/Inter fonts)
+- Same LLM integration (Gemini primary, Groq fallback)
+- Same Mustache templating approach
+- Same Ajv validation patterns
+- Same file organization (`input/`, `output/{company}/`)
+
+---
+
 ## Troubleshooting
 
 ### Common Errors
