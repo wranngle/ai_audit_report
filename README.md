@@ -1,10 +1,12 @@
 # AI Audit Report Generator
 
+> ⚠️ **DEPRECATED**: This project has been superseded and is no longer maintained. This repository is archived for historical reference only.
+
 **Professional workflow diagnostic reports powered by AI**
 
 A Node.js pipeline that transforms unstructured client interview notes into polished, single-page "Traffic Light" diagnostic reports. Built by Wranngle Systems LLC for rapid business process auditing and client conversion.
 
-![Status](https://img.shields.io/badge/status-production-green)
+![Status](https://img.shields.io/badge/status-deprecated-red)
 ![Node](https://img.shields.io/badge/node-%3E%3D18.0.0-brightgreen)
 ![License](https://img.shields.io/badge/license-proprietary-blue)
 
